@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcbWeld.users.dao.ResultAcupunctureDao">
+
+	<select id="get" resultType="com.pcbWeld.users.domain.ResultAcupunctureDo">
+		select `t_acupuncture_id`,`user_id`,date_format(t_result_acupuncture.first_check_date, '%Y-%m-%d') as first_check_date,`second_check_date`,
+		`first_check_company`,`second_check_company`,
+		`first_check_doctor`,`second_check_doctor` from t_result_acupuncture where t_acupuncture_id = #{value}
+	</select>
+
+
+	<select id="list" resultType="com.pcbWeld.users.domain.ResultAcupunctureDo">
+		select `t_acupuncture_id`,`user_id`,`first_check_date`,`second_check_date`,`first_check_company`,`second_check_company`,`first_check_doctor`,`second_check_doctor` from t_result_acupuncture
+        <where>  
+		  		  <if test="t_acupuncture_id != null and t_acupuncture_id != ''"> and t_acupuncture_id = #{tAcupunctureId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by first_check_date asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from t_result_acupuncture
+		  <where>  
+		  		  <if test="t_acupuncture_id != null and t_acupuncture_id != ''"> and t_acupuncture_id = #{tAcupunctureId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.pcbWeld.users.domain.ResultAcupunctureDo" useGeneratedKeys="true" keyProperty="tAcupunctureId">
+		insert into t_result_acupuncture
+		(
+			`user_id`,
+			`first_check_date`,
+			`second_check_date`,
+			`first_check_company`, 
+			`second_check_company`, 
+			`first_check_doctor`, 
+			`second_check_doctor`
+		)
+		values
+		(
+			#{userId},
+			#{firstCheckDate}, 
+			#{secondCheckDate},
+			#{firstCheckCompany}, 
+			#{secondCheckCompany}, 
+			#{firstCheckDoctor},
+			#{secondCheckDoctor}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.pcbWeld.users.domain.ResultAcupunctureDo">
+		update t_result_acupuncture 
+		<set>
+			<if test="firstCheckDate != null">`first_check_date` = #{firstCheckDate}, </if>
+			<if test="secondCheckDate != null">`second_check_date` = #{secondCheckDate}, </if>
+			<if test="firstCheckCompany != null">`first_check_company` = #{firstCheckCompany}, </if>
+			<if test="secondCheckCompany != null">`second_check_company` = #{secondCheckCompany}, </if>
+			<if test="firstCheckDoctor != null">`first_check_doctor` = #{firstCheckDoctor}, </if>
+			<if test="secondCheckDoctor != null">`second_check_doctor` = #{secondCheckDoctor}, </if>
+		</set>
+		where t_acupuncture_id = #{tAcupunctureId}
+	</update>
+	
+	
+	<select id="exeList" resultType="java.util.Map">
+		select	IFNULL(u.name,'') as 用户名,IFNULL(u.phone,'') as 手机号,
+			a.first_check_date as 第一次检查时间, a.first_check_company as 第一次检查单位, a.first_check_doctor as 第一次检查医生,
+			a.second_check_date as 第二次检查时间, a.second_check_company as 第二次检查单位, a.second_check_doctor as 第二次检查医生
+		from t_user u, t_result_acupuncture a
+		<where>
+			<if test="id != null and id != ''"> and u.id = #{id} </if>
+			and a.user_id in(u.id)
+		</where>
+		  
+	</select>
+	
+</mapper>
