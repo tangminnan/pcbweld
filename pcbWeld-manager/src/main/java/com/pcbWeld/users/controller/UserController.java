@@ -44,9 +44,7 @@ public class UserController{
 	
 	@GetMapping()
 	@RequiresPermissions("information:user:user")
-	String User(Model model){
-		String userName=ShiroUtils.getUser().getUsername();
-		model.addAttribute("userName",userName);
+	String User(){
 	    return "users/user";
 	}
 	
@@ -63,17 +61,6 @@ public class UserController{
 		return pageUtils;
 	}
 	
-	@ResponseBody
-	@GetMapping("/list2")
-	@RequiresPermissions("information:user:user")
-	public PageUtils list2(@RequestParam Map<String, Object> params){
-		//查询列表数据
-        Query query = new Query(params);
-		List<UserDO> userList = userService.listUser(query);
-		int total = userService.count(query);
-		PageUtils pageUtils = new PageUtils(userList, total);
-		return pageUtils;
-	}
 	
 	@GetMapping("/add")
 	@RequiresPermissions("information:user:add")
@@ -87,6 +74,14 @@ public class UserController{
 		UserDO user = userService.get(id);
 		model.addAttribute("user", user);
 	    return "users/edit";
+	}
+	
+	@GetMapping("/xiangqing/{id}")
+	@RequiresPermissions("information:user:edit")
+	String xiangqing(@PathVariable("id") Integer id,Model model){
+		UserDO user = userService.get(id);
+		model.addAttribute("user", user);
+	    return "users/xiangqing";
 	}
 	
 	/**
@@ -123,7 +118,7 @@ public class UserController{
 		
 		UserDO user = new UserDO();
         user.setId(id);
-        user.setDeleteFlag(0);
+        user.setDeleteFlag(1);
 		userService.update(user);
 		
 //		if(userService.remove(id)>0){

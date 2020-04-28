@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="id" name="id" th:value="${messageReply.id}"
+								type="hidden">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">留言内容：</label>
+								<div class="col-sm-8">
+									<textarea id="messageContent" name="messageContent"
+										class="form-control" th:text="${messageReply.messageContent}"
+										rows="5" cols="100" readonly="readonly"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">留言人id：</label>
+								<div class="col-sm-8">
+									<input id="messageCreateId" name="messageCreateId"
+										th:value="${messageReply.messageCreateId}"
+										class="form-control" type="text" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">留言时间：</label>
+								<div class="col-sm-8">
+									<input id="messageTime" name="messageTime"
+									th:value="${messageReply?.messageTime} == null?'':${#dates.format(messageReply.messageTime, 'yyyy-MM-dd hh:mm:ss')}"
+										class="form-control" type="text" readonly="readonly">
+								</div>
+							</div>
+							<!-- <div class="form-group">
+								<label class="col-sm-3 control-label">状态1：正常2：禁止：</label>
+								<div class="col-sm-8">
+									<input id="delFlag" name="delFlag"
+										th:value="${messageReply.delFlag}" class="form-control"
+										type="text">
+								</div>
+							</div> -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">回复内容：</label>
+								<div class="col-sm-8">
+									<textarea id="replyContent" name="replyContent"
+										class="form-control" th:text="${messageReply.replyContent}"
+										rows="5" cols="100" readonly="readonly"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">回复时间：</label>
+								<div class="col-sm-8">
+									<input id="replyTime" name="replyTime"
+									th:value="${messageReply?.replyTime} == null?'':${#dates.format(messageReply.replyTime, 'yyyy-MM-dd hh:mm:ss')}"
+										class="form-control" type="text" readonly="readonly">
+								</div>
+							</div> 
+							<div class="form-group">
+								<label class="col-sm-3 control-label">回复id：</label>
+								<div class="col-sm-8">
+									<input id="replyCreateId" name="replyCreateId"
+										th:value="${messageReply.replyCreateId}" class="form-control"
+										type="text" readonly="readonly">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">是否回复：</label>
+								<div class="col-sm-8">
+									<div th:switch="${messageReply.ifreply}">
+									    <div th:case="'1'">
+								            <input value="未回复" class="form-control" type="text" readonly="readonly">
+								        </div>
+								        <div th:case="'2'">
+								            <input value="已回复" class="form-control" type="text" readonly="readonly">
+								        </div>
+									</div>									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">读取状态：</label>
+								<div class="col-sm-8">
+									<div th:switch="${messageReply.ifread}">
+									    <div th:case="'1'">
+								            <input value="未读" class="form-control" type="text" readonly="readonly">
+								        </div>
+								        <div th:case="'2'">
+								            <input value="已读" class="form-control" type="text" readonly="readonly">
+								        </div>
+									</div>	
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	
+</body>
+</html>

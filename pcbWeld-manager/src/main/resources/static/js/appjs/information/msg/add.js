@@ -11,7 +11,7 @@ function save() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/information/user/save",
+		url : "/information/msg/save",
 		data : $('#signupForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {
@@ -38,12 +38,30 @@ function validateRule() {
 		rules : {
 			name : {
 				required : true
-			}
+			},
+			forIds : {
+				required : true
+			},
+			forDetails : {
+				required : true
+			},
+			type : {
+				required : true
+			},
 		},
 		messages : {
 			name : {
-				required : icon + "请输入姓名"
-			}
+				required : icon + "不能为空"
+			},
+			forIds : {
+				required : icon + "不能为空"
+			},
+			forDetails : {
+				required : icon + "不能为空"
+			},
+			type : {
+				required : icon + "必选"
+			},
 		}
 	})
 }

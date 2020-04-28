@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcbWeld.information.dao.MaterialExamineDao">
+
+	<select id="get" resultType="com.pcbWeld.information.domain.MaterialExamineDO">
+		select `id`,`user_id`,`order_id`,`files`,`order_money`,`examine_flag`,`examine_idea`,`add_time`,`update_time`,`type` from pcb_material_examine where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.pcbWeld.information.domain.MaterialExamineDO">
+		select `id`,`user_id`,`order_id`,`files`,`order_money`,`examine_flag`,`examine_idea`,`add_time`,`update_time`,`type` from pcb_material_examine
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="files != null and files != ''"> and files = #{files} </if>
+		  		  <if test="orderMoney != null and orderMoney != ''"> and order_money = #{orderMoney} </if>
+		  		  <if test="examineFlag != null and examineFlag != ''"> and examine_flag = #{examineFlag} </if>
+		  		  <if test="examineIdea != null and examineIdea != ''"> and examine_idea = #{examineIdea} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pcb_material_examine
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="files != null and files != ''"> and files = #{files} </if>
+		  		  <if test="orderMoney != null and orderMoney != ''"> and order_money = #{orderMoney} </if>
+		  		  <if test="examineFlag != null and examineFlag != ''"> and examine_flag = #{examineFlag} </if>
+		  		  <if test="examineIdea != null and examineIdea != ''"> and examine_idea = #{examineIdea} </if>
+		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.pcbWeld.information.domain.MaterialExamineDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pcb_material_examine
+		(
+			`user_id`, 
+			`order_id`, 
+			`files`, 
+			`order_money`, 
+			`examine_flag`, 
+			`examine_idea`, 
+			`add_time`, 
+			`update_time`, 
+			`type`
+		)
+		values
+		(
+			#{userId}, 
+			#{orderId}, 
+			#{files}, 
+			#{orderMoney}, 
+			#{examineFlag}, 
+			#{examineIdea}, 
+			#{addTime}, 
+			#{updateTime}, 
+			#{type}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.pcbWeld.information.domain.MaterialExamineDO">
+		update pcb_material_examine 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="orderId != null">`order_id` = #{orderId}, </if>
+			<if test="files != null">`files` = #{files}, </if>
+			<if test="orderMoney != null">`order_money` = #{orderMoney}, </if>
+			<if test="examineFlag != null">`examine_flag` = #{examineFlag}, </if>
+			<if test="examineIdea != null">`examine_idea` = #{examineIdea}, </if>
+			<if test="addTime != null">`add_time` = #{addTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="type != null">`type` = #{type}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from pcb_material_examine where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from pcb_material_examine where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
