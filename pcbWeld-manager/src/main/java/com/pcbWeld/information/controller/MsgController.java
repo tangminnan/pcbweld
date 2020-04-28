@@ -155,6 +155,7 @@ public class MsgController {
 	@ResponseBody
 	@RequiresPermissions("information:msg:remove")
 	public R remove( Integer id){
+		msgUserService.remove(id.longValue());
 		if(msgService.remove(id)>0){
 		return R.ok();
 		}

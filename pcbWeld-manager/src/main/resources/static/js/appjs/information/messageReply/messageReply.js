@@ -95,7 +95,7 @@ function load() {
 								},
 																{
 									field : 'ifread', 
-									title : '读取状态' ,
+									title : '用户读取状态' ,
 									//1：未读2：已读
 									formatter : function(value, row, index) {
 										if(value == "1"){
@@ -114,9 +114,9 @@ function load() {
 										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.id
 												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var g = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="查看" onclick="chakan(\''
+										var g = '<a class="btn btn-success btn-sm '+s_edit_h+'" href="#" mce_href="#" title="查看" onclick="chakan(\''
 												+ row.id
-												+ '\')"><i class="fa fa-edit"></i></a> ';
+												+ '\')"><i class="fa fa-key"></i></a> ';
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';

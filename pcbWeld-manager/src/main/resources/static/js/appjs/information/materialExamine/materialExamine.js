@@ -79,6 +79,9 @@ function load() {
 										if(value == "2"){
 											return "已审核"
 										}
+										if(value == "3"){
+											return "审核不通过"
+										}
 									}
 								},
 								/*								{
@@ -117,9 +120,9 @@ function load() {
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="详情"  mce_href="#" onclick="xiangqing(\''
+										var f = '<a class="btn btn-primary btn-sm" href="#" title="详情"  mce_href="#" onclick="xiangqing(\''
 												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
+												+ '\')"><i class="fa fa-eye"></i></a> ';
 										var g = '<a class="btn btn-success btn-sm" href="#" title="审核"  mce_href="#" onclick="shenhe(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';

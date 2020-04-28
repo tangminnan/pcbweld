@@ -74,7 +74,7 @@
 	</update>
 	
 	<delete id="remove">
-		delete from pcb_msg_user where id = #{value}
+		delete from pcb_msg_user where msg_id = #{value}
 	</delete>
 	
 	<delete id="batchRemove">

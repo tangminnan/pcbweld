@@ -15,7 +15,7 @@ function update() {
 	if(examineFlag == "3"){
 		var examineIdea = $("#examineIdea").val();
 		if(examineIdea.length==0||examineIdea==" "){
-			return "审核备注/意见不能为空！！！"
+			return alert("审核备注/意见不能为空！！！");
 		}
 	}
 	$.ajax({

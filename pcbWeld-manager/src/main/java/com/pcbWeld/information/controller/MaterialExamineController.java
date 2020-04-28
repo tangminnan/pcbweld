@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -82,7 +83,6 @@ public class MaterialExamineController {
 	}
 	
 	@GetMapping("/xiangqing/{id}")
-	@RequiresPermissions("information:materialExamine:edit")
 	String xiangqing(@PathVariable("id") Integer id,Model model){
 		MaterialExamineDO materialExamine = materialExamineService.get(id);
 		model.addAttribute("materialExamine", materialExamine);
@@ -90,7 +90,6 @@ public class MaterialExamineController {
 	}
 	
 	@GetMapping("/shenhe/{id}")
-	@RequiresPermissions("information:materialExamine:edit")
 	String shenhe(@PathVariable("id") Integer id,Model model){
 		MaterialExamineDO materialExamine = materialExamineService.get(id);
 		model.addAttribute("materialExamine", materialExamine);
@@ -116,6 +115,7 @@ public class MaterialExamineController {
 	@RequestMapping("/update")
 	@RequiresPermissions("information:materialExamine:edit")
 	public R update( MaterialExamineDO materialExamine){
+		materialExamine.setUpdateTime(new Date());
 		materialExamineService.update(materialExamine);
 		return R.ok();
 	}
@@ -148,14 +148,15 @@ public class MaterialExamineController {
 	
 	@GetMapping("/fujiandown")
 	void fujiandown(Integer id,String host,HttpServletRequest request,HttpServletResponse response){
+		
 		MaterialExamineDO materialExamineDO = materialExamineService.get(id);
 		String files = materialExamineDO.getFiles();
 		File file ;
 		if (files != null) {
 			String Url = host+files;
 			file = new File(Url);
-			try{
-				if (file.exists()) {
+			if (file.exists()) {
+				try{
 					String filename = file.getName();
 					response.reset();
 					response.setHeader("Content-Disposition", "attachment; filename=" +  URLEncoder.encode(filename, "UTF-8"));
@@ -173,12 +174,16 @@ public class MaterialExamineController {
 			        bos.close();
 			            
 			        IOUtils.write(bos.toByteArray(), response.getOutputStream());
-				}
-		     }catch (FileNotFoundException e){
-		        e.printStackTrace();
-		     }catch (IOException e){
-		        e.printStackTrace();
-		     }
+				 }catch (FileNotFoundException e){
+					 e.printStackTrace();
+				 }catch (IOException e){
+					 e.printStackTrace();
+				 }
+			}else{
+				System.out.println("文件不存在");
+			}
+		}else{
+			System.out.println("文件不存在");
 		}
 	}
 	

@@ -8,6 +8,14 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+	var type = $('input[name = "type"]:checked').val();
+	if(type == "1"){
+		var forIds = $('input[name = "forIds"]').val();
+		if(forIds.length==0 || forIds == " "){
+			return alert("接收人id不能为空！！！");
+		}
+	} 
+	
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -39,9 +47,9 @@ function validateRule() {
 			name : {
 				required : true
 			},
-			forIds : {
+			/*forIds : {
 				required : true
-			},
+			},*/
 			forDetails : {
 				required : true
 			},
@@ -53,9 +61,9 @@ function validateRule() {
 			name : {
 				required : icon + "不能为空"
 			},
-			forIds : {
+			/*forIds : {
 				required : icon + "不能为空"
-			},
+			},*/
 			forDetails : {
 				required : icon + "不能为空"
 			},
