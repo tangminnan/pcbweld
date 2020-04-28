@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcbWeld.information.dao.OrderDao">
+
+	<select id="get" resultType="com.pcbWeld.information.domain.OrderDO">
+		select `id`,`order_no`,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title` from pcb_order where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.pcbWeld.information.domain.OrderDO">
+		select `id`,`order_no`,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title` from pcb_order
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="shipmentTime != null and shipmentTime != ''"> and shipment_time = #{shipmentTime} </if>
+		  		  <if test="shipmentType != null and shipmentType != ''"> and shipment_type = #{shipmentType} </if>
+		  		  <if test="shipmentAmount != null and shipmentAmount != ''"> and shipment_amount = #{shipmentAmount} </if>
+		  		  <if test="invoiceType != null and invoiceType != ''"> and invoice_type = #{invoiceType} </if>
+		  		  <if test="invoiceStatus != null and invoiceStatus != ''"> and invoice_status = #{invoiceStatus} </if>
+		  		  <if test="orderStatus != null and orderStatus != ''"> and order_status = #{orderStatus} </if>
+		  		  <if test="postid != null and postid != ''"> and postid = #{postid} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="orderScore != null and orderScore != ''"> and order_score = #{orderScore} </if>
+		  		  <if test="payAmount != null and payAmount != ''"> and pay_amount = #{payAmount} </if>
+		  		  <if test="buyNumber != null and buyNumber != ''"> and buy_number = #{buyNumber} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="consignee != null and consignee != ''"> and consignee = #{consignee} </if>
+		  		  <if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+		  		  <if test="invoiceNo != null and invoiceNo != ''"> and invoice_no = #{invoiceNo} </if>
+		  		  <if test="invoiceTitle != null and invoiceTitle != ''"> and invoice_title = #{invoiceTitle} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pcb_order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="shipmentTime != null and shipmentTime != ''"> and shipment_time = #{shipmentTime} </if>
+		  		  <if test="shipmentType != null and shipmentType != ''"> and shipment_type = #{shipmentType} </if>
+		  		  <if test="shipmentAmount != null and shipmentAmount != ''"> and shipment_amount = #{shipmentAmount} </if>
+		  		  <if test="invoiceType != null and invoiceType != ''"> and invoice_type = #{invoiceType} </if>
+		  		  <if test="invoiceStatus != null and invoiceStatus != ''"> and invoice_status = #{invoiceStatus} </if>
+		  		  <if test="orderStatus != null and orderStatus != ''"> and order_status = #{orderStatus} </if>
+		  		  <if test="postid != null and postid != ''"> and postid = #{postid} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="orderScore != null and orderScore != ''"> and order_score = #{orderScore} </if>
+		  		  <if test="payAmount != null and payAmount != ''"> and pay_amount = #{payAmount} </if>
+		  		  <if test="buyNumber != null and buyNumber != ''"> and buy_number = #{buyNumber} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="consignee != null and consignee != ''"> and consignee = #{consignee} </if>
+		  		  <if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+		  		  <if test="invoiceNo != null and invoiceNo != ''"> and invoice_no = #{invoiceNo} </if>
+		  		  <if test="invoiceTitle != null and invoiceTitle != ''"> and invoice_title = #{invoiceTitle} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.pcbWeld.information.domain.OrderDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pcb_order
+		(
+			`order_no`, 
+			`user_id`, 
+			`pay_type`, 
+			`shipment_time`, 
+			`shipment_type`, 
+			`shipment_amount`, 
+			`invoice_type`, 
+			`invoice_status`, 
+			`order_status`, 
+			`postid`, 
+			`create_time`, 
+			`update_time`, 
+			`order_amount`, 
+			`order_score`, 
+			`pay_amount`, 
+			`buy_number`, 
+			`address`, 
+			`consignee`, 
+			`mobile`, 
+			`invoice_no`, 
+			`invoice_title`
+		)
+		values
+		(
+			#{orderNo}, 
+			#{userId}, 
+			#{payType}, 
+			#{shipmentTime}, 
+			#{shipmentType}, 
+			#{shipmentAmount}, 
+			#{invoiceType}, 
+			#{invoiceStatus}, 
+			#{orderStatus}, 
+			#{postid}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{orderAmount}, 
+			#{orderScore}, 
+			#{payAmount}, 
+			#{buyNumber}, 
+			#{address}, 
+			#{consignee}, 
+			#{mobile}, 
+			#{invoiceNo}, 
+			#{invoiceTitle}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.pcbWeld.information.domain.OrderDO">
+		update pcb_order 
+		<set>
+			<if test="orderNo != null">`order_no` = #{orderNo}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="payType != null">`pay_type` = #{payType}, </if>
+			<if test="shipmentTime != null">`shipment_time` = #{shipmentTime}, </if>
+			<if test="shipmentType != null">`shipment_type` = #{shipmentType}, </if>
+			<if test="shipmentAmount != null">`shipment_amount` = #{shipmentAmount}, </if>
+			<if test="invoiceType != null">`invoice_type` = #{invoiceType}, </if>
+			<if test="invoiceStatus != null">`invoice_status` = #{invoiceStatus}, </if>
+			<if test="orderStatus != null">`order_status` = #{orderStatus}, </if>
+			<if test="postid != null">`postid` = #{postid}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="orderAmount != null">`order_amount` = #{orderAmount}, </if>
+			<if test="orderScore != null">`order_score` = #{orderScore}, </if>
+			<if test="payAmount != null">`pay_amount` = #{payAmount}, </if>
+			<if test="buyNumber != null">`buy_number` = #{buyNumber}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="consignee != null">`consignee` = #{consignee}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="invoiceNo != null">`invoice_no` = #{invoiceNo}, </if>
+			<if test="invoiceTitle != null">`invoice_title` = #{invoiceTitle}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from pcb_order where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from pcb_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

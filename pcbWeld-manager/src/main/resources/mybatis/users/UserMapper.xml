@@ -5,10 +5,12 @@
 
 	<select id="get" resultType="com.pcbWeld.users.domain.UserDO">
 		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company` from t_user where id = #{value}
+
 	</select>
 
 	<select id="list" resultType="com.pcbWeld.users.domain.UserDO">
 		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company` from t_user
+
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="accountNumber != null and accountNumber != ''"> and account_number = #{accountNumber} </if>
