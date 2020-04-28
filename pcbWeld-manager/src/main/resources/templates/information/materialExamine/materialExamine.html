@@ -9,10 +9,10 @@
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
 						<div class="columns pull-left">
-							<!-- <button shiro:hasPermission="information:user:add" type="button" class="btn  btn-primary" onclick="add()">
+							<!-- <button shiro:hasPermission="information:materialExamine:add" type="button" class="btn  btn-primary" onclick="add()">
 								<i class="fa fa-plus" aria-hidden="true"></i>添加
 							</button>
-							<button shiro:hasPermission="information:user:batchRemove" type="button" class="btn  btn-danger"
+							<button shiro:hasPermission="information:materialExamine:batchRemove" type="button" class="btn  btn-danger"
 								onclick="batchRemove()">
 								<i class="fa fa-trash" aria-hidden="true"></i>删除
 							</button> -->
@@ -21,24 +21,16 @@
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
-							<input id="nickname" type="text" class="form-control"
-								placeholder="昵称">
-						</div>
-						<div class="columns pull-right col-md-2 nopadding">
-							<input id="phone" type="text" class="form-control"
-								placeholder="手机号">
-						</div>
-						<div class="columns pull-right col-md-2 nopadding">
-							<input id="name" type="text" class="form-control"
-								placeholder="真实姓名">
-						</div>
-						<div class="columns pull-right col-md-2 nopadding">
-							<select class="form-control" name="sex" id="sex" >
-                        		<option value="">性别</option>
-                        		<option value="1">男</option>
-                        		<option value="2">女</option>
+							<select class="form-control" name="examineFlag" id="examineFlag" >
+                        		<option value="">审核状态</option>
+                        		<option value="1">未审核</option>
+                        		<option value="2">已审核</option>
                     		</select>
 						</div>
+						<!-- <div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div> -->
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true">
 					</table>
@@ -54,23 +46,23 @@
 				var s_resetPwd_h = 'hidden';
 			</script>
 		</div>
-		<div shiro:hasPermission="information:user:edit">
+		<div shiro:hasPermission="information:materialExamine:edit">
 			<script type="text/javascript">
 				s_edit_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="information:user:remove">
+		<div shiro:hasPermission="information:materialExamine:remove">
 			<script type="text/javascript">
 				var s_remove_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="information:user:resetPwd">
+		<div shiro:hasPermission="information:materialExamine:resetPwd">
 			<script type="text/javascript">
 				var s_resetPwd_h = '';
 			</script>
 		</div>
 	</div>
 	<div th:include="include :: footer"></div>
-	<script type="text/javascript" src="/js/appjs/users/user.js"></script>
+	<script type="text/javascript" src="/js/appjs/information/materialExamine/materialExamine.js"></script>
 </body>
 </html>

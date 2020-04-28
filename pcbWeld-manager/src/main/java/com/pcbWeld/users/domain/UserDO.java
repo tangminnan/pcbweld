@@ -1,10 +1,8 @@
 package com.pcbWeld.users.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.util.Date;
+
 
 
 /**
@@ -12,15 +10,15 @@ import java.util.Date;
  * 
  * @author wjl
  * @email bushuo@163.com
- * @date 2019-02-15 11:27:19
+ * @date 2020-04-27 16:24:10
  */
 public class UserDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//id
 	private Long id;
-	//用户id
-	private Long userId;
+	//账号
+	private Long accountNumber;
 	//微信id
 	private String openId;
 	//昵称
@@ -35,101 +33,33 @@ public class UserDO implements Serializable {
 	private String name;
 	//身份证号
 	private String identityCard;
+	//qq标识
+	private String unionid;
 	//注册时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date registerTime;
 	//消费金额
 	private Double payNum;
 	//服务次数
 	private Integer serveNum;
-	//余额
-	private Double balance;
-	//返还
-	private Double restitution;
-	//缴费日期
-	private Date payTime;
 	//最后登录时间
 	private Date loginTime;
 	//添加时间
 	private Date addTime;
 	//修改时间
 	private Date updateTime;
-	//0：是；1：否
+	//0：正常；1：禁止
 	private Integer deleteFlag;
 	//
 	private String username;
-	
+	//性别：值为1时是男性，值为2时是女性，值为0时是未知
 	private Integer sex;
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	//出生年月
 	private Date birthday;
-	private String birthday1;
-	
-	private Double scoreTotal;
+	//地址
+	private String address;
+	//公司名称
+	private String company;
 
-	private String school;
-
-	private String grade;
-
-	private Double height;
-
-	private Double weight;
-
-	public String getSchool() {
-		return school;
-	}
-
-	public void setSchool(String school) {
-		this.school = school;
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
-
-	public Double getHeight() {
-		return height;
-	}
-
-	public void setHeight(Double height) {
-		this.height = height;
-	}
-
-	public Double getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
-
-	public Double getScoreTotal() {
-		return scoreTotal;
-	}
-	public void setScoreTotal(Double scoreTotal) {
-		this.scoreTotal = scoreTotal;
-	}
-	public String getBirthday1() {
-		return birthday1;
-	}
-	public void setBirthday1(String birthday1) {
-		this.birthday1 = birthday1;
-	}
-	public Integer getSex() {
-		return sex;
-	}
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
-	public Date getBirthday() {
-		return birthday;
-	}
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
 	/**
 	 * 设置：id
 	 */
@@ -141,6 +71,18 @@ public class UserDO implements Serializable {
 	 */
 	public Long getId() {
 		return id;
+	}
+	/**
+	 * 设置：账号
+	 */
+	public void setAccountNumber(Long accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	/**
+	 * 获取：账号
+	 */
+	public Long getAccountNumber() {
+		return accountNumber;
 	}
 	/**
 	 * 设置：微信id
@@ -227,6 +169,18 @@ public class UserDO implements Serializable {
 		return identityCard;
 	}
 	/**
+	 * 设置：qq标识
+	 */
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+	/**
+	 * 获取：qq标识
+	 */
+	public String getUnionid() {
+		return unionid;
+	}
+	/**
 	 * 设置：注册时间
 	 */
 	public void setRegisterTime(Date registerTime) {
@@ -261,42 +215,6 @@ public class UserDO implements Serializable {
 	 */
 	public Integer getServeNum() {
 		return serveNum;
-	}
-	/**
-	 * 设置：余额
-	 */
-	public void setBalance(Double balance) {
-		this.balance = balance;
-	}
-	/**
-	 * 获取：余额
-	 */
-	public Double getBalance() {
-		return balance;
-	}
-	/**
-	 * 设置：返还
-	 */
-	public void setRestitution(Double restitution) {
-		this.restitution = restitution;
-	}
-	/**
-	 * 获取：返还
-	 */
-	public Double getRestitution() {
-		return restitution;
-	}
-	/**
-	 * 设置：缴费日期
-	 */
-	public void setPayTime(Date payTime) {
-		this.payTime = payTime;
-	}
-	/**
-	 * 获取：缴费日期
-	 */
-	public Date getPayTime() {
-		return payTime;
 	}
 	/**
 	 * 设置：最后登录时间
@@ -335,13 +253,13 @@ public class UserDO implements Serializable {
 		return updateTime;
 	}
 	/**
-	 * 设置：0：是；1：否
+	 * 设置：0：正常；1：禁止
 	 */
 	public void setDeleteFlag(Integer deleteFlag) {
 		this.deleteFlag = deleteFlag;
 	}
 	/**
-	 * 获取：0：是；1：否
+	 * 获取：0：正常；1：禁止
 	 */
 	public Integer getDeleteFlag() {
 		return deleteFlag;
@@ -358,21 +276,52 @@ public class UserDO implements Serializable {
 	public String getUsername() {
 		return username;
 	}
-	public Long getUserId() {
-		return userId;
+	/**
+	 * 设置：性别：值为1时是男性，值为2时是女性，值为0时是未知
+	 */
+	public void setSex(Integer sex) {
+		this.sex = sex;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	/**
+	 * 获取：性别：值为1时是男性，值为2时是女性，值为0时是未知
+	 */
+	public Integer getSex() {
+		return sex;
 	}
-	@Override
-	public String toString() {
-		return "UserDO [id=" + id + ", userId=" + userId + ", openId=" + openId + ", nickname=" + nickname
-				+ ", password=" + password + ", phone=" + phone + ", heardUrl=" + heardUrl + ", name=" + name
-				+ ", identityCard=" + identityCard + ", registerTime=" + registerTime + ", payNum=" + payNum
-				+ ", serveNum=" + serveNum + ", balance=" + balance + ", restitution=" + restitution + ", payTime="
-				+ payTime + ", loginTime=" + loginTime + ", addTime=" + addTime + ", updateTime=" + updateTime
-				+ ", deleteFlag=" + deleteFlag + ", username=" + username + ", sex=" + sex + ", birthday=" + birthday
-				+ ", birthday1=" + birthday1 + ", scoreTotal=" + scoreTotal + "]";
+	/**
+	 * 设置：出生年月
+	 */
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
-	
+	/**
+	 * 获取：出生年月
+	 */
+	public Date getBirthday() {
+		return birthday;
+	}
+	/**
+	 * 设置：地址
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	/**
+	 * 获取：地址
+	 */
+	public String getAddress() {
+		return address;
+	}
+	/**
+	 * 设置：公司名称
+	 */
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	/**
+	 * 获取：公司名称
+	 */
+	public String getCompany() {
+		return company;
+	}
 }

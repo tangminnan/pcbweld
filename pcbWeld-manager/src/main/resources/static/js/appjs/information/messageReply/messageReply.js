@@ -1,5 +1,5 @@
 
-var prefix = "/information/users"
+var prefix = "/information/messageReply"
 $(function() {
 	load();
 });
@@ -33,10 +33,9 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-								nickname:$('#nickname').val(),
-								phone:$('#phone').val(),
-								name:$('#name').val(),
-								sex:$('#sex option:selected').val()
+					            name:$('#searchName').val(),
+								ifreply:$('#ifreply option:selected').val(),
+					           // username:$('#searchName').val()
 							};
 						},
 						// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -53,110 +52,59 @@ function load() {
 									field : 'id', 
 									title : 'id' 
 								},
-																{
-									field : 'accountNumber', 
-									title : '账号' 
-								},
 								/*								{
-									field : 'openId', 
-									title : '微信id' 
+									field : 'messageContent', 
+									title : '留言内容' 
 								},*/
 																{
-									field : 'nickname', 
-									title : '昵称' 
+									field : 'messageCreateId', 
+									title : '留言人id' 
+								},
+																{
+									field : 'messageTime', 
+									title : '留言时间' 
 								},
 								/*								{
-									field : 'password', 
-									title : '密码' 
+									field : 'delFlag', 
+									title : '状态1：正常2：禁止' 
 								},*/
-																{
-									field : 'phone', 
-									title : '手机号' 
-								},
 								/*								{
-									field : 'heardUrl', 
-									title : '头像' 
+									field : 'replyContent', 
+									title : '回复内容' 
+								},
+																{
+									field : 'replyTime', 
+									title : '回复时间' 
+								},
+																{
+									field : 'replyCreateId', 
+									title : '回复id' 
 								},*/
 																{
-									field : 'name', 
-									title : '真实姓名' 
-								},
-								/*								{
-									field : 'identityCard', 
-									title : '身份证号' 
-								},
-																{
-									field : 'unionid', 
-									title : 'qq标识' 
-								},*/
-																{
-									field : 'registerTime', 
-									title : '注册时间' 
-								},
-								/*								{
-									field : 'payNum', 
-									title : '消费金额' 
-								},
-																{
-									field : 'serveNum', 
-									title : '服务次数' 
-								},
-																{
-									field : 'loginTime', 
-									title : '最后登录时间' 
-								},
-																{
-									field : 'addTime', 
-									title : '添加时间' 
-								},
-																{
-									field : 'updateTime', 
-									title : '修改时间' 
-								},*/
-																{
-									field : 'deleteFlag', 
-									title : '状态' ,
-									formatter : function(value, row, index) {
-										if(value == "0"){
-											return "正常"
-										}
-										if(value == "1"){
-											return "禁止"
-										}
-									}
-								},
-								/*								{
-									field : 'username', 
-									title : '' 
-								},*/
-																{
-									field : 'sex', 
-									title : '性别',
-									//值为1时是男性，值为2时是女性，值为0时是未知
+									field : 'ifreply', 
+									title : '是否回复' ,
+									//1：未回复2：已回复
 									formatter : function(value, row, index) {
 										if(value == "1"){
-											return "男"
+											return "未回复"
 										}
 										if(value == "2"){
-											return "女"
-										}
-										if(value == "0"){
-											return "未知"
+											return "已回复"
 										}
 									}
-							
 								},
 																{
-									field : 'birthday', 
-									title : '出生年月' 
-								},
-																{
-									field : 'address', 
-									title : '地址' 
-								},
-																{
-									field : 'company', 
-									title : '公司名称' 
+									field : 'ifread', 
+									title : '读取状态' ,
+									//1：未读2：已读
+									formatter : function(value, row, index) {
+										if(value == "1"){
+											return "未读"
+										}
+										if(value == "2"){
+											return "已读"
+										}
+									}
 								},
 																{
 									title : '操作',
@@ -166,16 +114,16 @@ function load() {
 										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.id
 												+ '\')"><i class="fa fa-edit"></i></a> ';
+										var g = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="查看" onclick="chakan(\''
+												+ row.id
+												+ '\')"><i class="fa fa-edit"></i></a> ';
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
 												+ row.id
 												+ '\')"><i class="fa fa-remove"></i></a> ';
 										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
-										var g = '<a class="btn btn-success btn-sm" href="#" title="详情"  mce_href="#" onclick="xiangqing(\''
-												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
-										return g ;
+										return e + g + d ;
 									}
 								} ]
 					});
@@ -203,16 +151,15 @@ function edit(id) {
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
-function xiangqing(id) {
-	var page = layer.open({
+function chakan(id) {
+	layer.open({
 		type : 2,
-		title : '详情',
+		title : '查看',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
-		content : prefix + '/xiangqing/' + id // iframe的url
+		content : prefix + '/chakan/' + id // iframe的url
 	});
-	layer.full(page);
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {

@@ -4,14 +4,24 @@ $().ready(function() {
 
 $.validator.setDefaults({
 	submitHandler : function() {
-		save();
+		update();
 	}
 });
-function save() {
+function update() {
+	var examineFlag = $('#examineFlag option:selected').val();
+	if(examineFlag == "2"){
+		$("#examineIdea").val("审核通过");
+	}
+	if(examineFlag == "3"){
+		var examineIdea = $("#examineIdea").val();
+		if(examineIdea.length==0||examineIdea==" "){
+			return "审核备注/意见不能为空！！！"
+		}
+	}
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/information/user/save",
+		url : "/information/materialExamine/update",
 		data : $('#signupForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {
@@ -36,13 +46,13 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
+			examineFlag : {
 				required : true
 			}
 		},
 		messages : {
-			name : {
-				required : icon + "请输入姓名"
+			examineFlag : {
+				required : icon + "必选"
 			}
 		}
 	})

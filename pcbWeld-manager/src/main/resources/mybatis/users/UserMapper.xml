@@ -4,13 +4,16 @@
 <mapper namespace="com.pcbWeld.users.dao.UserDao">
 
 	<select id="get" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,date_format(t_user.birthday, '%Y-%m-%d') AS birthday1 from t_user where id = #{value}
+		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company` from t_user where id = #{value}
+
 	</select>
+
 	<select id="list" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user
+		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company` from t_user
+
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="accountNumber != null and accountNumber != ''"> and account_number = #{accountNumber} </if>
 		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -18,12 +21,10 @@
 		  		  <if test="heardUrl != null and heardUrl != ''"> and heard_url = #{heardUrl} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="identityCard != null and identityCard != ''"> and identity_card = #{identityCard} </if>
+		  		  <if test="unionid != null and unionid != ''"> and unionid = #{unionid} </if>
 		  		  <if test="registerTime != null and registerTime != ''"> and register_time = #{registerTime} </if>
 		  		  <if test="payNum != null and payNum != ''"> and pay_num = #{payNum} </if>
 		  		  <if test="serveNum != null and serveNum != ''"> and serve_num = #{serveNum} </if>
-		  		  <if test="balance != null and balance != ''"> and balance = #{balance} </if>
-		  		  <if test="restitution != null and restitution != ''"> and restitution = #{restitution} </if>
-		  		  <if test="payTime != null and payTime != ''"> and pay_time = #{payTime} </if>
 		  		  <if test="loginTime != null and loginTime != ''"> and login_time = #{loginTime} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
@@ -31,6 +32,9 @@
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
 		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
 		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="company != null and company != ''"> and company = #{company} </if>
+		  		  and delete_flag = 0
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -44,54 +48,12 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
-	
-	
-	<select id="listUser" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`user_id`,`open_id`,score_total,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`school`,`grade`,`height`,`weight` from t_user
-        <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
-		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
-		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
-		  		  <if test="password != null and password != ''"> and password = #{password} </if>
-		  		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
-		  		  <if test="heardUrl != null and heardUrl != ''"> and heard_url = #{heardUrl} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
-		  		  <if test="identityCard != null and identityCard != ''"> and identity_card = #{identityCard} </if>
-		  		  <if test="registerTime != null and registerTime != ''"> and register_time = #{registerTime} </if>
-		  		  <if test="payNum != null and payNum != ''"> and pay_num = #{payNum} </if>
-		  		  <if test="serveNum != null and serveNum != ''"> and serve_num = #{serveNum} </if>
-		  		  <if test="balance != null and balance != ''"> and balance = #{balance} </if>
-		  		  <if test="restitution != null and restitution != ''"> and restitution = #{restitution} </if>
-		  		  <if test="payTime != null and payTime != ''"> and pay_time = #{payTime} </if>
-		  		  <if test="loginTime != null and loginTime != ''"> and login_time = #{loginTime} </if>
-		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
-		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
-		  		   and delete_flag != 0
-		  		  <if test="username != null and username != ''"> and username = #{username} </if>
-		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
-		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
-		  		</where>
-        <choose>
-            <when test="sort != null and sort.trim() != ''">
-                order by ${sort} ${order}
-            </when>
-			<otherwise>
-                order by id desc
-			</otherwise>
-        </choose>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
-	</select>
-	
-	
 	
  	<select id="count" resultType="int">
 		select count(*) from t_user
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="accountNumber != null and accountNumber != ''"> and account_number = #{accountNumber} </if>
 		  		  <if test="openId != null and openId != ''"> and open_id = #{openId} </if>
 		  		  <if test="nickname != null and nickname != ''"> and nickname = #{nickname} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -99,12 +61,10 @@
 		  		  <if test="heardUrl != null and heardUrl != ''"> and heard_url = #{heardUrl} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="identityCard != null and identityCard != ''"> and identity_card = #{identityCard} </if>
+		  		  <if test="unionid != null and unionid != ''"> and unionid = #{unionid} </if>
 		  		  <if test="registerTime != null and registerTime != ''"> and register_time = #{registerTime} </if>
 		  		  <if test="payNum != null and payNum != ''"> and pay_num = #{payNum} </if>
 		  		  <if test="serveNum != null and serveNum != ''"> and serve_num = #{serveNum} </if>
-		  		  <if test="balance != null and balance != ''"> and balance = #{balance} </if>
-		  		  <if test="restitution != null and restitution != ''"> and restitution = #{restitution} </if>
-		  		  <if test="payTime != null and payTime != ''"> and pay_time = #{payTime} </if>
 		  		  <if test="loginTime != null and loginTime != ''"> and login_time = #{loginTime} </if>
 		  		  <if test="addTime != null and addTime != ''"> and add_time = #{addTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
@@ -112,13 +72,16 @@
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
 		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
 		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="company != null and company != ''"> and company = #{company} </if>
+		  		  and delete_flag = 0
 		  		</where>
 	</select>
 	 
 	<insert id="save" parameterType="com.pcbWeld.users.domain.UserDO" useGeneratedKeys="true" keyProperty="id">
 		insert into t_user
 		(
-			`user_id`,
+			`account_number`, 
 			`open_id`, 
 			`nickname`, 
 			`password`, 
@@ -126,23 +89,23 @@
 			`heard_url`, 
 			`name`, 
 			`identity_card`, 
+			`unionid`, 
 			`register_time`, 
 			`pay_num`, 
 			`serve_num`, 
-			`balance`, 
-			`restitution`, 
-			`pay_time`, 
 			`login_time`, 
 			`add_time`, 
 			`update_time`, 
 			`delete_flag`, 
-			`username`,
-			`sex`,
-			`birthday`
+			`username`, 
+			`sex`, 
+			`birthday`, 
+			`address`, 
+			`company`
 		)
 		values
 		(
-			#{userId},
+			#{accountNumber}, 
 			#{openId}, 
 			#{nickname}, 
 			#{password}, 
@@ -150,26 +113,26 @@
 			#{heardUrl}, 
 			#{name}, 
 			#{identityCard}, 
+			#{unionid}, 
 			#{registerTime}, 
 			#{payNum}, 
 			#{serveNum}, 
-			#{balance}, 
-			#{restitution}, 
-			#{payTime}, 
 			#{loginTime}, 
 			#{addTime}, 
 			#{updateTime}, 
 			#{deleteFlag}, 
-			#{username},
-			#{sex},
-			#{birthday}
+			#{username}, 
+			#{sex}, 
+			#{birthday}, 
+			#{address}, 
+			#{company}
 		)
 	</insert>
 	 
 	<update id="update" parameterType="com.pcbWeld.users.domain.UserDO">
 		update t_user 
 		<set>
-			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="accountNumber != null">`account_number` = #{accountNumber}, </if>
 			<if test="openId != null">`open_id` = #{openId}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
 			<if test="password != null">`password` = #{password}, </if>
@@ -177,19 +140,19 @@
 			<if test="heardUrl != null">`heard_url` = #{heardUrl}, </if>
 			<if test="name != null">`name` = #{name}, </if>
 			<if test="identityCard != null">`identity_card` = #{identityCard}, </if>
+			<if test="unionid != null">`unionid` = #{unionid}, </if>
 			<if test="registerTime != null">`register_time` = #{registerTime}, </if>
 			<if test="payNum != null">`pay_num` = #{payNum}, </if>
 			<if test="serveNum != null">`serve_num` = #{serveNum}, </if>
-			<if test="balance != null">`balance` = #{balance}, </if>
-			<if test="restitution != null">`restitution` = #{restitution}, </if>
-			<if test="payTime != null">`pay_time` = #{payTime}, </if>
 			<if test="loginTime != null">`login_time` = #{loginTime}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
 			<if test="deleteFlag != null">`delete_flag` = #{deleteFlag}, </if>
-			<if test="username != null">`username` = #{username},</if>
+			<if test="username != null">`username` = #{username}, </if>
 			<if test="sex != null">`sex` = #{sex}, </if>
-		    <if test="birthday != null">`birthday` = #{birthday} </if>
+			<if test="birthday != null">`birthday` = #{birthday}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="company != null">`company` = #{company}</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -204,18 +167,5 @@
 			#{id}
 		</foreach>
 	</delete>
-
-	<select id="getidbyphone" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`user_id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`car_num`,`car_type`,`car_size`,`car_status`,`desc`,`address`,`refuse`,`ontime` from t_user where phone = #{value}
-	</select>
-	
-	<select id="selectByName" parameterType="com.pcbWeld.users.domain.UserDO" resultType="com.pcbWeld.users.domain.UserDO">
-	    select * from t_user
-	    <where>
-	        <if test="name != null">
-	            name like CONCAT('%', '#{name}' , '%')
-	        </if>
-	    </where>
-	</select>
 
 </mapper>

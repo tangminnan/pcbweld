@@ -1,5 +1,5 @@
 
-var prefix = "/information/users"
+var prefix = "/information/msg"
 $(function() {
 	load();
 });
@@ -33,10 +33,8 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-								nickname:$('#nickname').val(),
-								phone:$('#phone').val(),
-								name:$('#name').val(),
-								sex:$('#sex option:selected').val()
+					           name:$('#searchName').val(),
+					           // username:$('#searchName').val()
 							};
 						},
 						// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
@@ -54,109 +52,53 @@ function load() {
 									title : 'id' 
 								},
 																{
-									field : 'accountNumber', 
-									title : '账号' 
-								},
-								/*								{
-									field : 'openId', 
-									title : '微信id' 
-								},*/
-																{
-									field : 'nickname', 
-									title : '昵称' 
-								},
-								/*								{
-									field : 'password', 
-									title : '密码' 
-								},*/
-																{
-									field : 'phone', 
-									title : '手机号' 
-								},
-								/*								{
-									field : 'heardUrl', 
-									title : '头像' 
-								},*/
-																{
 									field : 'name', 
-									title : '真实姓名' 
-								},
-								/*								{
-									field : 'identityCard', 
-									title : '身份证号' 
+									title : '消息名称' 
 								},
 																{
-									field : 'unionid', 
-									title : 'qq标识' 
+									field : 'type', 
+									title : '推送类型',
+									//  0：系统 1：个人
+									formatter : function(value, row, index) {
+										if(row.type == 0){
+											return '系统'
+										}else{
+											return '个人'
+										}
+										
+									}
+								},
+																{
+									field : 'forNames', 
+									title : '推送对象' 
+								},
+																{
+									field : 'forIds', 
+									title : '接收人id' 
+								},
+								/*								{
+									field : 'forType', 
+									title : '0：系统；1：个人' 
+								},
+																{
+									field : 'forDetails', 
+									title : '推送内容' 
 								},*/
-																{
-									field : 'registerTime', 
-									title : '注册时间' 
-								},
-								/*								{
-									field : 'payNum', 
-									title : '消费金额' 
-								},
-																{
-									field : 'serveNum', 
-									title : '服务次数' 
-								},
-																{
-									field : 'loginTime', 
-									title : '最后登录时间' 
-								},
 																{
 									field : 'addTime', 
 									title : '添加时间' 
 								},
-																{
+								/*								{
 									field : 'updateTime', 
 									title : '修改时间' 
-								},*/
+								},
 																{
 									field : 'deleteFlag', 
-									title : '状态' ,
-									formatter : function(value, row, index) {
-										if(value == "0"){
-											return "正常"
-										}
-										if(value == "1"){
-											return "禁止"
-										}
-									}
-								},
-								/*								{
-									field : 'username', 
-									title : '' 
+									title : '0：是；1：否' 
 								},*/
 																{
-									field : 'sex', 
-									title : '性别',
-									//值为1时是男性，值为2时是女性，值为0时是未知
-									formatter : function(value, row, index) {
-										if(value == "1"){
-											return "男"
-										}
-										if(value == "2"){
-											return "女"
-										}
-										if(value == "0"){
-											return "未知"
-										}
-									}
-							
-								},
-																{
-									field : 'birthday', 
-									title : '出生年月' 
-								},
-																{
-									field : 'address', 
-									title : '地址' 
-								},
-																{
-									field : 'company', 
-									title : '公司名称' 
+									field : 'createBy', 
+									title : '发送人' 
 								},
 																{
 									title : '操作',
@@ -172,10 +114,7 @@ function load() {
 										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
 												+ row.id
 												+ '\')"><i class="fa fa-key"></i></a> ';
-										var g = '<a class="btn btn-success btn-sm" href="#" title="详情"  mce_href="#" onclick="xiangqing(\''
-												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
-										return g ;
+										return e + d ;
 									}
 								} ]
 					});
@@ -202,17 +141,6 @@ function edit(id) {
 		area : [ '800px', '520px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
-}
-function xiangqing(id) {
-	var page = layer.open({
-		type : 2,
-		title : '详情',
-		maxmin : true,
-		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
-		content : prefix + '/xiangqing/' + id // iframe的url
-	});
-	layer.full(page);
 }
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {

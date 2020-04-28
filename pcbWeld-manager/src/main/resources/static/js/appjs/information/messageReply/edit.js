@@ -4,14 +4,14 @@ $().ready(function() {
 
 $.validator.setDefaults({
 	submitHandler : function() {
-		save();
+		update();
 	}
 });
-function save() {
+function update() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/information/user/save",
+		url : "/information/messageReply/update",
 		data : $('#signupForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {
@@ -36,13 +36,13 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
+			replyContent : {
 				required : true
 			}
 		},
 		messages : {
-			name : {
-				required : icon + "请输入姓名"
+			replyContent : {
+				required : icon + "不能为空"
 			}
 		}
 	})
