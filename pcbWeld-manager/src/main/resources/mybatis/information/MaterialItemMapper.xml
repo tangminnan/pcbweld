@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcbWeld.information.dao.MaterialItemDao">
+
+	<select id="get" resultType="com.pcbWeld.information.domain.MaterialItemDO">
+		select `id`,`type`,`create_time`,`update_time`,`sort`,`status` from pcb_material_item where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.pcbWeld.information.domain.MaterialItemDO">
+		select `id`,`type`,`create_time`,`update_time`,`sort`,`status` from pcb_material_item
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="type != null and type != ''"> and type like CONCAT('%',#{type},'%')  </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pcb_material_item
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="sort != null and sort != ''"> and sort = #{sort} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.pcbWeld.information.domain.MaterialItemDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pcb_material_item
+		(
+			`type`, 
+			`create_time`, 
+			`update_time`, 
+			`sort`, 
+			`status`
+		)
+		values
+		(
+			#{type}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{sort}, 
+			#{status}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.pcbWeld.information.domain.MaterialItemDO">
+		update pcb_material_item 
+		<set>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="status != null">`status` = #{status}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from pcb_material_item where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from pcb_material_item where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

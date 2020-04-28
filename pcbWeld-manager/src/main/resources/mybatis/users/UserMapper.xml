@@ -4,10 +4,10 @@
 <mapper namespace="com.pcbWeld.users.dao.UserDao">
 
 	<select id="get" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`user_id`,`open_id`,score_total,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,date_format(t_user.birthday, '%Y-%m-%d') AS birthday1,`school`,`grade`,`height`,`weight` from t_user where id = #{value}
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,date_format(t_user.birthday, '%Y-%m-%d') AS birthday1 from t_user where id = #{value}
 	</select>
 	<select id="list" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`user_id`,`open_id`,score_total,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`balance`,`restitution`,`pay_time`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`school`,`grade`,`height`,`weight` from t_user
+		select `id`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday` from t_user
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
