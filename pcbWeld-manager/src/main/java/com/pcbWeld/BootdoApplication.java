@@ -7,15 +7,17 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 @EnableTransactionManagement
 @ServletComponentScan
 @MapperScan("com.pcbWeld.*.dao")
 @SpringBootApplication
 public class BootdoApplication extends SpringBootServletInitializer {
-	@Override
+    @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(BootdoApplication.class);
     }
+
     public static void main(String[] args) {
         SpringApplication.run(BootdoApplication.class, args);
         System.out.println("ヾ(◍°∇°◍)ﾉﾞ    bootdo启动成功      ヾ(◍°∇°◍)ﾉﾞ\n" +
@@ -24,6 +26,6 @@ public class BootdoApplication extends SpringBootServletInitializer {
                 "  | |_) |   .--.    .--. `| |-' | | `. \\  .--.   \n" +
                 "  |  __'. / .'`\\ \\/ .'`\\ \\| |   | |  | |/ .'`\\ \\ \n" +
                 " _| |__) || \\__. || \\__. || |, _| |_.' /| \\__. | \n" +
-                "|_______/  '.__.'  '.__.' \\__/|______.'  '.__.'  ");
+                "|_______/  '.__.'  '.__.' \\_4_/|______.'  '.__.'  ");
     }
 }

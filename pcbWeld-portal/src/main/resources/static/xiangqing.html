@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>详情</title>
+<link rel="stylesheet" href="css/css.css" type="text/css">
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<div class="top topshow">
+		<div class="main">
+			<img class="fl" src="images/logo.png" alt=""/>
+			<div class="fr toptxt">
+				<a href="jijia.html">在线计价</a>
+				<a class="on" href="shuoming.html">工艺说明</a>
+				<a href="denglu.html">登录</a> |
+				<a href="zhuce.html">注册</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="main XQtxt">
+		<div class="break">详情页</div>
+		<div class="txt">
+			<h3>开PCB板厂到底有多少利润？<span>发表日期：2020.04.16</span></h3>
+			<p>看看这些苦逼的PCB板厂有多少钱赚</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. </p>
+			<p>分为刚性电路板和柔性电路板、软硬结合板。一般把下面第一幅图所示的PCB称为刚性(Rigid)PCB﹐第二幅</p>
+			<p>硬性PCB</p>
+			<p>图图中的黄色连接线称为柔性(或扰性Flexible)PCB。刚性PCB与柔性PCB的直观上区别是柔性PCB是可以弯曲的。刚性PCB的常见厚度有0.2mm，0.4mm，0.6mm，0.8mm，1.0mm，1.2mm，1.6mm，2.0mm等。柔性PCB的常见厚度为0.2mm﹐要焊零件的地方会在其背后加上加厚层﹐加厚层的厚度0.2mm﹐0.4mm不等。了解这些的目的是为了结构工师设计时提供给他们一个空间参考。刚性PCB的材料常见的包括﹕酚醛纸质层压板﹐环氧纸质层压板﹐聚酯玻璃毡层压板﹐环氧玻璃布层压板 ﹔柔性PCB的材料常见的包括﹕聚酯薄膜﹐聚酰亚胺薄膜﹐氟化乙丙烯薄膜</p>
+			<img src="images/xiangqing.png" alt=""/>
+		</div>
+	</div>
+	
+	<!--底部-->
+	<div class="foot">
+		<div class="main">
+			<img class="fl whiteLogo" src="images/logoWhite.png" alt=""/>
+			<div class="fl fotNav">
+				<p><a href="jijia.html">在线计价</a><a href="shuoming.html">工艺说明</a><a href="jieshao.html">公司介绍</a></p>
+				<p><span>187  1018  4327</span></p>
+				<p>地址：北京市大兴区嘉悦广场5号楼</p>
+			</div>
+			<div class="fr public">
+				<img src="images/gongzhonghao.png" alt=""/>
+				<p>关注微信公众号</p>
+			</div>
+		</div>
+	</div>
+	
+	<!--右侧浮条-->
+	<div class="window QQ">
+		<ul>
+			<li class="back-to-top"><img src="images/top-1.png" alt="" title="回到顶部"/></li>
+			<li><a href="tencent://message/?Site=baidu.com&uin=290933560&Menu=yes"><img src="images/top-3.png" alt="" title="QQ"/></a></li>
+			<li><b><img src="images/top-5.png" alt="" title="电话"/></b><span class="tell">18710184327</span></li>
+			<li><b><img src="images/top-2.png" alt="" title="微信"/></b><span class="weixin"><img width="125" height="125" src="images/gongzhonghao.png" alt="" title="微信号"/></span></li>
+			<li class="close"><img src="images/top-4.png" alt="" title="关闭"/></li>
+		</ul>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	var countdown=60; 
+	function settime(val) { 
+		if (countdown == 0) { 
+		val.removeAttribute("disabled");    
+		val.value="免费获取验证码"; 
+		countdown = 60; 
+		} else { 
+		val.setAttribute("disabled", true); 
+		val.value="重新发送(" + countdown +"s)"; 
+		countdown--; 
+		} 
+		setTimeout(function() { 
+		settime(val) 
+		},1000) 
+	} 
+	//一件回顶部
+	$(document).ready(function(){
+		$(".back-to-top").click(function(event){
+			event.preventDefault();
+			$("html, body").animate({scrollTop:0},500);
+		})
+	});
+	//关闭浮窗
+	$(".close").click(function(){
+		$(".QQ").addClass("fadeout");
+	});
+</script>
+
+</html>

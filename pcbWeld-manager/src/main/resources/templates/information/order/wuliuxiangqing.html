@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/css.css" type="text/css">
+    <link rel="stylesheet" href="css/print.css" type="text/css">
+    <link rel="stylesheet" href="/css/noscroll.css" type="text/css">
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/Font.js"></script>
+    <script type="text/javascript" src="/js/print.js"></script>
+    <script type="text/javascript" src="/js/noscroll.js"></script>
+    <title>物流详情</title>
+</head>
+<body>
+<div class="print1">
+    <img class="bg-pop" src="images/bg-qd.jpg" alt=""/>
+</div>
+<div id="print">
+
+    <div class="wuliuxinxi">
+        <img src="images/wuliuxinxi.jpg" alt=""/>
+        <!--物流信息-->
+        <div class="wuliu bg-white font-24">
+            <h3>物流信息：</h3>
+            <ul>
+                <li th:each="list:${postJson}" th:if="${postJson != null}"><span
+                        th:text="${list.ftime}"><em></em></span>
+                    <p th:text="${list.context}"></p></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+   //强制页面横屏
+   var width = document.documentElement.clientWidth;
+   var height = document.documentElement.clientHeight;
+   if (width < height) {
+      console.log(width + " " + height);
+      $print = $('#print');
+      $print.width(height);
+      $print.height(width);
+      $print.css('top', (height - width) / 2);
+      $print.css('left', 0 - (height - width) / 2);
+      $print.css('transform', 'rotate(90deg)');
+      $print.css('transform-origin', '50% 50%');
+
+      $print1 = $('.print1');
+      $print1.width(height);
+      $print1.height(width);
+      $print1.css('top', (height - width) / 2);
+      $print1.css('left', 0 - (height - width) / 2);
+      $print1.css('transform', 'rotate(90deg)');
+      $print1.css('transform-origin', '50% 50%');
+   }
+
+</script>
