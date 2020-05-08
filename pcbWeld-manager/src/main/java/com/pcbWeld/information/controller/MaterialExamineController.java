@@ -127,9 +127,9 @@ public class MaterialExamineController {
 		materialExamine.setUpdateTime(new Date());
 		materialExamineService.update(materialExamine);
 		MaterialExamineDO me = materialExamineService.get(materialExamine.getId());
-		Integer orderId = me.getOrderId();
+		Long orderId = me.getOrderId();
 		OrderDO order = new OrderDO();
-		order.setId(orderId.longValue());
+		order.setId(orderId);
 		if(materialExamine.getType() == 1){ //附件
 			if(materialExamine.getExamineFlag() == 2){ //1：未审核2：已审核3：审核不通过
 				order.setOrderStatus(4);

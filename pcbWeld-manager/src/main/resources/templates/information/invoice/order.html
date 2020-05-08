@@ -9,11 +9,11 @@
             <div class="ibox-body">
                 <div class="fixed-table-toolbar">
                     <div class="columns pull-left">
-                        <button shiro:hasPermission="information:order:add" type="button" class="btn  btn-primary"
+                        <button shiro:hasPermission="information:invoice:add" type="button" class="btn  btn-primary"
                                 onclick="add()">
                             <i class="fa fa-plus" aria-hidden="true"></i>添加
                         </button>
-                        <button shiro:hasPermission="information:order:batchRemove" type="button"
+                        <button shiro:hasPermission="information:invoice:batchRemove" type="button"
                                 class="btn  btn-danger"
                                 onclick="batchRemove()">
                             <i class="fa fa-trash" aria-hidden="true"></i>删除
@@ -66,6 +66,6 @@
 </div>
 </div>
 <div th:include="include :: footer"></div>
-<script type="text/javascript" src="/js/appjs/information/order/order.js"></script>
+<script type="text/javascript" src="/js/appjs/information/invoice/order.js"></script>
 </body>
 </html>

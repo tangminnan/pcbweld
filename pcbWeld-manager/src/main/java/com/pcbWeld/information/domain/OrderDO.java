@@ -50,7 +50,7 @@ public class OrderDO implements Serializable {
 	private BigDecimal payAmount;
 	//商品总数量
 	private Integer buyNumber;
-	//
+	//收货人地址
 	private String address;
 	//收货人
 	private String consignee;
@@ -63,6 +63,39 @@ public class OrderDO implements Serializable {
 
 	//用户名
 	private String username;
+
+	//资料审核结果、意见
+	private String unDataResult;
+	//审核附件
+	private String files;
+
+	//物料审核结果、意见
+	private String unMaterialResult;
+
+
+	public String getUnMaterialResult() {
+		return unMaterialResult;
+	}
+
+	public void setUnMaterialResult(String unMaterialResult) {
+		this.unMaterialResult = unMaterialResult;
+	}
+
+	public String getUnDataResult() {
+		return unDataResult;
+	}
+
+	public void setUnDataResult(String unDataResult) {
+		this.unDataResult = unDataResult;
+	}
+
+	public String getFiles() {
+		return files;
+	}
+
+	public void setFiles(String files) {
+		this.files = files;
+	}
 
 	public String getUsername() {
 		return username;

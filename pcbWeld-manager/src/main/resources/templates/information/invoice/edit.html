@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${order.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">订单编号,系统生成：</label>
+								<div class="col-sm-8">
+									<input id="orderNo" name="orderNo" th:value="${order.orderNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">用户ID：</label>
+								<div class="col-sm-8">
+									<input id="userId" name="userId" th:value="${order.userId}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">支付方式 0=积分兑换，1=在线支付：</label>
+								<div class="col-sm-8">
+									<input id="payType" name="payType" th:value="${order.payType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">配送时间 1=不限送货时间，2=工作日送货，3=双休日、假日送货：</label>
+								<div class="col-sm-8">
+									<input id="shipmentTime" name="shipmentTime" th:value="${order.shipmentTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">配送方式 0=快递配送（免运费），1=快递配送（运费）：</label>
+								<div class="col-sm-8">
+									<input id="shipmentType" name="shipmentType" th:value="${order.shipmentType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">快递费：</label>
+								<div class="col-sm-8">
+									<input id="shipmentAmount" name="shipmentAmount" th:value="${order.shipmentAmount}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">发票类型 1=不开发票，2=电子发票，3=普通发票：</label>
+								<div class="col-sm-8">
+									<input id="invoiceType" name="invoiceType" th:value="${order.invoiceType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">发票状态 1=待开，2=已开：</label>
+								<div class="col-sm-8">
+									<input id="invoiceStatus" name="invoiceStatus" th:value="${order.invoiceStatus}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">订单状态  1=已提交；2=资料待审核；3=审核未通过；4=待支付；5=物料寄送；6=物料待审核；7=物料审核未通过；8=待发货；9=待收货；10=已完成：</label>
+								<div class="col-sm-8">
+									<input id="orderStatus" name="orderStatus" th:value="${order.orderStatus}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">运单号：</label>
+								<div class="col-sm-8">
+									<input id="postid" name="postid" th:value="${order.postid}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">创建时间：</label>
+								<div class="col-sm-8">
+									<input id="createTime" name="createTime" th:value="${order.createTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">更新时间：</label>
+								<div class="col-sm-8">
+									<input id="updateTime" name="updateTime" th:value="${order.updateTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">订单金额：</label>
+								<div class="col-sm-8">
+									<input id="orderAmount" name="orderAmount" th:value="${order.orderAmount}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">订单积分：</label>
+								<div class="col-sm-8">
+									<input id="orderScore" name="orderScore" th:value="${order.orderScore}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">支付金额 = 订单金额 + 快递费：</label>
+								<div class="col-sm-8">
+									<input id="payAmount" name="payAmount" th:value="${order.payAmount}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">商品总数量：</label>
+								<div class="col-sm-8">
+									<input id="buyNumber" name="buyNumber" th:value="${order.buyNumber}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">：</label>
+								<div class="col-sm-8">
+									<input id="address" name="address" th:value="${order.address}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">收货人：</label>
+								<div class="col-sm-8">
+									<input id="consignee" name="consignee" th:value="${order.consignee}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">收货手机号：</label>
+								<div class="col-sm-8">
+									<input id="mobile" name="mobile" th:value="${order.mobile}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">公司税号：</label>
+								<div class="col-sm-8">
+									<input id="invoiceNo" name="invoiceNo" th:value="${order.invoiceNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">公司抬头：</label>
+								<div class="col-sm-8">
+									<input id="invoiceTitle" name="invoiceTitle" th:value="${order.invoiceTitle}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/information/order/edit.js">
+	</script>
+</body>
+</html>

@@ -4,23 +4,23 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
 /**
  * 资料审核
- * 
+ *
  * @author wjl
  * @email bushuo@163.com
  * @date 2020-04-28 11:28:36
  */
 public class MaterialExamineDO implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	
 	//id
 	private Integer id;
 	//用户id
-	private Integer userId;
+	private Long userId;
 	//订单id
-	private Integer orderId;
+	private Long orderId;
 	//附件
 	private String files;
 	//订单金额
@@ -59,25 +59,25 @@ public class MaterialExamineDO implements Serializable {
 	/**
 	 * 设置：用户id
 	 */
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 	/**
 	 * 获取：用户id
 	 */
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 	/**
 	 * 设置：订单id
 	 */
-	public void setOrderId(Integer orderId) {
+	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
 	/**
 	 * 获取：订单id
 	 */
-	public Integer getOrderId() {
+	public Long getOrderId() {
 		return orderId;
 	}
 	/**
@@ -164,4 +164,5 @@ public class MaterialExamineDO implements Serializable {
 	public Integer getType() {
 		return type;
 	}
+
 }
