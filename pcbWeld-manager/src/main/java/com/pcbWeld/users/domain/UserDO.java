@@ -59,7 +59,17 @@ public class UserDO implements Serializable {
 	private String address;
 	//公司名称
 	private String company;
+	
+	private String qqNumber;
+	
+	
 
+	public String getQqNumber() {
+		return qqNumber;
+	}
+	public void setQqNumber(String qqNumber) {
+		this.qqNumber = qqNumber;
+	}
 	/**
 	 * 设置：id
 	 */

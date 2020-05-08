@@ -22,6 +22,10 @@ import com.pcbWeld.common.utils.PageUtils;
 import com.pcbWeld.common.utils.Query;
 import com.pcbWeld.common.utils.R;
 import com.pcbWeld.common.utils.ShiroUtils;
+import com.pcbWeld.information.domain.OrderDO;
+import com.pcbWeld.information.domain.UserAddressDO;
+import com.pcbWeld.information.service.OrderService;
+import com.pcbWeld.information.service.UserAddressService;
 import com.pcbWeld.users.domain.UserDO;
 import com.pcbWeld.users.service.UserService;
 
@@ -41,6 +45,10 @@ import com.pcbWeld.users.service.UserService;
 public class UserController{
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private UserAddressService userAddressService;
 	
 	@GetMapping()
 	@RequiresPermissions("information:user:user")
@@ -81,6 +89,12 @@ public class UserController{
 	String xiangqing(@PathVariable("id") Integer id,Model model){
 		UserDO user = userService.get(id);
 		model.addAttribute("user", user);
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", id);
+		List<OrderDO> order = orderService.list(map);
+		model.addAttribute("order", order);
+		List<UserAddressDO> userAddress = userAddressService.list(map);
+		model.addAttribute("userAddress", userAddress);
 	    return "users/xiangqing";
 	}
 	

@@ -19,7 +19,7 @@ public class BaseController {
 	public String getUsername() {
 		return getUser().getUsername();
 	}
-	public Long getforIds() {
+	/*public Long getforIds() {
 		return getUser().getUserId();
-	}
+	}*/
 }

@@ -35,7 +35,15 @@ public class MaterialExamineDO implements Serializable {
 	private Date updateTime;
 	//类型1：附件2：物料
 	private Integer type;
+	private String orderNo;
+	
 
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
 	/**
 	 * 设置：id
 	 */

@@ -60,7 +60,7 @@ public class LoginController extends BaseController {
 	   				message.put("msg","该手机号码未注册");
 	   			}else {
 					OwnerUserDO udo = userService.getbyname(phone);
-					if (udo.getDeleteFlag() == 0) {
+					if (udo.getDeleteFlag() == 1) {
 						message.put("code",-1);
 						message.put("data",null);
 						message.put("msg", "禁止登录，请联系客服");
@@ -259,9 +259,9 @@ public class LoginController extends BaseController {
  	    			}else{
 						OwnerUserDO  newOwnerUserDO = new OwnerUserDO();
 
-						newOwnerUserDO.setFlag(0);
+						newOwnerUserDO.setDeleteFlag(0);
 						Long userId = GenerateCode.gen16(8);
-						newOwnerUserDO.setUserId(userId);
+						newOwnerUserDO.setAccountNumber(userId);
 						newOwnerUserDO.setOpenId(openId);
 						newOwnerUserDO.setUsername(openId);
 						if(headUrl!=null){
@@ -272,7 +272,6 @@ public class LoginController extends BaseController {
 							newOwnerUserDO.setName(nickname);
 						}
 						newOwnerUserDO.setPassword(openId);
-						newOwnerUserDO.setDeleteFlag(1);
 						newOwnerUserDO.setRegisterTime(new Date());
 
 						if(userService.save(newOwnerUserDO)>0){
@@ -343,9 +342,9 @@ public class LoginController extends BaseController {
 				}else{
 					OwnerUserDO  newOwnerUserDO = new OwnerUserDO();
 
-					newOwnerUserDO.setFlag(0);
+					newOwnerUserDO.setDeleteFlag(0);
 					Long userId = GenerateCode.gen16(8);
-					newOwnerUserDO.setUserId(userId);
+					newOwnerUserDO.setAccountNumber(userId);
 					newOwnerUserDO.setUnionid(unionid);
 					newOwnerUserDO.setUsername(unionid);
 					if(headUrl!=null){
@@ -356,7 +355,6 @@ public class LoginController extends BaseController {
 						newOwnerUserDO.setName(nickname);
 					}
 					newOwnerUserDO.setPassword(unionid);
-					newOwnerUserDO.setDeleteFlag(1);
 					newOwnerUserDO.setRegisterTime(new Date());
 					newOwnerUserDO.setLoginTime(new Date());
 
@@ -417,7 +415,7 @@ public class LoginController extends BaseController {
 	                            message.put("msg", "该手机号码未注册");
 	                        } else {
 	                            OwnerUserDO udo = userService.getbyname(phone);
-	                            if (udo==null||udo.getDeleteFlag() == 0) {
+	                            if (udo==null||udo.getDeleteFlag() == 1) {
 									message.put("code",-1);
 									message.put("data",null);
 	                                message.put("msg", "禁止登录，请联系客服");
@@ -450,7 +448,7 @@ public class LoginController extends BaseController {
 						message.put("msg", "该手机号码未注册");
 					} else {
 						OwnerUserDO udo = userService.getbyname(phone);
-						if (udo==null||udo.getDeleteFlag() == 0) {
+						if (udo==null||udo.getDeleteFlag() == 1) {
 							message.put("code",-1);
 							message.put("data",null);
 							message.put("msg", "禁止登录，请联系客服");
@@ -524,12 +522,11 @@ public class LoginController extends BaseController {
 							OwnerUserDO udo = new OwnerUserDO();
 
 							Long userId = GenerateCode.gen16(8);
-							udo.setUserId(userId);
+							udo.setAccountNumber(userId);
 							udo.setUsername(phone);
 							udo.setPhone(phone);
 							udo.setPassword(password);
-							udo.setFlag(0);//默认模式
-							udo.setDeleteFlag(1);
+							udo.setDeleteFlag(0);
 							udo.setRegisterTime(new Date());
 
 							if (userService.save(udo) > 0) {
@@ -609,6 +606,29 @@ public class LoginController extends BaseController {
 		}
 		return message;
 	}
+    
+       @Log("改密码")
+   	   @PostMapping("/updateretpwd")
+       Map<String, Object> updateretpwd(String yuanpassword,  String xinpassword) {
+    	  Map<String, Object> message = new HashMap<>();
+	      String password = userService.get(ShiroUtils.getUserId()).getPassword();
+	      if(!yuanpassword.equals(password)){
+	    	  message.put("code", -1);
+			  message.put("data", null);
+              message.put("msg", "原密码不正确");
+	      }else{
+	    	  OwnerUserDO ownerUserDO = userService.get(ShiroUtils.getUserId());
+	    	  ownerUserDO.setPassword(xinpassword);
+	    	  if (userService.update(ownerUserDO) > 0) {
+	    		  message.put("code", 0);
+	    		  message.put("data", ownerUserDO);
+	    		  message.put("msg","修改成功");
+  			}
+	      }
+    	
+		return message;
+    	
+      }
     
     @Log("登出")
     @GetMapping("/logout")

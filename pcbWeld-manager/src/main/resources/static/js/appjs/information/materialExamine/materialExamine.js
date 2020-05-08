@@ -52,6 +52,10 @@ function load() {
 									field : 'id', 
 									title : 'id' 
 								},
+								{
+									field : 'orderNo', 
+									title : '订单编号' 
+								},
 																{
 									field : 'userId', 
 									title : '用户id' 

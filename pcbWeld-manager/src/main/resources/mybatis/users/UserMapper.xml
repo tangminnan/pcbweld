@@ -4,12 +4,12 @@
 <mapper namespace="com.pcbWeld.users.dao.UserDao">
 
 	<select id="get" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company` from t_user where id = #{value}
+		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company`,qq_number from t_user where id = #{value}
 
 	</select>
 
 	<select id="list" resultType="com.pcbWeld.users.domain.UserDO">
-		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company` from t_user
+		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company`,qq_number from t_user
 
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -34,6 +34,7 @@
 		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
 		  		  <if test="address != null and address != ''"> and address = #{address} </if>
 		  		  <if test="company != null and company != ''"> and company = #{company} </if>
+		  		  <if test="qqNumber != null and qqNumber != ''"> and qq_number = #{qqNumber} </if>
 		  		  and delete_flag = 0
 		  		</where>
         <choose>
@@ -74,6 +75,7 @@
 		  		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
 		  		  <if test="address != null and address != ''"> and address = #{address} </if>
 		  		  <if test="company != null and company != ''"> and company = #{company} </if>
+		  		  <if test="qqNumber != null and qqNumber != ''"> and qq_number = #{qqNumber} </if>
 		  		  and delete_flag = 0
 		  		</where>
 	</select>
@@ -101,7 +103,8 @@
 			`sex`, 
 			`birthday`, 
 			`address`, 
-			`company`
+			`company`,
+			qq_number
 		)
 		values
 		(
@@ -125,7 +128,8 @@
 			#{sex}, 
 			#{birthday}, 
 			#{address}, 
-			#{company}
+			#{company},
+			#{qqNumber}
 		)
 	</insert>
 	 

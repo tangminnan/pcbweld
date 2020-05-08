@@ -73,10 +73,20 @@ function load() {
 									field : 'phone', 
 									title : '手机号' 
 								},
-								/*								{
+																{
 									field : 'heardUrl', 
-									title : '头像' 
-								},*/
+									title : '头像' ,
+									formatter : function(value ,row , index){
+										if(value!=null && value !=""){
+											var e = '<div class="image"><a class = ""  href="javascript:void(0)"><img width="90" height="120"  alt="image" class="img-responsive pimg view" src="' + value + '"></ a></div>'
+											return e;
+										}
+										else
+											return "";
+									},
+									//events: 'operateEvents',
+									align : 'center'
+								},
 																{
 									field : 'name', 
 									title : '真实姓名' 
