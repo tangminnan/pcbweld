@@ -2,6 +2,7 @@ package com.pcbWeld.information.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -26,8 +27,11 @@ public class MaterialItemDO implements Serializable {
     private Integer sort;
     //状态 1=关闭；2=启用
     private Integer status;
-
+    //属性显示形式（1=输入框,2=加减框,3=下拉框,4=多选框）
     private Integer displayForm;
+
+
+    private List MaterialParameterDO;
 
     private String remark;
 
@@ -37,6 +41,14 @@ public class MaterialItemDO implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List getMaterialParameterDO() {
+        return MaterialParameterDO;
+    }
+
+    public void setMaterialParameterDO(List materialParameterDO) {
+        MaterialParameterDO = materialParameterDO;
     }
 
     public Integer getDisplayForm() {
@@ -140,6 +152,8 @@ public class MaterialItemDO implements Serializable {
                 ", updateTime=" + updateTime +
                 ", sort=" + sort +
                 ", status=" + status +
+                ", displayForm=" + displayForm +
+                ", MaterialParameterDO=" + MaterialParameterDO +
                 '}';
     }
 }

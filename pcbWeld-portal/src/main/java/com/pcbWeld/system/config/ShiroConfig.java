@@ -77,14 +77,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/files/**", "anon");
         /* filterChainDefinitionMap.put("/logout", "logout"); */
         filterChainDefinitionMap.put("/index", "anon");
-        filterChainDefinitionMap.put("/information/consult/queryMsgDetails", "anon");
-        filterChainDefinitionMap.put("/information/notice", "anon");
-        filterChainDefinitionMap.put("/information/consult", "anon");
-        filterChainDefinitionMap.put("/register", "anon");
-        filterChainDefinitionMap.put("/getSms", "anon");
-        filterChainDefinitionMap.put("/loginC", "anon");
-        filterChainDefinitionMap.put("/retpwd", "anon");
-        filterChainDefinitionMap.put("/wangjimima", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcbWeld.news.dao.NewsDao">
+
+    <select id="get" resultType="com.pcbWeld.news.domain.NewsDO">
+		select `id`,`u_id`,`title`,`content`,`deleted`,`tupianurl`,`clicks`,`praises`,`replies`,`last_reply_id`,`is_top`,`check_status`,`update_time`,`create_time` from t_news where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.pcbWeld.news.domain.NewsDO">
+        select
+        `id`,`u_id`,`title`,`content`,`deleted`,`tupianurl`,`clicks`,`praises`,`replies`,`last_reply_id`,`is_top`,`check_status`,`update_time`,`create_time`
+        from t_news
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+            <if test="title != null and title != ''">and title = #{title}</if>
+            <if test="content != null and content != ''">and content = #{content}</if>
+            <if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+            <if test="tupianurl != null and tupianurl != ''">and tupianurl = #{tupianurl}</if>
+            <if test="clicks != null and clicks != ''">and clicks = #{clicks}</if>
+            <if test="praises != null and praises != ''">and praises = #{praises}</if>
+            <if test="replies != null and replies != ''">and replies = #{replies}</if>
+            <if test="lastReplyId != null and lastReplyId != ''">and last_reply_id = #{lastReplyId}</if>
+            <if test="isTop != null and isTop != ''">and is_top = #{isTop}</if>
+            <if test="checkStatus != null and checkStatus != ''">and check_status = #{checkStatus}</if>
+            <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="startTime != null and startTime != ''">and create_time &gt;= #{startTime}</if>
+            <if test="endTime != null and endTime != ''">and create_time &lt;= #{endTime}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_news
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="uId != null and uId != ''">and u_id = #{uId}</if>
+            <if test="title != null and title != ''">and title = #{title}</if>
+            <if test="content != null and content != ''">and content = #{content}</if>
+            <if test="deleted != null and deleted != ''">and deleted = #{deleted}</if>
+            <if test="tupianurl != null and tupianurl != ''">and tupianurl = #{tupianurl}</if>
+            <if test="clicks != null and clicks != ''">and clicks = #{clicks}</if>
+            <if test="praises != null and praises != ''">and praises = #{praises}</if>
+            <if test="replies != null and replies != ''">and replies = #{replies}</if>
+            <if test="lastReplyId != null and lastReplyId != ''">and last_reply_id = #{lastReplyId}</if>
+            <if test="isTop != null and isTop != ''">and is_top = #{isTop}</if>
+            <if test="checkStatus != null and checkStatus != ''">and check_status = #{checkStatus}</if>
+            <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.pcbWeld.news.domain.NewsDO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_news
+		(
+			`u_id`, 
+			`title`, 
+			`content`, 
+			`deleted`, 
+			`tupianurl`, 
+			`clicks`, 
+			`praises`, 
+			`replies`, 
+			`last_reply_id`, 
+			`is_top`, 
+			`check_status`, 
+			`update_time`, 
+			`create_time`
+		)
+		values
+		(
+			#{uId}, 
+			#{title}, 
+			#{content}, 
+			#{deleted}, 
+			#{tupianurl}, 
+			#{clicks}, 
+			#{praises}, 
+			#{replies}, 
+			#{lastReplyId}, 
+			#{isTop}, 
+			#{checkStatus}, 
+			#{updateTime}, 
+			#{createTime}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.pcbWeld.news.domain.NewsDO">
+        update t_news
+        <set>
+            <if test="uId != null">`u_id` = #{uId},</if>
+            <if test="title != null">`title` = #{title},</if>
+            <if test="content != null">`content` = #{content},</if>
+            <if test="deleted != null">`deleted` = #{deleted},</if>
+            <if test="tupianurl != null">`tupianurl` = #{tupianurl},</if>
+            <if test="clicks != null">`clicks` = #{clicks},</if>
+            <if test="praises != null">`praises` = #{praises},</if>
+            <if test="replies != null">`replies` = #{replies},</if>
+            <if test="lastReplyId != null">`last_reply_id` = #{lastReplyId},</if>
+            <if test="isTop != null">`is_top` = #{isTop},</if>
+            <if test="checkStatus != null">`check_status` = #{checkStatus},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+            <if test="createTime != null">`create_time` = #{createTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from t_news where id = #{value}
+	</delete>
+
+    <delete id="batchRemove">
+        delete from t_news where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

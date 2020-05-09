@@ -17,14 +17,13 @@
             <if test="sort != null and sort != ''">and sort = #{sort}</if>
             <if test="status != null and status != ''">and status = #{status}</if>
             <if test="displayForm != null and displayForm != ''">`display_form` = #{displayForm}</if>
-            <if test="remark != null and remark != ''">`remark` = #{remark}</if>
         </where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
             </when>
             <otherwise>
-                order by id desc
+                order by sort
             </otherwise>
         </choose>
         <if test="offset != null and limit != null">
@@ -42,7 +41,6 @@
             <if test="sort != null and sort != ''">and sort = #{sort}</if>
             <if test="status != null and status != ''">and status = #{status}</if>
             <if test="displayForm != null and displayForm != ''">`display_form` = #{displayForm}</if>
-            <if test="remark != null and remark != ''">`remark` = #{remark}</if>
         </where>
     </select>
 
@@ -55,7 +53,7 @@
 			`update_time`, 
 			`sort`, 
 			`status`,
-			display_form,remark
+			display_form
 		)
 		values
 		(
@@ -64,7 +62,7 @@
 			#{updateTime}, 
 			#{sort}, 
 			#{status},
-			#{displayForm},#{remark}
+			#{displayForm}
 		)
 	</insert>
 
@@ -76,8 +74,7 @@
             <if test="updateTime != null">`update_time` = #{updateTime},</if>
             <if test="sort != null">`sort` = #{sort},</if>
             <if test="status != null">`status` = #{status},</if>
-            <if test="displayForm != null">`display_form` = #{displayForm},</if>
-            <if test="remark != null">`remark` = #{remark}</if>
+            <if test="displayForm != null">`display_form` = #{displayForm}</if>
         </set>
         where id = #{id}
     </update>

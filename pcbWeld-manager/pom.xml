@@ -137,8 +137,8 @@
             <artifactId>ehcache</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
         <!--</dependency>-->
         <!-- quartz -->
         <dependency>
@@ -162,9 +162,9 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-devtools</artifactId>-->
-            <!--<optional>true</optional>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-devtools</artifactId>-->
+        <!--<optional>true</optional>-->
         <!--</dependency>-->
         <!--activiti-->
         <dependency>
@@ -207,6 +207,12 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!-- oss -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>2.7.0</version>
+        </dependency>
         <!-- xss过滤组件 -->
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -214,19 +220,19 @@
             <version>1.9.2</version>
         </dependency>
 
-		<!--xxl-excel -->
-		<dependency>
-			<groupId>com.xuxueli</groupId>
-			<artifactId>xxl-excel</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		
-		<dependency>
+        <!--xxl-excel -->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-excel</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-push</artifactId>
             <version>3.10.1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
@@ -247,22 +253,22 @@
         </dependency>
 
         <!--war包部署需要-->
-           <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>  -->
+        <!-- <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-web</artifactId>
+         <exclusions>
+             <exclusion>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-starter-tomcat</artifactId>
+             </exclusion>
+         </exclusions>
+     </dependency>
+     <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>javax.servlet-api</artifactId>
+         <version>3.1.0</version>
+         <scope>provided</scope>
+     </dependency>  -->
     </dependencies>
     <build>
         <plugins>

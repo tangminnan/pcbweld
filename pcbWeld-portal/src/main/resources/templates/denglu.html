@@ -23,15 +23,13 @@
             <div id="yonghu">
                 <h3>用户登录<a href="zhuce.html">注册</a></h3>
                 <div class="txt">
-                    <p><input id="phone" type="text" placeholder="手机号码"/></p>
-                    <!--<p><input type="password" placeholder="密码"/></p>-->
+                    <p><input type="text" placeholder="手机号码"/></p>
+                    <p><input type="password" placeholder="密码"/></p>
                     <p>
-                        <input style="width:45%;float:left;" type="text" placeholder="验证码"/>
-                        <input style="width:45%;float:right;" type="button" id="btn" value="发送验证码"
-                               onclick="getSms(this)"/>
+                        <input style="width:50%" type="text" placeholder="验证码"/>
+                        <img class="fr" src="images/DL-yzm.png" alt=""/>
                     </p>
-
-                    <input style="margin-top: 20px" type="button" class="btn" value="登录"/>
+                    <input type="button" class="btn" value="登录"/>
                     <a class="forgetMM" href="wangjimima.html">忘记密码</a>
                 </div>
                 <div class="disanfang">
@@ -57,39 +55,4 @@
       $("#weixin").show();
       $("#yonghu").hide();
    });
-
-   var countdown = 60;
-
-   function getSms(val) {
-      $.ajax({
-         url: '/getSms',
-         type: 'post',
-         data: {
-            'phone': $('.phone').val(),
-            'type': 1
-         },
-         success: function (message) {
-            alert(message.msg)
-            if (message.msg == "发送成功") {
-               settime(val)
-            }
-         }
-      })
-   }
-
-   function settime(val) {
-      if (countdown == 0) {
-         val.removeAttribute("disabled");
-         val.value = "免费获取验证码";
-         countdown = 60;
-      } else {
-         val.setAttribute("disabled", true);
-         val.value = "重新发送(" + countdown + "s)";
-         countdown--;
-         setTimeout(function () {
-            settime(val)
-         }, 1000)
-      }
-
-   }
 </script>
