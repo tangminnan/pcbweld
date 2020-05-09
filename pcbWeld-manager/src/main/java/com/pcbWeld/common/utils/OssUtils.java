@@ -22,9 +22,9 @@ import java.io.IOException;
 public class OssUtils {
 
     public static final String ENDPOINT = "oss-cn-beijing.aliyuncs.com";
-    public static final String ACCESSKEY = "LTAIshP9j8jxO4KO";
-    public static final String ACCESS_SECRET = "QKwMvh2VocxZUf1qJl5nfPyJEHA7Lk";
-    public static final String BUCKET_NAME = "jingtu";
+    public static final String ACCESSKEY = "LTAI4FoEGySbeiHqHwnwHjPn";
+    public static final String ACCESS_SECRET = "kBtJkLFvUrqkFv6xDF7v3izA920tox";
+    public static final String BUCKET_NAME = "pcb999";
 
     private String fileName;
 
