@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>绑定手机号</title>
+    <link rel="stylesheet" href="/css/css.css" type="text/css">
+    <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/plugins/layer/layer.js"></script>
+    <script src="/js/plugins/layer/laydate/laydate.js"></script>
+</head>
+<body>
+<div class="top topshow">
+    <div class="main">
+        <a href="/"><img class="fl" src="/images/logo.png" alt=""/></a>
+    </div>
+</div>
+<div class="DL">
+    <div class="main box">
+        <img class="fl" src="/images/DL-01.png" alt=""/>
+        <div class="fr st-box" style="padding: 100px 45px;">
+            <div id="yonghu">
+                <h3>绑定手机号</h3>
+                <div class="txt">
+                    <p><input id="phone" type="text" placeholder="手机号码"/></p>
+                    <!--<p><input type="password" placeholder="密码"/></p>-->
+                    <p>
+                        <input id="codenum" style="width:45%;float:left;" type="text" placeholder="验证码"/>
+                        <input style="width:45%;float:right;" type="button" id="btn" value="发送验证码"
+                               onclick="getSms(this)"/>
+                    </p>
+
+                    <input style="margin-top: 20px" type="button" class="btn" value="绑定" onclick="bindPhone()"/>
+
+                    <input type="hidden" id="openid" th:value="${session.openid}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+   var countdown = 60;
+
+   function getSms(val) {
+      $.ajax({
+         url: '/getSms',
+         type: 'post',
+         data: {
+            'phone': $('#phone').val(),
+            'type': 2
+         },
+         success: function (message) {
+            layer.msg(message.msg)
+            if (message.msg == "发送成功") {
+               settime(val)
+            }
+         }
+      })
+   }
+
+   function settime(val) {
+      if (countdown == 0) {
+         val.removeAttribute("disabled");
+         val.value = "免费获取验证码";
+         countdown = 60;
+      } else {
+         val.setAttribute("disabled", true);
+         val.value = "重新发送(" + countdown + "s)";
+         countdown--;
+         setTimeout(function () {
+            settime(val)
+         }, 1000)
+      }
+
+   }
+
+   function bindPhone() {
+      var openid = $('#openid').val();
+      if (openid != null && openid != "") {
+         $.ajax({
+            type: 'post',
+            url: '/bindNewPhone',
+            data: {
+               username: $('#phone').val(),
+               codenum: $('#codenum').val(),
+               openId: openid
+            }, success: function (data) {
+               layer.msg(data.msg)
+
+               if (data.code == 0) {
+                  setInterval('success()', 1200);
+               }
+            }
+
+
+         })
+      }
+   }
+
+
+   function success() {
+      //绑定成功直接跳转个人信息页面
+      window.location.href = '/denglu.html';
+   }
+</script>

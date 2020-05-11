@@ -38,4 +38,11 @@ public class IndexController {
         model.addAttribute("materialItemDOS", materialItemDOS);
         return "jijia";
     }
+
+    @Log("首页")
+    @GetMapping("/wode")
+    String wode(Model model) {
+
+        return "wode";
+    }
 }

@@ -25,7 +25,8 @@
 <!--工艺说明-->
 <div class="main gongyiTxt">
     <ul>
-        <li th:each="list:${newsList}">
+        <li th:each="list:${newsList}" onclick="details(this)">
+            <input id="id" th:value="${list.id}" type="hidden">
             <p th:inline="text"><span th:text="${list.id}"></span>
                 [[${#dates.format(list.createTime, 'yyyy-MM-dd')}]]
             </p>
@@ -44,7 +45,7 @@
     <div class="main">
         <img class="fl whiteLogo" src="/images/logoWhite.png" alt=""/>
         <div class="fl fotNav">
-            <p><a href="jijia.html">在线计价</a><a href="shuoming.html">工艺说明</a><a href="jieshao.html">公司介绍</a></p>
+            <p><a href="/">在线计价</a><a href="/information/news/list">工艺说明</a><a href="/jieshao.html">公司介绍</a></p>
             <p><span>187  1018  4327</span></p>
             <p>地址：北京市大兴区嘉悦广场5号楼</p>
         </div>
@@ -72,22 +73,6 @@
 
 </body>
 <script type="text/javascript">
-   var countdown = 60;
-
-   function settime(val) {
-      if (countdown == 0) {
-         val.removeAttribute("disabled");
-         val.value = "免费获取验证码";
-         countdown = 60;
-      } else {
-         val.setAttribute("disabled", true);
-         val.value = "重新发送(" + countdown + "s)";
-         countdown--;
-      }
-      setTimeout(function () {
-         settime(val)
-      }, 1000)
-   }
 
    //一件回顶部
    $(document).ready(function () {
@@ -100,6 +85,13 @@
    $(".close").click(function () {
       $(".QQ").addClass("fadeout");
    });
+
+   //点击查看详情
+   function details(val) {
+      var id = $(val).find('#id').val()
+
+      window.location.href = "/information/news/detail/" + id
+   }
 </script>
 
 </html>

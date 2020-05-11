@@ -8,11 +8,13 @@
     <title>登录</title>
     <link rel="stylesheet" href="css/css.css" type="text/css">
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script src="/js/plugins/layer/layer.js"></script>
+    <script src="/js/plugins/layer/laydate/laydate.js"></script>
 </head>
 <body>
 <div class="top topshow">
     <div class="main">
-        <img class="fl" src="images/logo.png" alt=""/>
+        <a href="/"><img class="fl" src="images/logo.png" alt=""/></a>
     </div>
 </div>
 <div class="DL">
@@ -26,12 +28,12 @@
                     <p><input id="phone" type="text" placeholder="手机号码"/></p>
                     <!--<p><input type="password" placeholder="密码"/></p>-->
                     <p>
-                        <input style="width:45%;float:left;" type="text" placeholder="验证码"/>
+                        <input id="codenum" style="width:45%;float:left;" type="text" placeholder="验证码"/>
                         <input style="width:45%;float:right;" type="button" id="btn" value="发送验证码"
                                onclick="getSms(this)"/>
                     </p>
 
-                    <input style="margin-top: 20px" type="button" class="btn" value="登录"/>
+                    <input style="margin-top: 20px" type="button" class="btn" value="登录" onclick="loginC()"/>
                     <a class="forgetMM" href="wangjimima.html">忘记密码</a>
                 </div>
                 <div class="disanfang">
@@ -58,6 +60,11 @@
       $("#yonghu").hide();
    });
 
+   $("#weixin").click(function () {
+      $("#weixin").hide();
+      $("#yonghu").show();
+   });
+
    var countdown = 60;
 
    function getSms(val) {
@@ -65,11 +72,11 @@
          url: '/getSms',
          type: 'post',
          data: {
-            'phone': $('.phone').val(),
-            'type': 1
+            'phone': $('#phone').val(),
+            'type': 2
          },
          success: function (message) {
-            alert(message.msg)
+            layer.msg(message.msg)
             if (message.msg == "发送成功") {
                settime(val)
             }
@@ -91,5 +98,37 @@
          }, 1000)
       }
 
+   }
+
+   function loginC() {
+      $.ajax({
+         url: '/loginC',
+         type: 'post',
+         data: {
+            'phone': $('#phone').val(),
+            'codenum': $('#codenum').val()
+         },
+         success: function (message) {
+            if (message.code == 0) {
+               //跳转我的页面
+               layer.msg(message.msg)
+               setInterval("wode()", 2000);//1000为1秒钟
+            } else if (message.code == 1) {
+               //跳转注册页面
+               layer.msg(message.msg)
+               setInterval("zhuce()", 2000);//1000为1秒钟
+            } else {
+               layer.msg(message.msg)
+            }
+         }
+      })
+   }
+
+   function wode() {
+      window.location.href = '/wode';
+   }
+
+   function zhuce() {
+      window.location.href = '/zhuce.html';
    }
 </script>
