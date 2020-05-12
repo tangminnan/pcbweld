@@ -16,9 +16,9 @@
     <div class="main">
         <img class="fl" src="/images/logo.png" alt=""/>
         <div class="fr toptxt">
-            <a class="on" href="/">在线计价</a>
+            <a href="/">在线计价</a>
             <a href="/information/news/list">工艺说明</a>
-            <a href="/denglu.html">登录</a> |
+            <!--<a href="/denglu.html">登录</a> |-->
             <a style="cursor:pointer" onclick="logout()">退出登录</a>
         </div>
     </div>
@@ -33,7 +33,7 @@
             <li><a href="">个人资料</a></li>
             <li><a href="">账号管理</a></li>
             <li><a href="">收货地址</a></li>
-            <li><a href="">消息中心</a><em>15</em></li>
+            <li><a href="">消息中心</a><em th:inline="text">[[${msgCount}]]</em></li>
             <li><a href="">我的留言</a></li>
         </ul>
         <h3>我的订单</h3>
@@ -58,11 +58,11 @@
     <!--右侧内容-->
     <div class="fr myDDright">
         <div class="headX">
-            <p><img src="/images/toux.png" alt=""/>编辑头像</p>
+            <p><img th:src="${user.heardUrl} ?: '/images/toux.png'" alt=""/>编辑头像</p>
             <dl>
-                <dt>用户名：AAABB</dt>
-                <dd>手机号：12354668852</dd>
-                <dd>公司名：XXXX</dd>
+                <dt th:text="用户名：+(${user.nickname} ?: '用户'+${user.id})"></dt>
+                <dd th:text="手机号：+(${user.phone} ?: '暂无')"></dd>
+                <dd th:text="公司名：+(${user.company} ?: '暂无')"></dd>
             </dl>
         </div>
         <div class="DDxiaoxi">

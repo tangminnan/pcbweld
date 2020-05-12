@@ -109,10 +109,12 @@
             'codenum': $('#codenum').val()
          },
          success: function (message) {
+
             if (message.code == 0) {
                //跳转我的页面
                layer.msg(message.msg)
-               setInterval("wode()", 2000);//1000为1秒钟
+               var id = message.data
+               window.location.href = '/wode/' + id;
             } else if (message.code == 1) {
                //跳转注册页面
                layer.msg(message.msg)
@@ -124,9 +126,6 @@
       })
    }
 
-   function wode() {
-      window.location.href = '/wode';
-   }
 
    function zhuce() {
       window.location.href = '/zhuce.html';

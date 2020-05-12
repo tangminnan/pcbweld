@@ -337,7 +337,7 @@ public class LoginController extends BaseController {
                         userService.update(udo);
 
                         message.put("code", 0);
-                        message.put("data", udo);
+                        message.put("data", udo.getId());
                         message.put("msg", "登录成功");
 
 
@@ -381,7 +381,7 @@ public class LoginController extends BaseController {
                                 userService.update(udo);
 
                                 message.put("code", 0);
-                                message.put("data", udo);
+                                message.put("data", udo.getId());
                                 message.put("msg", "登录成功");
 
 

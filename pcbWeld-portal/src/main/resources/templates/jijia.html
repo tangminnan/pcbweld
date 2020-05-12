@@ -34,6 +34,7 @@
             <div class="CC" th:each="itemlist:${materialItemDOS}">
                 <span th:text="${itemlist.type}+'：'"></span>
                 <div>
+                    <!--输入框-->
                     <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:if="${itemlist.displayForm == 1}">
                         <p>
                             <input type="hidden" th:placeholder="${paramsList.price}" id="sizePrice"/>
@@ -41,7 +42,7 @@
                             <em th:text="${paramsList.specificationName}">cm</em>
                         </p>
                     </div>
-
+                    <!--加减框-->
                     <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:if="${itemlist.displayForm == 2}">
                         <input type="hidden" th:placeholder="${paramsList.price}" id="numPrice"/>
                         <div class="Num">
@@ -51,7 +52,7 @@
                         </div>
                         <i th:text="'('+${itemlist.remark}+')'"></i>
                     </div>
-
+                    <!--下拉框-->
                     <div th:if="${itemlist.displayForm == 3}">
 
                         <select>
@@ -61,7 +62,7 @@
                         </select>
                         <i th:text="'('+${itemlist.remark}+')'"></i>
                     </div>
-
+                    <!--多选框-->
                     <div th:if="${itemlist.displayForm == 4}">
 
                         <ul th:each="paramsList:${itemlist.MaterialParameterDO}" class="ulb">
