@@ -14,10 +14,10 @@
     <div class="main">
         <img class="fl" src="images/logo.png" alt=""/>
         <div class="fr toptxt">
-            <a class="on" href="jijia.html">在线计价</a>
+            <a class="on" href="/">在线计价</a>
             <a href="/information/news/list">工艺说明</a>
-            <a href="denglu.html">登录</a> |
-            <a href="zhuce.html">注册</a>
+            <a href="/denglu.html">登录</a> |
+            <a href="/zhuce.html">注册</a>
         </div>
     </div>
 </div>
@@ -34,6 +34,7 @@
             <div class="CC" th:each="itemlist:${materialItemDOS}">
                 <span th:text="${itemlist.type}+'：'"></span>
                 <div>
+                    <!--输入框-->
                     <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:if="${itemlist.displayForm == 1}">
                         <p>
                             <input type="hidden" th:placeholder="${paramsList.price}" id="sizePrice"/>
@@ -41,7 +42,7 @@
                             <em th:text="${paramsList.specificationName}">cm</em>
                         </p>
                     </div>
-
+                    <!--加减框-->
                     <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:if="${itemlist.displayForm == 2}">
                         <input type="hidden" th:placeholder="${paramsList.price}" id="numPrice"/>
                         <div class="Num">
@@ -51,7 +52,7 @@
                         </div>
                         <i th:text="'('+${itemlist.remark}+')'"></i>
                     </div>
-
+                    <!--下拉框-->
                     <div th:if="${itemlist.displayForm == 3}">
 
                         <select>
@@ -61,7 +62,7 @@
                         </select>
                         <i th:text="'('+${itemlist.remark}+')'"></i>
                     </div>
-
+                    <!--多选框-->
                     <div th:if="${itemlist.displayForm == 4}">
 
                         <ul th:each="paramsList:${itemlist.MaterialParameterDO}" class="ulb">
@@ -96,7 +97,7 @@
     <div class="main">
         <img class="fl whiteLogo" src="images/logoWhite.png" alt=""/>
         <div class="fl fotNav">
-            <p><a href="jijia.html">在线计价</a><a href="shuoming.html">工艺说明</a><a href="jieshao.html">公司介绍</a></p>
+            <p><a href="/">在线计价</a><a href="/information/news/list">工艺说明</a><a href="/jieshao.html">公司介绍</a></p>
             <p><span>187  1018  4327</span></p>
             <p>地址：北京市大兴区嘉悦广场5号楼</p>
         </div>

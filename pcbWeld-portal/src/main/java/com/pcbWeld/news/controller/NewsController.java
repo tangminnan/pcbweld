@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
@@ -38,6 +39,16 @@ public class NewsController {
 
         model.addAttribute("newsList", newsList);
         return "shuoming";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") Integer id, Model model) {
+        System.out.println("========id===========" + id);
+        NewsDO news = newsService.get(id);
+
+        System.out.println("===========news=================" + news);
+        model.addAttribute("news", news);
+        return "xiangqing";
     }
 
 }

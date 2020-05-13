@@ -2,12 +2,18 @@ package com.pcbWeld.information.controller;
 
 import com.pcbWeld.common.annotation.Log;
 import com.pcbWeld.information.domain.MaterialItemDO;
+import com.pcbWeld.information.domain.MsgDO;
 import com.pcbWeld.information.service.MaterialItemService;
 import com.pcbWeld.information.service.MaterialParameterService;
+import com.pcbWeld.information.service.MsgService;
+import com.pcbWeld.information.service.OrderService;
+import com.pcbWeld.owneruser.domain.OwnerUserDO;
+import com.pcbWeld.owneruser.service.OwnerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +25,12 @@ public class IndexController {
     MaterialItemService materialItemService;
     @Autowired
     MaterialParameterService materialParameterService;
+    @Autowired
+    OwnerUserService userService;
+    @Autowired
+    MsgService msgService;
+    @Autowired
+    OrderService orderService;
 
 
     @Log("首页")
@@ -37,5 +49,20 @@ public class IndexController {
 
         model.addAttribute("materialItemDOS", materialItemDOS);
         return "jijia";
+    }
+
+    @Log("首页")
+    @GetMapping("/wode/{id}")
+    String wode(@PathVariable("id") Long id, Model model) {
+
+        OwnerUserDO user = userService.get(id);
+
+        List<MsgDO> msgDOS = msgService.userMsgList(id);
+
+        //未读消息数量
+        model.addAttribute("msgCount", msgDOS.size());
+        //用户信息
+        model.addAttribute("user", user);
+        return "wode";
     }
 }
