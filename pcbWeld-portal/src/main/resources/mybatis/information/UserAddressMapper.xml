@@ -109,4 +109,12 @@
 		</foreach>
 	</delete>
 
+	<update id="updateAll" parameterType="com.pcbWeld.information.domain.UserAddressDO">
+		update pcb_user_address  set default_flag=1 where user_id = #{userId} and default_flag=0
+	</update>
+
+	<update id="updateDefault" parameterType="com.pcbWeld.information.domain.UserAddressDO">
+		update pcb_user_address  set default_flag=0 where user_id = #{userId} and address = #{address}
+	</update>
+
 </mapper>

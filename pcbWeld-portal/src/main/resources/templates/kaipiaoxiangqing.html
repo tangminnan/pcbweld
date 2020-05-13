@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>开票详情</title>
+<link rel="stylesheet" href="css/css.css" type="text/css">
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+</head>
+<body style="background:#f9f9f9;">
+	<div class="top topshow">
+		<div class="main">
+			<img class="fl" src="images/logo.png" alt=""/>
+			<div class="fr toptxt">
+				<a class="on" href="jijia.html">在线计价</a>
+				<a href="shuoming.html">工艺说明</a>
+				<a href="">我的订单</a>
+				<a href="denglu.html">登录</a> |
+				<a href="zhuce.html">注册</a>
+			</div>
+		</div>
+	</div>
+	
+	<!--提交订单-->
+	<div class="main tijiaoDD">
+		<div class="DDxq"><h3><span>开票详情</span></h3></div>
+		<div class="KPxq">
+			<div class="DD1" style="border:none;padding:0;margin:0;">
+				<h4>收货地址</h4>
+				<dl>
+					<dt>（收）<span th:text="${userAddressDO.username}" id="defaultAddessUsername"></span></dt>
+					<dd th:text="${userAddressDO.address}" id="defaultAddessaddress"></dd>
+					<dd th:text="${userAddressDO.mobile}" id="defaultAddessmobile"></dd>
+					<em>默认地址</em>
+				</dl>
+				<a href="" id="moreAddress">+更多地址</a>
+			</div>
+		</div>
+		<div class="feiyong KPxq">
+			<h4>开票列表</h4>
+			<table border="1" cellspacing="0" cellpadding="0">
+			  <tbody id="getOrders">
+
+			  <tr  th:each="orderDO :${list}">
+				  <td th:text="${orderDO.orderNo}"></td>
+				  <td th:text="${#dates.format(orderDO.createTime,'yyyy.MM.dd')}"></td>
+				  <td th:text="'￥'+ ${orderDO.payAmount}"></td>
+			  </tr>
+			  </tbody>
+			</table>
+			<p>总金额：<span th:text="'¥'+${Amount}"></span></p>
+			<div class="anniu">
+				<input type="button" value="返回"/>
+				<input type="button" value="确定"/>
+			</div>
+		</div>
+	</div>
+	
+	<!--底部-->
+	<div class="foot">
+		<div class="main">
+			<img class="fl whiteLogo" src="images/logoWhite.png" alt=""/>
+			<div class="fl fotNav">
+				<p><a href="jijia.html">在线计价</a><a href="shuoming.html">工艺说明</a><a href="jieshao.html">公司介绍</a></p>
+				<p><span>187  1018  4327</span></p>
+				<p>地址：北京市大兴区嘉悦广场5号楼</p>
+			</div>
+			<div class="fr public">
+				<img src="images/gongzhonghao.png" alt=""/>
+				<p>关注微信公众号</p>
+			</div>
+		</div>
+	</div>
+	
+	<!--右侧浮条-->
+	<div class="window QQ">
+		<ul>
+			<li class="back-to-top"><img src="images/top-1.png" alt="" title="回到顶部"/></li>
+			<li><a href="tencent://message/?Site=baidu.com&uin=290933560&Menu=yes"><img src="images/top-3.png" alt="" title="QQ"/></a></li>
+			<li><b><img src="images/top-5.png" alt="" title="电话"/></b><span class="tell">18710184327</span></li>
+			<li><b><img src="images/top-2.png" alt="" title="微信"/></b><span class="weixin"><img width="125" height="125" src="images/gongzhonghao.png" alt="" title="微信号"/></span></li>
+			<li class="close"><img src="images/top-4.png" alt="" title="关闭"/></li>
+		</ul>
+	</div>
+	
+	<!--选择地址弹框(已隐藏，根据需要调用)-->
+	<div class="popDizhi" style="display:none;">
+		<div class="txt">
+			<h3>选择地址</h3>
+			<table border="1" cellspacing="0" cellpadding="0">
+			  <tbody>
+				<tr th:each="userAddress :${addressDOList}">
+				  <td th:text="${userAddress.username}"></td>
+				  <td th:text="${userAddress.address}">/td>
+				  <td th:text="${userAddressDO.mobile}"></td>
+				  <td><input type="button" value="编辑"/> | <input type="button" value="删除"/></td>
+				  <td th:if="${userAddressDO.defaultFlag eq 0}"><span class="on" name="changeDefault">默认地址</span></td>
+					<td th:if="${userAddressDO.defaultFlag eq 1}"><span name="changeDefault">设为默认地址</span></td>
+				</tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	//一件回顶部
+	$(document).ready(function(){
+		$(".back-to-top").click(function(event){
+			event.preventDefault();
+			$("html, body").animate({scrollTop:0},500);
+		})
+	});
+	//关闭浮窗
+	$(".close").click(function(){
+		$(".QQ").addClass("fadeout");
+	});
+	//更多地址
+	$("#moreAddress").click(function(){
+		$("popDizhi").show();
+	});
+	//设为默认地址
+	$("[name='changeDefault']").click(function(){
+		if($(this).hasClass("on"){
+		    alert("已是默认地址")
+			return;
+		}
+		$(this).addClass("on").sibling().removeClass("on");
+		var username=$(this).prevAll().eq(0).text();
+		var address = $(this).prevAll().eq(1).text();
+        var mobile = $(this).prevAll().eq(2).text();
+        $.ajax({
+            type : "POST",
+            url : "/information/address/changeDefault",
+			data:{address:address},
+            async : false,
+            success : function(data) {
+				if(data.code==0){
+                    $("#defaultAddessUsername").text(username);
+                    $("#defaultAddessaddress").text(address);
+                    $("#defaultAddessmobile").text(mobile);
+                    $(".popDizhi").hide();
+				}
+            });
+	});
+		//确定开发票
+	  $(".anniu").children("button").eq(1).click(function(){
+	      	var orderNos = [];//订单号啊
+			$("#getOrders > tr").each(function(){
+				var orderNo = $(this).children("td").first().text();
+				orderNos.push(orderNo);
+			});
+          var payAmount=$(".anniu").prev().children("span").text().substr(1);//总金额啊
+		  var username = $("#defaultAddessUsername").text();
+		  var address =$("#defaultAddessaddress").text();
+		  var mobile=$("#mobile").text();
+		  var receiptDO={};
+		  receiptDO.address=address;
+          receiptDO.payAmount=payAmount;
+          receiptDO.username=username;
+          receiptDO.mobile=mobile;
+          receiptDO.orderNos=orderNos;
+          $.ajax({
+              type : "POST",
+              url : "/information/receipt/confirmReceipt",
+              data:{receiptDO:JSON.stringify(receiptDO)},
+              async : false,
+              success : function(data) {
+
+              });
+      });
+
+	  });
+</script>
+
+
+
+</html>

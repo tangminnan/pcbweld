@@ -9,4 +9,6 @@
 .project
 /bin/
 /applog/
+pcbWeld-portal.iml
+/.idea/
 

@@ -19,6 +19,8 @@ public class UserAddressDO implements Serializable {
 	private Integer id;
 	//用户ID
 	private Long userId;
+	//用户姓名
+	private String username;
 	//默认首选0:默认1：不是
 	private String defaultFlag;
 	//收货人
@@ -37,6 +39,14 @@ public class UserAddressDO implements Serializable {
 	private String cityName;
 	//市区县
 	private String areaName;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	/**
 	 * 设置：

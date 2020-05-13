@@ -27,4 +27,8 @@ public interface UserAddressService {
 	int remove(Integer id);
 	
 	int batchRemove(Integer[] ids);
+
+	int updateAll(long userId);
+
+	int updateDefault(UserAddressDO userAddressDO);
 }

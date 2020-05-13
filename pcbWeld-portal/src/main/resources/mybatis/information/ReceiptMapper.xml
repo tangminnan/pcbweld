@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcbWeld.information.dao.ReceiptDao">
+
+
+
+    <update id="saveReceipt" parameterType="com.pcbWeld.owneruser.domain.OwnerUserDO">
+        update t_user
+        <set>
+            <if test="receiptCompany != null">`receipt_company` = #{receiptCompany}, </if>
+            <if test="receiptNumber != null">`receipt_number` = #{receiptNumber}, </if>
+            <if test="receiptBank != null">`receipt_bank` = #{receiptBank}, </if>
+            <if test="receiptAccount != null">`receipt_account` = #{receiptAccount}, </if>
+            <if test="receiptPhone != null">`receipt_phone` = #{receiptPhone},</if>
+            <if test="receiptAddress != null">`receipt_address` = #{receiptAddress}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getReceipt" resultType="com.pcbWeld.owneruser.domain.OwnerUserDO">
+      select  receipt_company,receipt_number,receipt_bank,receipt_account,receipt_phone,receipt_address from t_user where id=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.pcbWeld.information.domain.ReceiptDO" useGeneratedKeys="true" keyProperty="id">
+        insert into pcb_receipt
+        (
+        `order_nos`,
+        `user_id`,
+        `create_time`,
+        `address`,
+        `mobile`,
+        `receipt_company`,
+        `receipt_number`,
+        `receipt_bank`,
+        `receipt_account`,
+        `receipt_phone`,
+        `receipt_address`,
+        `pay_amount`
+        )
+        values
+        (
+        #{orderNos},
+        #{userId},
+        #{createTime},
+        #{address},
+        #{mobile},
+        #{receiptCompany},
+        #{receiptNumber},
+        #{receiptBank},
+        #{receiptAccount},
+        #{receiptPhone},
+        #{receiptAddress},
+        #{payAmount}
+        )
+    </insert>
+</mapper>

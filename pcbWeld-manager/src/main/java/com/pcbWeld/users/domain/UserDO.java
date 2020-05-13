@@ -61,8 +61,73 @@ public class UserDO implements Serializable {
 	private String company;
 	
 	private String qqNumber;
-	
-	
+	//发票 开票公司名称
+	private String receiptCompany;
+	//发票  开票税号
+	private String receiptNumber;
+	//发票  开户行
+	private String receiptBank;
+	//发票  开户账号
+	private String receiptAccount;
+	//发票  开票联系电话
+	private String receiptPhone;
+	//发票  开票公司联系地址
+	private String receiptAddress;
+
+
+
+
+	public String getReceiptAddress() {
+		return receiptAddress;
+	}
+
+	public void setReceiptAddress(String receiptAddress) {
+		this.receiptAddress = receiptAddress;
+	}
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public String getReceiptCompany() {
+		return receiptCompany;
+	}
+
+	public void setReceiptCompany(String receiptCompany) {
+		this.receiptCompany = receiptCompany;
+	}
+
+	public String getReceiptNumber() {
+		return receiptNumber;
+	}
+
+	public void setReceiptNumber(String receiptNumber) {
+		this.receiptNumber = receiptNumber;
+	}
+
+	public String getReceiptBank() {
+		return receiptBank;
+	}
+
+	public void setReceiptBank(String receiptBank) {
+		this.receiptBank = receiptBank;
+	}
+
+	public String getReceiptAccount() {
+		return receiptAccount;
+	}
+
+	public void setReceiptAccount(String receiptAccount) {
+		this.receiptAccount = receiptAccount;
+	}
+
+	public String getReceiptPhone() {
+		return receiptPhone;
+	}
+
+	public void setReceiptPhone(String receiptPhone) {
+		this.receiptPhone = receiptPhone;
+	}
 
 	public String getQqNumber() {
 		return qqNumber;

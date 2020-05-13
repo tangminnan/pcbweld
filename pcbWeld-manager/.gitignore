@@ -9,4 +9,7 @@
 .project
 /bin/
 /applog/
+/.idea/
+pcbWeld-manager.iml
+
 

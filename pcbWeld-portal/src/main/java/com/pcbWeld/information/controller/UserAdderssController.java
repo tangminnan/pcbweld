@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pcbWeld.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,5 +80,20 @@ public class UserAdderssController {
         map.put("msg", "删除成功");
 		return map;
     	
+    }
+
+    @Log("更改默认地址")
+    @ResponseBody
+    @PostMapping("/changeDefault")
+    public R changeDefault(String address){
+        long userId = ShiroUtils.getUserId();
+        int i = userAddressService.updateAll(userId);
+        UserAddressDO userAddressDO = new UserAddressDO();
+        userAddressDO.setUserId(ShiroUtils.getUserId());
+        userAddressDO.setAddress(address);
+        if(userAddressService.updateDefault(userAddressDO)>0){
+            return R.ok();
+        }
+        return  R.error();
     }
 }

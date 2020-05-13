@@ -51,5 +51,15 @@ public class UserAddressServiceImpl implements UserAddressService {
 	public int batchRemove(Integer[] ids){
 		return userAddressDao.batchRemove(ids);
 	}
-	
+
+	@Override
+	public int updateAll(long userId) {
+		return userAddressDao.updateAll(userId);
+	}
+
+	@Override
+	public int updateDefault(UserAddressDO userAddressDO) {
+		return userAddressDao.updateDefault(userAddressDO);
+	}
+
 }
