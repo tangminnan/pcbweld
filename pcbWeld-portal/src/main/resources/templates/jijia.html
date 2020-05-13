@@ -35,20 +35,22 @@
                 <span th:text="${itemlist.type}+'：'"></span>
                 <div>
                     <!--输入框-->
-                    <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:if="${itemlist.displayForm == 1}">
-                        <p>
-                            <input type="hidden" th:placeholder="${paramsList.price}" id="sizePrice"/>
-                            <input type="text" th:placeholder="${paramsList.parameterName}"/>
-                            <em th:text="${paramsList.specificationName}">cm</em>
+                    <div th:if="${itemlist.displayForm == 1}">
+                        <p th:each="paramsList:${itemlist.MaterialParameterDO}">
+                            <input type="text"
+                                   th:placeholder="${paramsList.parameterName}"
+                                   th:id="input+${paramsList.id}" onchange="changeInput(this)"/>
+                            <em th:text="${paramsList.specificationName}"></em>
                         </p>
                     </div>
                     <!--加减框-->
-                    <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:if="${itemlist.displayForm == 2}">
-                        <input type="hidden" th:placeholder="${paramsList.price}" id="numPrice"/>
+                    <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:class="${itemlist.id}"
+                         th:if="${itemlist.displayForm == 2}">
+                        <input type="hidden" th:value="${paramsList.price}"/>
                         <div class="Num">
-                            <b class="less" onClick="change(1,1)">-</b>
-                            <input type="text" value="1" id="goods1">
-                            <b class="add" onClick="change(1,2)">+</b>
+                            <b class="less" onClick="change(1,1,this)">-</b>
+                            <input type="text" value="1" class="goods1" onchange="changeInputAdd(this)">
+                            <b class="add" onClick="change(1,2,this)">+</b>
                         </div>
                         <i th:text="'('+${itemlist.remark}+')'"></i>
                     </div>
@@ -80,8 +82,8 @@
             <div class="heji">费用合计：<span>¥ 4666.00</span></div>
             <table border="1" cellspacing="0" cellpadding="0">
                 <tbody>
-                <tr th:each="itemlist:${materialItemDOS}">
-                    <td th:text="${itemlist.type}+'：'"></td>
+                <tr th:each="itemlist1:${materialItemDOS}" th:class="${itemlist1.id}">
+                    <td th:text="${itemlist1.type}+'：'"></td>
                     <td>￥23.00</td>
                 </tr>
                 </tbody>
@@ -125,22 +127,7 @@
 
 </body>
 <script type="text/javascript">
-   var countdown = 60;
 
-   function settime(val) {
-      if (countdown == 0) {
-         val.removeAttribute("disabled");
-         val.value = "免费获取验证码";
-         countdown = 60;
-      } else {
-         val.setAttribute("disabled", true);
-         val.value = "重新发送(" + countdown + "s)";
-         countdown--;
-      }
-      setTimeout(function () {
-         settime(val)
-      }, 1000)
-   }
 
    //一件回顶部
    $(document).ready(function () {
@@ -154,28 +141,53 @@
       $(".QQ").addClass("fadeout");
    });
 
-   //商品数量点击事件
-   function change(id, type) {
 
-      var nubs = document.getElementById("goods" + id).value;
+   //商品数量点击事件
+   function change(id, type, val) {
+
+      var nowNum = $(".goods" + id).val();
+      var price = $(val).parent('div').parent('div').children('input').val();
+
+      var paramsid = $(val).parent('div').parent('div').attr("class");
+      console.log(paramsid)
+      var txtright = $('.txtright').children('table').children('tbody').find("." + paramsid).children('td')[1]
+      console.log(txtright.type())
       if (type == 1) {
-         nubs--;
-         document.getElementById("goods" + id).value = nubs;
-         if (nubs <= 0) {
-            document.getElementById("goods" + id).value = 1;
+         nowNum--;
+         $(".goods" + id).val(nowNum)
+         if (nowNum <= 0) {
+            $(".goods" + id).val(1)
             alert("最少兑一件");
          }
+
+         var allPrice = nowNum * price;
       }
       if (type == 2) {
-         nubs++;
-         document.getElementById("goods" + id).value = nubs;
+         nowNum++;
+         $(".goods" + id).val(nowNum);
       }
+
    }
 
    //钢网选择
    $(".CC .ulb li").click(function () {
-      $(this).addClass("on").siblings().removeClass("on");
+      alert(123)
+      $(this).addClass("on")
+      $(this).siblings().removeClass("on");
    });
+
+   function changeInput(val) {
+      var allInput = $(val).parent('p').parent('div').find('input');
+
+      $.each(allInput, function (index, elem) {
+         console.log($(elem).val())
+      })
+   }
+
+   function changeInputAdd(val) {
+
+
+   }
 </script>
 
 </html>
