@@ -54,10 +54,34 @@ public class IndexController {
     @Log("首页")
     @GetMapping("/wode/{id}")
     String wode(@PathVariable("id") Long id, Model model) {
+        Map<String, Object> params = new HashMap<>();
 
         OwnerUserDO user = userService.get(id);
-
         List<MsgDO> msgDOS = msgService.userMsgList(id);
+
+        //资料审核数量
+        params.put("orderStatus", 2);
+        Integer dataCheckOrder = orderService.list(params).size();
+
+        //资料审核未通过列表数量
+        params.remove("orderStatus");
+        params.put("orderStatus", 3);
+        Integer dataCheckFailedOrder = orderService.list(params).size();
+
+        //待支付列表数量
+        params.remove("orderStatus");
+        params.put("orderStatus", 4);
+        Integer unpaidOrder = orderService.list(params).size();
+
+        //物料寄送列表数量
+        params.remove("orderStatus");
+        params.put("orderStatus", 5);
+        Integer materialDelivery = orderService.list(params).size();
+
+        //物料待审核列表数量
+        params.remove("orderStatus");
+        params.put("orderStatus", 6);
+        Integer materialCheck = orderService.list(params).size();
 
         //未读消息数量
         model.addAttribute("msgCount", msgDOS.size());
