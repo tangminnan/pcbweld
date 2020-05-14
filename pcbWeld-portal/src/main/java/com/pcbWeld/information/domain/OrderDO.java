@@ -39,6 +39,8 @@ public class OrderDO implements Serializable {
     private Date createTime;
     //更新时间
     private Date updateTime;
+    //收货时间
+    private Date receiveTime;
     //订单金额
     private BigDecimal orderAmount;
     //订单积分
@@ -66,9 +68,16 @@ public class OrderDO implements Serializable {
     //审核附件
     private String files;
 
+    public Date getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(Date receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
     //物料审核结果、意见
     private String unMaterialResult;
-
 
     public String getUnMaterialResult() {
         return unMaterialResult;
@@ -395,6 +404,39 @@ public class OrderDO implements Serializable {
      */
     public String getInvoiceNo() {
         return invoiceNo;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDO{" +
+                "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
+                ", userId=" + userId +
+                ", payType=" + payType +
+                ", shipmentTime=" + shipmentTime +
+                ", shipmentType=" + shipmentType +
+                ", shipmentAmount=" + shipmentAmount +
+                ", invoiceType=" + invoiceType +
+                ", invoiceStatus=" + invoiceStatus +
+                ", orderStatus=" + orderStatus +
+                ", postid='" + postid + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", receiveTime=" + receiveTime +
+                ", orderAmount=" + orderAmount +
+                ", orderScore=" + orderScore +
+                ", payAmount=" + payAmount +
+                ", buyNumber=" + buyNumber +
+                ", address='" + address + '\'' +
+                ", consignee='" + consignee + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", invoiceNo='" + invoiceNo + '\'' +
+                ", invoiceTitle='" + invoiceTitle + '\'' +
+                ", username='" + username + '\'' +
+                ", unDataResult='" + unDataResult + '\'' +
+                ", files='" + files + '\'' +
+                ", unMaterialResult='" + unMaterialResult + '\'' +
+                '}';
     }
 
     /**

@@ -19,14 +19,14 @@ public class UserAddressDO implements Serializable {
 	private Integer id;
 	//用户ID
 	private Long userId;
-	//用户姓名
-	private String username;
 	//默认首选0:默认1：不是
 	private String defaultFlag;
 	//收货人
 	private String consignee;
 	//手机号码
 	private String mobile;
+	//收货地址
+	private String dizhi;
 	//详细地址
 	private String address;
 	//地址别名
@@ -40,12 +40,13 @@ public class UserAddressDO implements Serializable {
 	//市区县
 	private String areaName;
 
-	public String getUsername() {
-		return username;
+
+	public String getDizhi() {
+		return dizhi;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setDizhi(String dizhi) {
+		this.dizhi = dizhi;
 	}
 
 	/**

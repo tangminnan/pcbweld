@@ -1,12 +1,12 @@
 package com.pcbWeld.information.controller;
 
 import com.pcbWeld.common.annotation.Log;
+import com.pcbWeld.common.utils.ShiroUtils;
 import com.pcbWeld.information.domain.MaterialItemDO;
 import com.pcbWeld.information.domain.MsgDO;
-import com.pcbWeld.information.service.MaterialItemService;
-import com.pcbWeld.information.service.MaterialParameterService;
-import com.pcbWeld.information.service.MsgService;
-import com.pcbWeld.information.service.OrderService;
+import com.pcbWeld.information.domain.OrderDO;
+import com.pcbWeld.information.domain.UserAddressDO;
+import com.pcbWeld.information.service.*;
 import com.pcbWeld.owneruser.domain.OwnerUserDO;
 import com.pcbWeld.owneruser.service.OwnerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class IndexController {
@@ -31,6 +34,10 @@ public class IndexController {
     MsgService msgService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    private ReceiptService receiptService;
+    @Autowired
+    UserAddressService userAddressService;
 
 
     @Log("首页")
@@ -52,8 +59,9 @@ public class IndexController {
     }
 
     @Log("首页")
-    @GetMapping("/wode/{id}")
-    String wode(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/wode/{text}")
+    String wode(@PathVariable("text") String text,Model model) {
+        long  id= ShiroUtils.getUserId();
         Map<String, Object> params = new HashMap<>();
 
         OwnerUserDO user = userService.get(id);
@@ -87,6 +95,50 @@ public class IndexController {
         model.addAttribute("msgCount", msgDOS.size());
         //用户信息
         model.addAttribute("user", user);
-        return "wode";
+        model.addAttribute("page", "../templates/wode");
+        model.addAttribute("context","wode");
+        if("开票信息".equals(text)) {
+            model.addAttribute("page", "../templates/kaipiaoxinxi");
+            model.addAttribute("context", "kpxx");
+            OwnerUserDO ownerUserDO = receiptService.getReceipt(id);
+            model.addAttribute("data",ownerUserDO);
+        }else if("收货地址".equals(text)){
+            model.addAttribute("page", "../templates/shouhuodizhi");
+            model.addAttribute("context", "shdz");
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId", ShiroUtils.getUserId());
+            List<UserAddressDO> address = userAddressService.list(paramsMap);
+            model.addAttribute("address",address);
+        }else if("待开票金额".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            List<OrderDO> orderList = orderService.list(paramsMap);
+            System.out.println("------------------------"+orderList);
+            orderList = orderList.stream().filter(a ->a.getOrderStatus()==10).collect(Collectors.toList());
+            System.out.println("------------------------"+orderList);
+            model.addAttribute("orderList",orderList);
+            model.addAttribute("page", "../templates/daikaijine");
+            model.addAttribute("context", "dkje");
+        }else if("已开发票记录".equals(text)){
+            model.addAttribute("page", "../templates/yikaifapiao");
+            model.addAttribute("context", "ykjl");
+        }else if("我的订单".equals(text)){
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("消息中心".equals(text)){
+            model.addAttribute("page", "../templates/xiaoxizhongxin");
+            model.addAttribute("context", "xxzx");
+        }else if("个人资料".equals(text)){
+            OwnerUserDO ownerUserDO = userService.get(id);
+            model.addAttribute("user",ownerUserDO);
+            model.addAttribute("page", "../templates/xiugaiziliao");
+            model.addAttribute("context", "xgzl");
+        }else if("个人中心".equals(text)){
+            model.addAttribute("page", "../templates/wode");
+            model.addAttribute("context", "wode");
+        }
+
+
+        return "main";
     }
 }

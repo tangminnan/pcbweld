@@ -9,7 +9,7 @@
 
     <select id="list" resultType="com.pcbWeld.information.domain.OrderDO">
         select
-        `id`,`order_no`,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title`
+        `id`,`order_no`,receive_time,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title`
         from pcb_order
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
@@ -43,9 +43,6 @@
                 order by id desc
             </otherwise>
         </choose>
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
     </select>
 
 

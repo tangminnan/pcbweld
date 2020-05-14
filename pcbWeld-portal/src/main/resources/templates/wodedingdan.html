@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>我的订单</title>
+<link rel="stylesheet" href="css/css.css" type="text/css">
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<div class="top topshow">
+		<div class="main">
+			<img class="fl" src="images/logo.png" alt=""/>
+			<div class="fr toptxt">
+				<a class="on" href="jijia.html">在线计价</a>
+				<a href="shuoming.html">工艺说明</a>
+				<a href="denglu.html">登录</a> |
+				<a href="zhuce.html">注册</a>
+			</div>
+		</div>
+	</div>
+	
+	<!--我的订单-->
+	<div class="main myDD">
+		<!--左侧内容-->
+		<div class="fl myDDleft">
+			<h3>个人中心</h3>
+			<ul class="ula">
+				<li><a href="">个人资料</a></li>
+				<li><a href="">账号管理</a></li>
+				<li><a href="">收货地址</a></li>
+				<li><a href="">消息中心</a><em>15</em></li>
+				<li><a href="">我的留言</a></li>
+			</ul>
+			<h3>我的订单</h3>
+			<ul class="ulb">
+				<li><a href="">资料待审核</a></li>
+				<li><a href="">资料审核未通过</a></li>
+				<li><a href="">待支付</a></li>
+				<li><a href="">物料寄送</a></li>
+				<li><a href="">物料待审核</a></li>
+				<li><a href="">物料审核未通过</a></li>
+				<li><a href="">待发货</a></li>
+				<li><a href="">待收货</a></li>
+				<li><a href="">已完成</a></li>
+			</ul>
+			<h3>发票管理</h3>
+			<ul class="ulc">
+				<li><a href="">开票信息</a></li>
+				<li><a href="">待开票金额</a></li>
+				<li><a href="">已开发票记录</a></li>
+			</ul>
+		</div>
+		<!--右侧内容-->
+		<div th:fragment="wddd">
+		<div class="fr myDDright">
+			<h3>我的订单</h3>
+			<ul class="ula">
+				<li class="on"><a href="">全部订单</a></li>
+				<li><a href="">资料待审核</a></li>
+				<li><a href="">资料审核未通过</a></li>
+				<li><a href="">待支付</a></li>
+				<li><a href="">物料寄送</a></li>
+				<li><a href="">物料待审核</a></li>
+				<li><a href="">物料审核未通过</a></li>
+				<li><a href="">待发货</a></li>
+				<li><a href="">待收货</a></li>
+				<li><a href="">已完成</a></li>
+			</ul>
+			<div class="complex">
+				<div class="fl lex">
+					<span>下单日期：</span>
+					<div class="fl lex0">
+						<input class="input1" type="text" placeholder="输入下单日期"/>
+						<input class="input2" type="button" value="查询"/>
+					</div>
+				</div>
+				<div class="fr lex">
+					<span>时间段：</span>
+					<div class="fl lex1">
+						<input class="input1" type="text" placeholder="选择起始时间"/> --
+						<input class="input1" type="text" placeholder="选择结束时间"/>
+						<input class="input2" type="button" value="查询"/>
+					</div>
+				</div>
+			</div>
+			<ul class="ulb">
+				<li>名称</li>
+				<li>订单类型</li>
+				<li>订单状态</li>
+				<li>付款方式</li>
+				<li>金额</li>
+				<li>操作</li>
+			</ul>
+			<table border="1" cellspacing="0" cellpadding="0">
+			  <tbody>
+				<tr>
+					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
+				</tr>
+				<tr>
+				  <td width="220" height="100">PCB焊接</td>
+				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
+				  <td width="135">资料审核<br>未通过<br/><input class="again" type="button" value="重新上传文件"/></td>
+				  <td width="115">--</td>
+				  <td width="150">￥4620.00</td>
+				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
+				</tr>
+			  </tbody>
+			</table>
+			<table border="1" cellspacing="0" cellpadding="0">
+			  <tbody>
+				<tr>
+					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
+				</tr>
+				<tr>
+				  <td width="220" height="100">PCB焊接</td>
+				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
+				  <td width="135">资料待审核</td>
+				  <td width="115">--</td>
+				  <td width="150">￥4620.00</td>
+				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
+				</tr>
+			  </tbody>
+			</table>
+			<table border="1" cellspacing="0" cellpadding="0">
+			  <tbody>
+				<tr>
+					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
+				</tr>
+				<tr>
+				  <td width="220" height="100">PCB焊接</td>
+				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
+				  <td width="135">待支付</td>
+				  <td width="115">--</td>
+				  <td width="150">￥4620.00 <br/><input class="gopay" type="button" value="去支付"/></td>
+				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
+				</tr>
+			  </tbody>
+			</table>
+			<table border="1" cellspacing="0" cellpadding="0">
+			  <tbody>
+				<tr>
+					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
+				</tr>
+				<tr>
+				  <td width="220" height="100">PCB焊接</td>
+				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
+				  <td width="135">物料寄送中</td>
+				  <td width="115">微信支付<br/>在线支付</td>
+				  <td width="150">￥4620.00 <br/><input class="gopay payed" type="button" value="支付完成" disabled/></td>
+				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
+				</tr>
+			  </tbody>
+			</table>
+			<table border="1" cellspacing="0" cellpadding="0">
+			  <tbody>
+				<tr>
+					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
+				</tr>
+				<tr>
+				  <td width="220" height="100">PCB焊接</td>
+				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
+				  <td width="135">待收货<br/><input class="again" type="button" value="确认收货"/></td>
+				  <td width="115">微信支付<br/>在线支付</td>
+				  <td width="150">￥4620.00 <br/><input class="gopay payed" type="button" value="支付完成" disabled/></td>
+				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
+				</tr>
+			  </tbody>
+			</table>
+		</div>
+		</div>
+	</div>
+	
+	<!--底部-->
+	<div class="foot">
+		<div class="main">
+			<img class="fl whiteLogo" src="images/logoWhite.png" alt=""/>
+			<div class="fl fotNav">
+				<p><a href="jijia.html">在线计价</a><a href="shuoming.html">工艺说明</a><a href="jieshao.html">公司介绍</a></p>
+				<p><span>187  1018  4327</span></p>
+				<p>地址：北京市大兴区嘉悦广场5号楼</p>
+			</div>
+			<div class="fr public">
+				<img src="images/gongzhonghao.png" alt=""/>
+				<p>关注微信公众号</p>
+			</div>
+		</div>
+	</div>
+	
+	<!--右侧浮条-->
+	<div class="window QQ">
+		<ul>
+			<li class="back-to-top"><img src="images/top-1.png" alt="" title="回到顶部"/></li>
+			<li><a href="tencent://message/?Site=baidu.com&uin=290933560&Menu=yes"><img src="images/top-3.png" alt="" title="QQ"/></a></li>
+			<li><b><img src="images/top-5.png" alt="" title="电话"/></b><span class="tell">18710184327</span></li>
+			<li><b><img src="images/top-2.png" alt="" title="微信"/></b><span class="weixin"><img width="125" height="125" src="images/gongzhonghao.png" alt="" title="微信号"/></span></li>
+			<li class="close"><img src="images/top-4.png" alt="" title="关闭"/></li>
+		</ul>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	//一件回顶部
+	$(document).ready(function(){
+		$(".back-to-top").click(function(event){
+			event.preventDefault();
+			$("html, body").animate({scrollTop:0},500);
+		})
+	});
+	//关闭浮窗
+	$(".close").click(function(){
+		$(".QQ").addClass("fadeout");
+	});
+	//选择上传文件
+	$(".change_btn").click(function () { $(".filess").click(); });
+	$('.filess').change(function(){
+             var file=$('.filess').val();
+            $('.filetext').val(file);
+         })
+</script>
+
+</html>

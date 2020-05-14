@@ -21,7 +21,7 @@ public class ReceiptDO implements Serializable {
     //用户ID
     private Long userId;
     //联系人姓名
-    private String username;
+    private String consignee;
     //创建时间
     private Date createTime;
     //接收发票地址
@@ -43,12 +43,12 @@ public class ReceiptDO implements Serializable {
     //发票金额
     private BigDecimal payAmount;
 
-    public String getUsername() {
-        return username;
+    public String getConsignee() {
+        return consignee;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
     }
 
     /**

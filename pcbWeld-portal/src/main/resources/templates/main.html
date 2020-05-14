@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/plugins/layer/layer.js"></script>
     <script src="/js/plugins/layer/laydate/laydate.js"></script>
+    <script type="text/javascript" src="/js/app/app.js"></script>
 </head>
 <body>
 <div class="top topshow">
@@ -30,68 +31,35 @@
     <div class="fl myDDleft">
         <h3>个人中心</h3>
         <ul class="ula">
-            <li><a href="">个人资料</a></li>
-            <li><a href="">账号管理</a></li>
-            <li><a href="">收货地址</a></li>
-            <li><a href="">消息中心</a><em th:inline="text">[[${msgCount}]]</em></li>
-            <li><a href="">我的留言</a></li>
+            <li><a>个人资料</a></li>
+            <li><a>账号管理</a></li>
+            <li><a>收货地址</a></li>
+            <li><a>消息中心</a><em th:inline="text">[[${msgCount}]]</em></li>
+            <li><a>我的留言</a></li>
         </ul>
         <h3>我的订单</h3>
         <ul class="ulb">
-            <li><a href="">资料待审核</a></li>
-            <li><a href="">资料审核未通过</a></li>
-            <li><a href="">待支付</a></li>
-            <li><a href="">物料寄送</a></li>
-            <li><a href="">物料待审核</a></li>
-            <li><a href="">物料审核未通过</a></li>
-            <li><a href="">待发货</a></li>
-            <li><a href="">待收货</a></li>
-            <li><a href="">已完成</a></li>
+            <li><a>资料待审核</a></li>
+            <li><a>资料审核未通过</a></li>
+            <li><a>待支付</a></li>
+            <li><a>物料寄送</a></li>
+            <li><a>物料待审核</a></li>
+            <li><a>物料审核未通过</a></li>
+            <li><a>待发货</a></li>
+            <li><a>待收货</a></li>
+            <li><a>已完成</a></li>
         </ul>
         <h3>发票管理</h3>
         <ul class="ulc">
-            <li><a href="">开票信息</a></li>
-            <li><a href="">待开票金额</a></li>
-            <li><a href="">已开发票记录</a></li>
+            <li><a>开票信息</a></li>
+            <li><a>待开票金额</a></li>
+            <li><a>已开发票记录</a></li>
         </ul>
     </div>
     <!--右侧内容-->
-    <div th:fragment="wode">
-    <div class="fr myDDright">
-        <div class="headX">
-            <p><img th:src="${user.heardUrl} ?: '/images/toux.png'" alt=""/>编辑头像</p>
-            <dl>
-                <dt th:text="用户名：+(${user.nickname} ?: '用户'+${user.id})"></dt>
-                <dd th:text="手机号：+(${user.phone} ?: '暂无')"></dd>
-                <dd th:text="公司名：+(${user.company} ?: '暂无')"></dd>
-            </dl>
-        </div>
-        <div class="DDxiaoxi">
-            <h3>订单消息</h3>
-            <ul>
-                <li><a href="">资料审核<span>(1)</span></a></li>
-                <li><a href="">资料审核未通过<span>(0)</span></a></li>
-                <li><a href="">待支付<span>(2)</span></a></li>
-                <li><a href="">物料寄送<span>(1)</span></a></li>
-                <li><a href="">物料审核<span>(2)</span></a></li>
-                <li><a href="">物料审核未通过<span>(2)</span></a></li>
-                <li><a href="">待发货<span>(1)</span></a></li>
-                <li><a href="">待收货<span>(0)</span></a></li>
-            </ul>
-        </div>
-        <div class="DDxiaoxi">
-            <h3>系统消息</h3>
-            <dl>
-                <dd>2020年3月10日申请的开发票已通过并已快递寄出！</dd>
-                <dd>2020年3月10日申请的开发票已通过完成！</dd>
-                <dd>2020年3月10日申请的开发票已通过完成！</dd>
-            </dl>
-        </div>
-    </div>
-    </div>
+
+    <div th:replace="${page}::${context}"></div>
 </div>
-
-
 <!--底部-->
 <div class="foot">
     <div class="main">
@@ -127,6 +95,7 @@
 </div>
 
 </body>
+
 <script type="text/javascript">
    //一件回顶部
    $(document).ready(function () {
@@ -148,27 +117,12 @@
       $('.filetext').val(file);
    })
 
-
-   /*function logout() {
-      $.ajax({
-         url: '/logout',
-         type: 'get',
-         success: function (message) {
-            if (message.code == 0) {
-               //跳转登录页面
-               layer.msg(message.msg)
-               setInterval("denglu()", 2000);//1000为1秒钟
-            } else {
-               layer.msg(message.msg)
-               reload();
-            }
-         }
-      })
-   }
-
-   function denglu() {
-      window.location.href = '/denglu.html';
-   }*/
+    $("a").click(function(){
+        var text=$(this).text();
+        if($(this).parents(".ulb").prev().text()=="我的订单")
+            text="我的订单";
+        window.location.href="/wode/"+text;
+    });
 </script>
 
 </html>

@@ -5,7 +5,7 @@
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>开票信息</title>
+<title>消息中心</title>
 <link rel="stylesheet" href="css/css.css" type="text/css">
 <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 				<li><a href="">个人资料</a></li>
 				<li><a href="">账号管理</a></li>
 				<li><a href="">收货地址</a></li>
-				<li><a href="">消息中心</a><em>15</em></li>
+				<li class="on"><a href="">消息中心</a><em>15</em></li>
 				<li><a href="">我的留言</a></li>
 			</ul>
 			<h3>我的订单</h3>
@@ -54,31 +54,25 @@
 			</ul>
 		</div>
 		<!--右侧内容-->
-		<div th:fragment="kpxx">
+		<div th:fragment="xxzx">
 		<div class="fr myDDright">
-			<h3>开票信息</h3>
-			<div class="DDxiaoxi">
-				<h3>增值发票信息</h3>
-				<div class="KPdz">
-					<div class="fl box">
-						<p><span><em>*</em>开票公司名称：</span><input type="text" id="receiptCompany" th:value="${data.receiptCompany}"/></p>
-						<p><span><em>*</em>开户行：</span><input type="text" id="receiptBank" th:value="${data.receiptBank}"/></p>
-						<p><span><em>*</em>开票联系电话：</span><input type="text" id="receiptPhone" th:value="${data.receiptPhone}"/></p>
-					</div>
-					<div class="fr box">
-						<p><span><em>*</em>开票税号：</span><input type="text" id="receiptNumber" th:value="${data.receiptNumber}"/></p>
-						<p><span><em>*</em>开户账号：</span><input type="text" id="receiptAccount" th:value="${data.receiptAccount}"/></p>
-					</div>
-				</div>
-				<div class="box">
-					<p><span><em>*</em>开票公司联系地址：</span><input style="width:84%;" type="text" id="receiptAddress" th:value="${data.receiptAddress}" /></p>
-				</div>
-				
-				<input class="btn baocun" id="eeeeee" type="button" value="保存" onclick="saveKaiPiaoXinXi()"/>
+			<h3>消息中心</h3>
+			<div class="msg">
+				<ul>
+					<li><a href=""><span>系统推送消息1</span><em>2020.03.29</em></a></li>
+					<li><a href=""><span>系统推送消息2</span><em>2020.03.29</em></a></li>
+					<li><a href=""><span>系统推送消息3</span><em>2020.03.29</em></a></li>
+					<li><a href=""><span>系统推送消息4</span><em>2020.03.29</em></a></li>
+					<li><a href=""><span>系统推送消息5</span><em>2020.03.29</em></a></li>
+					<li><a href=""><span>系统推送消息6</span><em>2020.03.29</em></a></li>
+					<li><a href=""><span>系统推送消息7</span><em>2020.03.29</em></a></li>
+					<li><a href=""><span>系统推送消息8</span><em>2020.03.29</em></a></li>
+				</ul>
 			</div>
 		</div>
+		</div>
 	</div>
-	</div>
+	
 	<!--底部-->
 	<div class="foot">
 		<div class="main">
@@ -108,26 +102,7 @@
 	
 </body>
 <script type="text/javascript">
-
-    /**
-     * 获取开票信息
-     */
-
-   /* $.ajax({
-        type : "GET",
-        url : "/information/receipt/getReceipt",
-        async : false,
-        success : function(data) {
-           if(data){
-               $("#receiptCompany").val(data.receiptCompany);
-			   $("#receiptBank").val(data.receiptBank);
-			   $("#receiptPhone").val(data.receiptPhone);
-			   $("#receiptNumber").val(data.receiptNumber);
-			   $("#receiptAccount").val(data.receiptAccount);
-        }
-    });*/
-
-    //一件回顶部
+	//一件回顶部
 	$(document).ready(function(){
 		$(".back-to-top").click(function(event){
 			event.preventDefault();
@@ -143,31 +118,7 @@
 	$('.filess').change(function(){
              var file=$('.filess').val();
             $('.filetext').val(file);
-         });
-
-    /**
-	 * 保存  发票开票信息
-     */
-   /* &(".baocun").click(function () {
-        $.ajax({
-            type : "POST",
-            url : "/information/receipt/saveReceipt",
-            data : {
-                receiptCompany:$("#receiptCompany").val(),
-                receiptBank:$("#receiptBank").val(),
-                receiptPhone:$("#receiptPhone").val(),
-                receiptNumber:$("#receiptNumber").val(),
-                receiptAccount:$("#receiptAccount").val()
-			},
-            async : false,
-            success : function(data) {
-                alert(data.msg);
-            }
-        });
-    })*/
-
-
-
+         })
 </script>
 
 </html>

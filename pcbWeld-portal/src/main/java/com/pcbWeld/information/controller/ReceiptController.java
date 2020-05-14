@@ -8,24 +8,23 @@ import com.pcbWeld.common.utils.ShiroUtils;
 import com.pcbWeld.information.domain.OrderDO;
 import com.pcbWeld.information.domain.ReceiptDO;
 import com.pcbWeld.information.domain.UserAddressDO;
+import com.pcbWeld.information.service.OrderService;
 import com.pcbWeld.information.service.ReceiptService;
 import com.pcbWeld.information.service.UserAddressService;
 import com.pcbWeld.owneruser.domain.OwnerUserDO;
 import com.pcbWeld.owneruser.service.OwnerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 发票 开票
  */
-@RestController
+@Controller
 @RequestMapping("/information/receipt")
 public class ReceiptController {
     @Autowired
@@ -34,9 +33,14 @@ public class ReceiptController {
     private UserAddressService userAddressService;
     @Autowired
     private OwnerUserService ownerUserService;
+    @Autowired
+    private OrderService orderService;
+
+
 
     @Log("保存发票开票信息")
     @PostMapping("/saveReceipt")
+    @ResponseBody
     R saveReceipt(OwnerUserDO ownerUserDO) {
         ownerUserDO.setId(ShiroUtils.getUserId());
         Map<String, Object> map = new HashMap<>();
@@ -48,6 +52,7 @@ public class ReceiptController {
 
     @Log("获取发票开票信息")
     @GetMapping("/getReceipt")
+    @ResponseBody
     Map<String,Object> getReceipt(){
         long id = ShiroUtils.getUserId();
         OwnerUserDO ownerUserDO = receiptService.getReceipt(id);
@@ -58,17 +63,15 @@ public class ReceiptController {
 
     @Log("开发票详情")
     @GetMapping("/createReceipt")
-    String createReceipt(@RequestBody JSONArray orderNo, BigDecimal Amount,Model model){
-        List<OrderDO> list = new ArrayList<>();
-        for(int i=0;i<orderNo.size();i++){
-           JSONObject jsonObject = orderNo.getJSONObject(i);
-           OrderDO orderDO = new OrderDO();
-           orderDO.setOrderNo(jsonObject.getString("orderNo"));
-           orderDO.setPayAmount(jsonObject.getBigDecimal("payAmount"));
-           list.add(orderDO);
-       }
+    String createReceipt(String[] orderNos,Model model){
+
+        List<OrderDO> list = orderService.listAllSelectedOrder(orderNos);
+        BigDecimal bigDecimal = new BigDecimal(0);
+        for(OrderDO orderDO:list){
+            bigDecimal=bigDecimal.add(orderDO.getPayAmount());
+        }
         model.addAttribute("list",list);
-        model.addAttribute("Amount",Amount);
+        model.addAttribute("Amount",bigDecimal);
         Map<String,Object> paramsMap = new HashMap<>();
         paramsMap.put("userId",ShiroUtils.getUserId());
         paramsMap.put("defaultFlag",0);
@@ -83,19 +86,21 @@ public class ReceiptController {
 
     @Log("确定开票")
     @PostMapping("/confirmReceipt")
-    public R confirmReceipt(@RequestBody JSONObject obj){
-        String address = obj.getString("address");
+    @ResponseBody
+    public R confirmReceipt(@RequestBody ReceiptDO receiptDO){
+
+       /* String address = obj.getString("address");
         BigDecimal payAmount = obj.getBigDecimal("payAmount");
-        String username = obj.getString("username");
+        String consignee = obj.getString("consignee");
         String mobile=obj.getString("mobile");
         String[] orderNos =new String[]{};
-        obj.getJSONArray("orderNos").toArray(orderNos);
-        ReceiptDO receiptDO  = new ReceiptDO();
+        obj.getJSONArray("orderNos").toArray(orderNos);*/
+       /* ReceiptDO receiptDO  = new ReceiptDO();
         receiptDO.setAddress(address);
         receiptDO.setMobile(mobile);
         receiptDO.setOrderNos(orderNos.toString());
-        receiptDO.setUsername(username);
-        receiptDO.setPayAmount(payAmount);
+        receiptDO.setConsignee(consignee);
+        receiptDO.setPayAmount(payAmount);*/
         receiptDO.setUserId(ShiroUtils.getUserId());
         OwnerUserDO ownerUserDO= ownerUserService.get(ShiroUtils.getUserId());
         receiptDO.setReceiptAccount(ownerUserDO.getReceiptAccount());

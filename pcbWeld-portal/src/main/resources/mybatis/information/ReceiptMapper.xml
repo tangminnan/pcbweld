@@ -36,7 +36,8 @@
         `receipt_account`,
         `receipt_phone`,
         `receipt_address`,
-        `pay_amount`
+        `pay_amount`,
+          consignee
         )
         values
         (
@@ -51,7 +52,8 @@
         #{receiptAccount},
         #{receiptPhone},
         #{receiptAddress},
-        #{payAmount}
+        #{payAmount},
+        #{consignee}
         )
     </insert>
 </mapper>

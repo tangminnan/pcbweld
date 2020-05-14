@@ -43,7 +43,7 @@ public class UserAdderssController {
     @Log("保存地址")
     @ResponseBody
     @PostMapping("/saveAddress")
-    Map<String, Object> saveAddress(@RequestBody UserAddressDO address) {
+    Map<String, Object> saveAddress(UserAddressDO address) {
     	Map<String, Object> map = new HashMap<>();
     	address.setUserId(ShiroUtils.getUserId());
     	address.setDefaultFlag("1");
@@ -59,7 +59,7 @@ public class UserAdderssController {
     @Log("编辑地址")
     @ResponseBody
     @PostMapping("/editAddress")
-    Map<String, Object> editAddress(@RequestBody UserAddressDO address) {
+    Map<String, Object> editAddress(UserAddressDO address) {
     	Map<String, Object> map = new HashMap<>();
     	userAddressService.update(address);
     	map.put("code",0);
@@ -72,25 +72,21 @@ public class UserAdderssController {
     @Log("删除地址")
     @ResponseBody
     @PostMapping("/removeAddress")
-    Map<String, Object> removeAddress(Integer id) {
-    	Map<String, Object> map = new HashMap<>();
-    	userAddressService.remove(id);
-    	map.put("code",0);
-        map.put("data","");
-        map.put("msg", "删除成功");
-		return map;
-    	
+    R removeAddress(Integer id) {
+
+    	if(userAddressService.remove(id)>0)
+		    return R.ok();
+    	return R.error();
     }
 
     @Log("更改默认地址")
     @ResponseBody
     @PostMapping("/changeDefault")
-    public R changeDefault(String address){
+    public R changeDefault(int id){
         long userId = ShiroUtils.getUserId();
         int i = userAddressService.updateAll(userId);
         UserAddressDO userAddressDO = new UserAddressDO();
-        userAddressDO.setUserId(ShiroUtils.getUserId());
-        userAddressDO.setAddress(address);
+        userAddressDO.setId(id);
         if(userAddressService.updateDefault(userAddressDO)>0){
             return R.ok();
         }

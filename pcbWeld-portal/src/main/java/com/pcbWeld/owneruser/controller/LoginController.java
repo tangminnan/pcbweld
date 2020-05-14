@@ -245,7 +245,7 @@ public class LoginController extends BaseController {
             return "bindPhone";
         } else {
             //用户信息页面
-            return "wode";
+            return "main";
         }
 
     }

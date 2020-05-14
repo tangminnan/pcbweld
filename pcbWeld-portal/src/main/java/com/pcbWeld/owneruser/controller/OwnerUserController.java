@@ -4,6 +4,7 @@ import com.pcbWeld.common.annotation.Log;
 import com.pcbWeld.common.config.BootdoConfig;
 import com.pcbWeld.common.controller.BaseController;
 import com.pcbWeld.common.utils.OBSUtils;
+import com.pcbWeld.common.utils.R;
 import com.pcbWeld.common.utils.ShiroUtils;
 import com.pcbWeld.information.domain.MsgDO;
 import com.pcbWeld.information.domain.MsgUserDO;
@@ -87,10 +88,11 @@ public class OwnerUserController extends BaseController {
     @Log("编辑用户信息")
     @ResponseBody
     @PostMapping("/editInfo")
-    Map<String, Object> editInfo(OwnerUserDO user) {
-        Map<String, Object> map = new HashMap<>();
-        OwnerUserDO userd = userService.get(getUserId());      
-        
+    R editInfo(OwnerUserDO user) {
+        user.setId(ShiroUtils.getUserId());
+    /*    Map<String, Object> map = new HashMap<>();
+        OwnerUserDO userd = userService.get(getUserId());      */
+       /*
         if (user.getHeardUrl() != null) {
             userd.setHeardUrl(user.getHeardUrl());
         }
@@ -111,23 +113,20 @@ public class OwnerUserController extends BaseController {
 		}
         if (user.getSex() != null) {
             userd.setSex(user.getSex());
-        }
+        }*/
 
         if(user.getFileImg() != null && user.getFileImg().getSize() > 0){
             String fileName = OBSUtils.uploadFile(user.getFileImg(),"pcbWeld/headUrl/");
-            userd.setHeardUrl(fileName);
+            user.setHeardUrl(fileName);
         }
 
-        if (userService.update(userd) > 0) {
-            map.put("code",0);
-            map.put("data",userd);
-            map.put("msg", "保存成功");
+        if (userService.update(user) > 0) {
+            System.out.println("================================="+user);
+          return R.ok();
         } else {
-            map.put("code",-1);
-            map.put("data",null);
-            map.put("msg", "保存失败");
+          return R.error();
         }
-        return map;
+
     }
 
 
