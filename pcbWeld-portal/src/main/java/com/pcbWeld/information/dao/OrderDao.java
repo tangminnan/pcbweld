@@ -27,4 +27,8 @@ public interface OrderDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+    List<OrderDO> listAllSelectedOrder(String[] orderNos);
+
+    void updateOrderReceiptStatus(Object[] orderNos);
 }

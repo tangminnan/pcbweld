@@ -31,7 +31,7 @@ public class OrderController {
        Map<String,Object> paramsMap = new HashMap<String,Object>();
        paramsMap.put("id",id) ;
        List<OrderDO> orderList = orderService.list(paramsMap);
-       orderList = orderList.stream().filter(a ->a.getOrderStatus()==10).collect(Collectors.toList());
+       orderList = orderList.stream().filter(a ->a.getOrderStatus()==10).filter(b->b.getInvoiceStatus()!=2).collect(Collectors.toList());
        return orderList;
     }
 }

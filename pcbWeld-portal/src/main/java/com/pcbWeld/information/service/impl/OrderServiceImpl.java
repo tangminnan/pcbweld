@@ -48,5 +48,15 @@ public class OrderServiceImpl implements OrderService {
 	public int batchRemove(Long[] ids){
 		return orderDao.batchRemove(ids);
 	}
-	
+
+	@Override
+	public List<OrderDO> listAllSelectedOrder(String[] orderNos) {
+		return orderDao.listAllSelectedOrder(orderNos);
+	}
+
+	@Override
+	public void updateOrderReceiptStatus(Object[] orderNos) {
+		orderDao.updateOrderReceiptStatus(orderNos);
+	}
+
 }

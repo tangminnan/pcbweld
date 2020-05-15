@@ -169,15 +169,23 @@
           $.ajax({
               type : "POST",
               url : "/information/receipt/confirmReceipt",
-			  contentType:"application/json",
-              data:JSON.stringify(receiptDO),
+			  dataType:"json",
+              traditional:true,
+              data:{'str':JSON.stringify(receiptDO)},
               async : false,
               success : function(data) {
-					alert(data.msg)
+					if(data.code==0){
+                        window.location.href="/wode/"+"已开发票记录";
+					}
+					else
+					    alert(data.msg);
               }
               });
       });
 
+    $(".anniu").children(":button:first").click(function(){
+        window.location.href="/wode/"+"待开票金额";
+	});
 
 </script>
 
