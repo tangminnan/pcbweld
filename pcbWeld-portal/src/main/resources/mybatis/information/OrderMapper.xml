@@ -168,4 +168,23 @@
         </foreach>
     </delete>
 
+
+
+    <select id="listAllSelectedOrder" resultType="com.pcbWeld.information.domain.OrderDO">
+        select * from pcb_order
+        where order_no in
+        <foreach collection="array" open="(" item="order_no" separator="," close=")">
+            #{order_no}
+        </foreach>
+    </select>
+    
+    <update id="updateOrderReceiptStatus">
+        update pcb_order set invoice_status=2
+        where order_no IN
+        <foreach collection="array" open="(" item="order_no" separator="," close=")">
+            #{order_no}
+        </foreach>
+
+    </update>
+
 </mapper>

@@ -4,7 +4,7 @@
 <mapper namespace="com.pcbWeld.owneruser.dao.OwnerUserDao">
 
 	<select id="get" resultType="com.pcbWeld.owneruser.domain.OwnerUserDO">
-		select `id`,`account_number`,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company`,qq_number from t_user where id = #{value}
+		select `id`,`account_number`,receipt_company,receipt_number,receipt_bank,receipt_account,receipt_phone,receipt_address,`open_id`,`nickname`,`password`,`phone`,`heard_url`,`name`,`identity_card`,`unionid`,`register_time`,`pay_num`,`serve_num`,`login_time`,`add_time`,`update_time`,`delete_flag`,`username`,`sex`,`birthday`,`address`,`company`,qq_number from t_user where id = #{value}
 
 	</select>
 	

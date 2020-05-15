@@ -56,4 +56,31 @@
         #{consignee}
         )
     </insert>
+
+    <select id="list" resultType="com.pcbWeld.information.domain.ReceiptDO">
+        select `id`,`order_nos`,`user_id`,`create_time`,`address`,`mobile`,`receipt_company`,`receipt_number`,`receipt_bank`,`receipt_account`,`receipt_phone`,`receipt_address`,`pay_amount` from pcb_receipt
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="orderNos != null and orderNos != ''"> and order_nos = #{orderNos} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="address != null and address != ''"> and address = #{address} </if>
+            <if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+            <if test="receiptCompany != null and receiptCompany != ''"> and receipt_company = #{receiptCompany} </if>
+            <if test="receiptNumber != null and receiptNumber != ''"> and receipt_number = #{receiptNumber} </if>
+            <if test="receiptBank != null and receiptBank != ''"> and receipt_bank = #{receiptBank} </if>
+            <if test="receiptAccount != null and receiptAccount != ''"> and receipt_account = #{receiptAccount} </if>
+            <if test="receiptPhone != null and receiptPhone != ''"> and receipt_phone = #{receiptPhone} </if>
+            <if test="receiptAddress != null and receiptAddress != ''"> and receipt_address = #{receiptAddress} </if>
+            <if test="payAmount != null and payAmount != ''"> and pay_amount = #{payAmount} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

@@ -2,10 +2,7 @@ package com.pcbWeld.information.controller;
 
 import com.pcbWeld.common.annotation.Log;
 import com.pcbWeld.common.utils.ShiroUtils;
-import com.pcbWeld.information.domain.MaterialItemDO;
-import com.pcbWeld.information.domain.MsgDO;
-import com.pcbWeld.information.domain.OrderDO;
-import com.pcbWeld.information.domain.UserAddressDO;
+import com.pcbWeld.information.domain.*;
 import com.pcbWeld.information.service.*;
 import com.pcbWeld.owneruser.domain.OwnerUserDO;
 import com.pcbWeld.owneruser.service.OwnerUserService;
@@ -114,12 +111,16 @@ public class IndexController {
             paramsMap.put("userId",id) ;
             List<OrderDO> orderList = orderService.list(paramsMap);
             System.out.println("------------------------"+orderList);
-            orderList = orderList.stream().filter(a ->a.getOrderStatus()==10).collect(Collectors.toList());
+            orderList = orderList.stream().filter(a ->a.getOrderStatus()==10).filter(b->b.getInvoiceStatus()!=2).collect(Collectors.toList());
             System.out.println("------------------------"+orderList);
             model.addAttribute("orderList",orderList);
             model.addAttribute("page", "../templates/daikaijine");
             model.addAttribute("context", "dkje");
         }else if("已开发票记录".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            List<ReceiptDO> recepitList = receiptService.list(paramsMap);
+            model.addAttribute("recepitList",recepitList);
             model.addAttribute("page", "../templates/yikaifapiao");
             model.addAttribute("context", "ykjl");
         }else if("我的订单".equals(text)){

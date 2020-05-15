@@ -7,6 +7,9 @@ import com.pcbWeld.owneruser.domain.OwnerUserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 发票 开票
  */
@@ -27,5 +30,9 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public int save(ReceiptDO receipt) {
       return  receiptDao.save(receipt);
+    }
+    @Override
+    public List<ReceiptDO> list(Map<String, Object> map){
+        return receiptDao.list(map);
     }
 }

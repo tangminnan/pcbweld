@@ -1,5 +1,6 @@
 package com.pcbWeld.information.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcbWeld.common.annotation.Log;
@@ -87,21 +88,25 @@ public class ReceiptController {
     @Log("确定开票")
     @PostMapping("/confirmReceipt")
     @ResponseBody
-    public R confirmReceipt(@RequestBody ReceiptDO receiptDO){
-
-       /* String address = obj.getString("address");
+    public R confirmReceipt(String str){
+        JSONObject obj =   JSON.parseObject(str);
+        String address = obj.getString("address");
         BigDecimal payAmount = obj.getBigDecimal("payAmount");
         String consignee = obj.getString("consignee");
         String mobile=obj.getString("mobile");
-        String[] orderNos =new String[]{};
-        obj.getJSONArray("orderNos").toArray(orderNos);*/
-       /* ReceiptDO receiptDO  = new ReceiptDO();
+        Object[] orderNos=obj.getJSONArray("orderNos").toArray();
+        StringBuffer sbf  =new StringBuffer();
+        for(Object s :orderNos){
+           sbf.append(s).append(" ");
+        }
+        ReceiptDO receiptDO  = new ReceiptDO();
         receiptDO.setAddress(address);
         receiptDO.setMobile(mobile);
-        receiptDO.setOrderNos(orderNos.toString());
+        receiptDO.setOrderNos(sbf.toString());
         receiptDO.setConsignee(consignee);
-        receiptDO.setPayAmount(payAmount);*/
+        receiptDO.setPayAmount(payAmount);
         receiptDO.setUserId(ShiroUtils.getUserId());
+        receiptDO.setCreateTime(new Date());
         OwnerUserDO ownerUserDO= ownerUserService.get(ShiroUtils.getUserId());
         receiptDO.setReceiptAccount(ownerUserDO.getReceiptAccount());
         receiptDO.setReceiptAddress(ownerUserDO.getReceiptAddress());
@@ -109,8 +114,10 @@ public class ReceiptController {
         receiptDO.setReceiptCompany(ownerUserDO.getCompany());
         receiptDO.setReceiptNumber(ownerUserDO.getReceiptNumber());
         receiptDO.setReceiptPhone(ownerUserDO.getReceiptPhone());
-       if(receiptService.save(receiptDO) >0)
+       if(receiptService.save(receiptDO) >0) {
+          orderService.updateOrderReceiptStatus(orderNos);
            return R.ok();
+       }
        return  R.error();
     }
 }

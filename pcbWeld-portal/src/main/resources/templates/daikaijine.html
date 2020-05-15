@@ -65,13 +65,13 @@
 				</div>
 				<ul>
 					<li class="headli">
-						<span class="span0"><input type="checkbox"/>全选</span>
+						<span class="span0"><input type="checkbox" onclick="chooseOderNoToReceipt(this)"/><span>全选</span></span>
 						<span class="span1">名称</span>
 						<span class="span2">收货时间</span>
 						<span class="span3">待开发票金额</span>
 					</li>
 					<li th:each="order:${orderList}">
-						<span class="span0"><input type="checkbox" onclick="chooseOderNoToReceipt()"/></span>
+						<span class="span0"><input type="checkbox" onclick="chooseOderNoToReceipt(this)"/></span>
 						<span class="span1" th:text="${order.orderNo}">名称</span>
 						<span class="span2" th:text="${#dates.format(order.receiveTime,'yyyy.MM.dd')}">收货时间</span>
 						<span class="span3"><em th:text="￥+${order.payAmount}">待开发票金额</em></span>

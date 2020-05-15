@@ -50,14 +50,22 @@ function  saveKaiPiaoXinXi() {
 //选择合适的订单开发票
 var orderNos=[];
 var totalAmount=0;
-function chooseOderNoToReceipt(){
+function chooseOderNoToReceipt(event){
+    if($(event).next().text()=="全选" && event.checked){
+        $(event).parents("li").siblings().find(":checkbox").prop("checked",true);
+    }
+    if($(event).next().text()=="全选" && !event.checked){
+        $(event).parents("li").siblings().find(":checkbox").prop("checked",false);
+    }
     totalAmount=0;
-    $(":checked").each(function(){
-        var orderNo = $(this).parent().siblings(".span1").text();
-        var payAmount=$(this).parent().siblings(".span3").children("em").text().substr(1);
-        payAmount = parseInt(payAmount);
-        totalAmount+=payAmount;
-       orderNos.push(orderNo);
+    $(":checked").each(function(index,item){
+        if($(item).next().text()!="全选") {
+            var orderNo = $(item).parent().siblings(".span1").text();
+            var payAmount = $(item).parent().siblings(".span3").children("em").text().substr(1);
+            payAmount = parseInt(payAmount);
+            totalAmount += payAmount;
+            orderNos.push(orderNo);
+        }
     });
     $("#receiptAmount").text("￥"+totalAmount);
 };
@@ -71,6 +79,30 @@ function createReceipt(){
     }
    window.location.href="/information/receipt/createReceipt?orderNos="+orderNos;
 };
+
+//已开发票记录查看详情
+function getOrderDetail(event){
+    var orderarry = $(event).parent().siblings().eq(1).text();
+    orderarry  =orderarry.split(" ");
+    var tr="";
+    for(var i=0;i<orderarry.length;i++){
+        if(orderarry[i]!=""){
+            tr+="<tr>";
+            tr+="<td>"+orderarry[i]+"</td>";
+            tr+="<td><span onclick='nowtogetorderdetail(this)'>查看详情</span></td>";
+            tr+="</tr>";
+        }
+    }
+    $("#ppt").find("tbody").html(tr);
+    $("#ppt").show();
+}
+
+function nowtogetorderdetail(event){
+    var orderNo   = $(event).parent().prev().text();
+    console.info(orderNo);
+    $("#ppt").hide();
+    //跳转查看订单详情的方法
+}
 
 /**
  * 收货地址
@@ -170,3 +202,6 @@ function editPerson(event){
         }
     });
 }
+
+
+
