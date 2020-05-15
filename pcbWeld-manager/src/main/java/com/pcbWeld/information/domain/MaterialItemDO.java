@@ -1,6 +1,7 @@
 package com.pcbWeld.information.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -26,10 +27,41 @@ public class MaterialItemDO implements Serializable {
     private Integer sort;
     //状态 1=关闭；2=启用
     private Integer status;
-
+    //样式
     private Integer displayForm;
-
+    //备注
     private String remark;
+
+    //价格
+    private BigDecimal price;
+    //是否有范围，可选填
+    private String scope;
+    //计算方法（* 或者 +）
+    private String countWay;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public String getCountWay() {
+        return countWay;
+    }
+
+    public void setCountWay(String countWay) {
+        this.countWay = countWay;
+    }
 
     public String getRemark() {
         return remark;

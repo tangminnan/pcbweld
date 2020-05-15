@@ -38,6 +38,9 @@ public class MaterialParameterDO implements Serializable {
     //类目名称
     private String itemName;
 
+    //有无子分类 0=有 1=没有
+    private Integer isJunior;
+
 
     /**
      * 设置：
