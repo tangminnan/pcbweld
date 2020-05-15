@@ -8,11 +8,31 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+
+
+    var conss = [];
+    $(".namePrice").each(function(){
+        var conn = {
+            parameterName : $(this).find("input[name='parameterName']").val(),
+            price : $(this).find("input[name='price']").val(),
+        }
+        conss.push(conn)
+    })
+    var allData={
+        itemId : $("#itemId option:selected").val(),
+        isJunior : $("#isJunior option:selected").val(),
+        namePrice:conss
+    }
+    console.info(allData);
+
+
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/information/materialParameter/save",
-		data : $('#signupForm').serialize(),// 你的formid
+        contentType: "application/json",
+        dataType: "json",
+		data : JSON.stringify(allData),// 你的formid
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
@@ -36,13 +56,13 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
+            isJunior : {
 				required : true
 			}
 		},
 		messages : {
-			name : {
-				required : icon + "请输入姓名"
+            isJunior : {
+				required : icon + "必选"
 			}
 		}
 	})
