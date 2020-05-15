@@ -34,26 +34,31 @@
 
 
                         <div id="paramsSelect" style="display: none">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">参数名称：</label>
-                                <div class="col-sm-8">
-                                    <input id="parameterName" name="parameterName" class="form-control" type="text">
+                            <div class="namePrice">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">参数名称：</label>
+                                    <div class="col-sm-8">
+                                        <input id="parameterName" name="parameterName" class="form-control" type="text">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">价格：</label>
-                                <div class="col-sm-8">
-                                    <input id="price" name="price" class="form-control" type="text">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">价格：</label>
+                                    <div class="col-sm-8">
+                                        <input id="price" name="price" class="form-control" type="text">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
                             </div>
                         </div>
 
                         <div id="other"></div>
                         <div class="form-group">
-                            <div class="col-sm-8 col-sm-offset-3">
+                            <label class="col-sm-3 control-label">
+                                <span id="btnRa" style="display: none">
+                                    <a class="btn btn-success btn-xs" onclick="addParams();" style="text-decoration: none; border-radius: 50%;"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                    <a class="btn btn-warning btn-xs" onclick="remove();" style="text-decoration: none; border-radius: 50%;"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                                </span>
+                            </label>
+                            <div class="col-sm-8">
                                 <button type="submit" class="btn btn-primary">提交</button>
                             </div>
                         </div>
@@ -81,46 +86,38 @@
       if ($(val).val() == 0) {
 
          $('#paramsSelect').show();
+         $('#btnRa').show();
 
-         var alabel = document.getElementsByTagName('label');
-         var len = alabel.length;
-         var label = alabel[len - 1];
-         var html = '<a class="btn btn-success btn-xs" onclick="addParams();" style="text-decoration: none; border-radius: 50%;margin-top: 9px;"><i class="fa fa-plus" aria-hidden="true"></i></a>  <a class="btn btn-warning btn-xs" onclick="remove();" style="text-decoration: none; border-radius: 50%;margin-top: 9px;"><i class="fa fa-minus" aria-hidden="true"></i></a>'
-         label.innerHTML = html;
       } else {
          $('#paramsSelect').hide();
+          $('#btnRa').hide();
+          $("#other").empty();
       }
    }
 
    function addParams() {
 
       var html = '';
-      html += '	<div class="form-group choosecontent">'
-      html += '		 <label class="col-sm-3 control-label">参数名称：</label>'
-      html += ' <div class="col-sm-8">'
-      html += '			<input id="parameterName" name="parameterName" class="form-control" type="text">'
-      html += '			 </div>'
-      html += '			 </div>'
-      html += '		</label>'
-      html += '		<div class="form-group choosecontent">'
-
-      html += '	<label class="col-sm-3 control-label">价格：</label>'
-      html += ' <div class="col-sm-8">'
-      html += '		<input id="price" name="price" class="form-control" type="text">'
-      html += '		</div>'
-      html += '		</div>'
+       html += '<div class="namePrice">'
+       html += '    <div class="form-group">'
+       html += '    <label class="col-sm-3 control-label">参数名称：</label>'
+       html += '<div class="col-sm-8">'
+       html += '    <input id="parameterName" name="parameterName" class="form-control" type="text">'
+       html += '    </div>'
+       html += '    </div>'
+       html += '    <div class="form-group">'
+       html += '    <label class="col-sm-3 control-label">价格：</label>'
+       html += '<div class="col-sm-8">'
+       html += '    <input id="price" name="price" class="form-control" type="text">'
+       html += '    </div>'
+       html += '   </div>'
+       html += '</div>'
       $("#other").append(html);
-
-      var alabel = document.getElementsByTagName('label');
-      var len = alabel.length;
-      var label = alabel[len - 1];
-      var html = '';
-      label.innerHTML = html;
 
    }
 
    function remove() {
-      var adiv = document.getElementsByClassName('choosecontent');
+      var adiv = document.getElementsByClassName('namePrice');
       var len = adiv.length;
       console.info(len);
       if (len < 2) {
@@ -128,11 +125,6 @@
       } else {
          adiv[adiv.length - 1].remove();
 
-         var alabel = document.getElementsByTagName('label');
-         var len = alabel.length;
-         var label = alabel[len - 1];
-         var html = '<a class="btn btn-success btn-xs" onclick="add();" style="text-decoration: none; border-radius: 50%;margin-top: 9px;"><i class="fa fa-plus" aria-hidden="true"></i></a>  <a class="btn btn-warning btn-xs" onclick="remove();" style="text-decoration: none; border-radius: 50%;margin-top: 9px;"><i class="fa fa-minus" aria-hidden="true"></i></a>'
-         label.innerHTML = html;
       }
 
    }

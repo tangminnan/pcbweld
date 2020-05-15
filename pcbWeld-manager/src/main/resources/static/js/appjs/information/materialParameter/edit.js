@@ -8,6 +8,7 @@ $.validator.setDefaults({
 	}
 });
 function update() {
+
 	$.ajax({
 		cache : true,
 		type : "POST",

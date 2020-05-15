@@ -4,7 +4,7 @@
 <mapper namespace="com.pcbWeld.information.dao.MaterialParameterDao">
 
 	<select id="get" resultType="com.pcbWeld.information.domain.MaterialParameterDO">
-		select `id`,`item_id`,`parameter_name`,`specification_name`,`price`,`create_time`,`create_by`,`update_time`,`status` from pcb_material_parameter where id = #{value}
+		select `id`,`item_id`,`parameter_name`,`specification_name`,`price`,`create_time`,`create_by`,`update_time`,`status`,is_junior from pcb_material_parameter where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.pcbWeld.information.domain.MaterialParameterDO">
@@ -58,7 +58,8 @@
 			`create_time`, 
 			`create_by`, 
 			`update_time`, 
-			`status`
+			`status`,
+			is_junior
 		)
 		values
 		(
@@ -69,7 +70,8 @@
 			#{createTime}, 
 			#{createBy}, 
 			#{updateTime}, 
-			#{status}
+			#{status},
+			#{isJunior}
 		)
 	</insert>
 

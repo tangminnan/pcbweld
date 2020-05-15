@@ -3,6 +3,7 @@ package com.pcbWeld.information.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -41,6 +42,23 @@ public class MaterialParameterDO implements Serializable {
     //有无子分类 0=有 1=没有
     private Integer isJunior;
 
+    private List<MaterialParameterDO> namePrice;
+
+    public List<MaterialParameterDO> getNamePrice() {
+        return namePrice;
+    }
+
+    public void setNamePrice(List<MaterialParameterDO> namePrice) {
+        this.namePrice = namePrice;
+    }
+
+    public Integer getIsJunior() {
+        return isJunior;
+    }
+
+    public void setIsJunior(Integer isJunior) {
+        this.isJunior = isJunior;
+    }
 
     /**
      * 设置：

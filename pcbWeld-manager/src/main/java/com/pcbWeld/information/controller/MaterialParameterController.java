@@ -103,16 +103,41 @@ public class MaterialParameterController {
     @ResponseBody
     @PostMapping("/save")
     @RequiresPermissions("information:materialParameter:add")
-    public R save(MaterialParameterDO materialParameter) {
-        materialParameter.setCreateTime(new Date());
-        materialParameter.setStatus(2);
+    public R save(@RequestBody MaterialParameterDO materialParameter) {
 
-        if (ShiroUtils.getUser() != null) {
-            materialParameter.setCreateBy(ShiroUtils.getUser().getName());
+        if(materialParameter.getIsJunior() == 0){
+            List<MaterialParameterDO> np = materialParameter.getNamePrice();
+            if(np.size() >0){
+            	for (MaterialParameterDO materialParameterDO : np) {
+                    MaterialParameterDO  mp = new MaterialParameterDO();
+                    mp.setCreateTime(new Date());
+                    mp.setStatus(2);
+                    if (ShiroUtils.getUser() != null) {
+                        mp.setCreateBy(ShiroUtils.getUser().getName());
+                    }
+                    mp.setItemId(materialParameter.getItemId());
+                    mp.setIsJunior(materialParameter.getIsJunior());
+                    mp.setParameterName(materialParameterDO.getParameterName());
+                    mp.setPrice(materialParameterDO.getPrice());
+                    materialParameterService.save(mp);
+                }
+                return R.ok();
+            }
         }
-        if (materialParameterService.save(materialParameter) > 0) {
-            return R.ok();
+        if(materialParameter.getIsJunior() == 1){
+            MaterialParameterDO mp = new MaterialParameterDO();
+            mp.setCreateTime(new Date());
+            mp.setStatus(2);
+            mp.setItemId(materialParameter.getItemId());
+            mp.setIsJunior(materialParameter.getIsJunior());
+            if (ShiroUtils.getUser() != null) {
+                mp.setCreateBy(ShiroUtils.getUser().getName());
+            }
+            if (materialParameterService.save(mp) > 0) {
+                return R.ok();
+            }
         }
+
         return R.error();
     }
 
@@ -166,5 +191,7 @@ public class MaterialParameterController {
         materialParameterService.batchRemove(ids);
         return R.ok();
     }
+
+
 
 }
