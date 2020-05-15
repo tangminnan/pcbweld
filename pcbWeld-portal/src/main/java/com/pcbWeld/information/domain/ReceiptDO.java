@@ -42,6 +42,8 @@ public class ReceiptDO implements Serializable {
     private String receiptAddress;
     //发票金额
     private BigDecimal payAmount;
+    //状态  0=待开发票   1=已开发票
+    private Integer receiptStatus;
 
     public String getConsignee() {
         return consignee;
@@ -49,6 +51,14 @@ public class ReceiptDO implements Serializable {
 
     public void setConsignee(String consignee) {
         this.consignee = consignee;
+    }
+
+    public Integer getReceiptStatus() {
+        return receiptStatus;
+    }
+
+    public void setReceiptStatus(Integer receiptStatus) {
+        this.receiptStatus = receiptStatus;
     }
 
     /**

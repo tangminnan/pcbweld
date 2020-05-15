@@ -110,6 +110,7 @@ public class ReceiptController {
         OwnerUserDO ownerUserDO= ownerUserService.get(ShiroUtils.getUserId());
         receiptDO.setReceiptAccount(ownerUserDO.getReceiptAccount());
         receiptDO.setReceiptAddress(ownerUserDO.getReceiptAddress());
+        receiptDO.setReceiptStatus(0);
         receiptDO.setReceiptBank(ownerUserDO.getReceiptBank());
         receiptDO.setReceiptCompany(ownerUserDO.getCompany());
         receiptDO.setReceiptNumber(ownerUserDO.getReceiptNumber());

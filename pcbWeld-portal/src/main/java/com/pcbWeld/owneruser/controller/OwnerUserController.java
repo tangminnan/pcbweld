@@ -15,6 +15,8 @@ import com.pcbWeld.information.service.UserAddressService;
 import com.pcbWeld.owneruser.domain.OwnerUserDO;
 import com.pcbWeld.owneruser.service.OwnerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/user")
-@RestController
+@Controller
 public class OwnerUserController extends BaseController {
     @Autowired
     OwnerUserService userService;
@@ -41,6 +43,7 @@ public class OwnerUserController extends BaseController {
      */
     @Log("获取用户信息")
     @GetMapping("/userInfo")
+    @ResponseBody
     Map<String, Object> user() {
         Map<String, Object> map = new HashMap<>();
         OwnerUserDO udo = userService.get(ShiroUtils.getUserId());
@@ -53,6 +56,7 @@ public class OwnerUserController extends BaseController {
    
     @Log("用户消息")
     @GetMapping("/msgList")
+    @ResponseBody
     Map<String, Object> msgList() {
         Map<String, Object> map = new HashMap<>();
         List<MsgDO> msg = msgService.userMsgList(ShiroUtils.getUserId());
@@ -64,18 +68,15 @@ public class OwnerUserController extends BaseController {
     
     @Log("消息详情")
     @GetMapping("/msgListInfo")
-    Map<String, Object> msgListInfo(Integer msgId ,Long msgUserId) {
-        Map<String, Object> map = new HashMap<>();
+    String msgListInfo(Integer msgId,Model model) {
         MsgUserDO mu = new MsgUserDO();
-        mu.setId(msgUserId);
+        mu.setId(ShiroUtils.getUserId());
         mu.setStatue(0);
         mu.setUpdateTime(new Date());
         msgUserService.update(mu);
         MsgDO msg = msgService.get(msgId);
-        map.put("code", 0);
-        map.put("msg", "获取成功");
-        map.put("data", msg);
-        return map;
+        model.addAttribute("msg",msg);
+        return "/xiaoxixiangqing";
     }
 
    

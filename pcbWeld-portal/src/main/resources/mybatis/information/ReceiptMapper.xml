@@ -37,6 +37,7 @@
         `receipt_phone`,
         `receipt_address`,
         `pay_amount`,
+         receipt_status,
           consignee
         )
         values
@@ -53,6 +54,7 @@
         #{receiptPhone},
         #{receiptAddress},
         #{payAmount},
+        #{receiptStatus},
         #{consignee}
         )
     </insert>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>消息详情</title>
+<link rel="stylesheet" href="/css/css.css" type="text/css">
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+</head>
+<body style="background:#f9f9f9;">
+	<div class="top topshow">
+		<div class="main">
+			<img class="fl" src="/images/logo.png" alt=""/>
+			<div class="fr toptxt">
+				<a class="on" href="jijia.html">在线计价</a>
+				<a href="shuoming.html">工艺说明</a>
+				<a href="denglu.html">登录</a> |
+				<a href="zhuce.html">注册</a>
+			</div>
+		</div>
+	</div>
+	
+	<!--消息详情-->
+	<div class="main DDxq">
+		<h3><span>消息详情</span></h3>
+		<div class="msgXq">
+			<h5 th:text="${msg.name}">系统推送消息1</h5>
+			<span th:text="${#dates.format(msg.addTime,'yyyy.MM.dd')}">2020.03.29</span>
+			<p th:text="${msg.forDetails}">今天（5月11日），钟南山接援伊拉克专家回院报到时说：“我作为老职工，非常感谢你们！现在正是非常困难的时候，既要复工又要严防。9日吉林舒兰出现11个聚集病例，往前走我们还有很重的任务。我相信年轻人经过锻炼，以后都会成为骨干，很快就会比我们这些老一代干得更好！”</p>
+		</div>
+	</div>
+	
+	<!--底部-->
+	<div class="foot">
+		<div class="main">
+			<img class="fl whiteLogo" src="/images/logoWhite.png" alt=""/>
+			<div class="fl fotNav">
+				<p><a href="jijia.html">在线计价</a><a href="shuoming.html">工艺说明</a><a href="jieshao.html">公司介绍</a></p>
+				<p><span>187  1018  4327</span></p>
+				<p>地址：北京市大兴区嘉悦广场5号楼</p>
+			</div>
+			<div class="fr public">
+				<img src="/images/gongzhonghao.png" alt=""/>
+				<p>关注微信公众号</p>
+			</div>
+		</div>
+	</div>
+	
+	<!--右侧浮条-->
+	<div class="window QQ">
+		<ul>
+			<li class="back-to-top"><img src="/images/top-1.png" alt="" title="回到顶部"/></li>
+			<li><a href="tencent://message/?Site=baidu.com&uin=290933560&Menu=yes"><img src="/images/top-3.png" alt="" title="QQ"/></a></li>
+			<li><b><img src="/images/top-5.png" alt="" title="电话"/></b><span class="tell">18710184327</span></li>
+			<li><b><img src="/images/top-2.png" alt="" title="微信"/></b><span class="weixin"><img width="125" height="125" src="/images/gongzhonghao.png" alt="" title="微信号"/></span></li>
+			<li class="close"><img src="/images/top-4.png" alt="" title="关闭"/></li>
+		</ul>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	//一件回顶部
+	$(document).ready(function(){
+		$(".back-to-top").click(function(event){
+			event.preventDefault();
+			$("html, body").animate({scrollTop:0},500);
+		})
+	});
+	//关闭浮窗
+	$(".close").click(function(){
+		$(".QQ").addClass("fadeout");
+	});
+	//选择上传文件
+	$(".change_btn").click(function () { $(".filess").click(); });
+	$('.filess').change(function(){
+             var file=$('.filess').val();
+            $('.filetext').val(file);
+         })
+</script>
+
+</html>
