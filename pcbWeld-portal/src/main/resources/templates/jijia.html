@@ -57,7 +57,7 @@
                     <!--下拉框-->
                     <div th:if="${itemlist.displayForm == 3}">
 
-                        <select>
+                        <select th:class="${itemlist.id}" onchange="changeSelect(this)">
                             <option id="pullDownPrice" th:value="${paramsList.price}"
                                     th:each="paramsList:${itemlist.MaterialParameterDO}"
                                     th:text="${paramsList.parameterName}"></option>
@@ -67,8 +67,9 @@
                     <!--多选框-->
                     <div th:if="${itemlist.displayForm == 4}">
 
-                        <ul th:each="paramsList:${itemlist.MaterialParameterDO}" class="ulb">
-                            <li id="liPrice" th:value="${paramsList.price}" th:text="${paramsList.parameterName}"></li>
+                        <ul class="ulb">
+                            <li id="liPrice" th:each="paramsList:${itemlist.MaterialParameterDO}"
+                                th:value="${paramsList.price}" th:text="${paramsList.parameterName}"></li>
                         </ul>
                         <i style="float:left;margin-left:140px;" th:text="'('+${itemlist.remark}+')'"></i>
 
@@ -84,7 +85,7 @@
                 <tbody>
                 <tr th:each="itemlist1:${materialItemDOS}" th:class="${itemlist1.id}">
                     <td th:text="${itemlist1.type}+'：'"></td>
-                    <td>￥23.00</td>
+                    <td>￥0</td>
                 </tr>
                 </tbody>
             </table>
@@ -147,11 +148,11 @@
 
       var nowNum = $(".goods" + id).val();
       var price = $(val).parent('div').parent('div').children('input').val();
+      var allPrice = 0;
 
       var paramsid = $(val).parent('div').parent('div').attr("class");
-      console.log(paramsid)
-      var txtright = $('.txtright').children('table').children('tbody').find("." + paramsid).children('td')[1]
-      console.log(txtright.type())
+      var txtright = $('.txtright').children('table').children('tbody').find("." + paramsid).children('td').eq(1);
+
       if (type == 1) {
          nowNum--;
          $(".goods" + id).val(nowNum)
@@ -160,20 +161,22 @@
             alert("最少兑一件");
          }
 
-         var allPrice = nowNum * price;
+         allPrice = nowNum * price;
+         txtright.html('￥' + allPrice)
       }
       if (type == 2) {
          nowNum++;
          $(".goods" + id).val(nowNum);
+
+         allPrice = nowNum * price;
+         txtright.html('￥' + allPrice)
       }
 
    }
 
    //钢网选择
    $(".CC .ulb li").click(function () {
-      alert(123)
-      $(this).addClass("on")
-      $(this).siblings().removeClass("on");
+      $(this).addClass("on").siblings().removeClass("on");
    });
 
    function changeInput(val) {
@@ -187,6 +190,14 @@
    function changeInputAdd(val) {
 
 
+   }
+
+
+   function changeSelect(val) {
+      var price = $(val).val();
+      var txtright = $('.txtright').children('table').children('tbody').find("." + $(val).attr('class')).children('td').eq(1);
+
+      txtright.html('￥' + price)
    }
 </script>
 
