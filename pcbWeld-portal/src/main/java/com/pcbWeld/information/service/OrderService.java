@@ -30,4 +30,8 @@ public interface OrderService {
     List<OrderDO> listAllSelectedOrder(String[] orderNos);
 
     void updateOrderReceiptStatus(Object[] orderNos);
+
+    OrderDO getOrderDOByOrderNo(String orderNo);
+
+	void updateByOrderNo(OrderDO orderDO);
 }

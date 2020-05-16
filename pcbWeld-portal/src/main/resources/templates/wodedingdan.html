@@ -94,77 +94,17 @@
 				<li>金额</li>
 				<li>操作</li>
 			</ul>
-			<table border="1" cellspacing="0" cellpadding="0">
+			<table border="1" cellspacing="0" cellpadding="0" th:each="order:${orderDOList}">
 			  <tbody>
 				<tr>
-					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
+					<td colspan="6"><span th:text="下单时间：+${#dates.format(order.createTime,'yyyy.MM.dd HH:mm:ss')}"></span><span th:text="订单号：+${order.orderNo}"></span></td>
 				</tr>
 				<tr>
 				  <td width="220" height="100">PCB焊接</td>
 				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
 				  <td width="135">资料审核<br>未通过<br/><input class="again" type="button" value="重新上传文件"/></td>
 				  <td width="115">--</td>
-				  <td width="150">￥4620.00</td>
-				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
-				</tr>
-			  </tbody>
-			</table>
-			<table border="1" cellspacing="0" cellpadding="0">
-			  <tbody>
-				<tr>
-					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
-				</tr>
-				<tr>
-				  <td width="220" height="100">PCB焊接</td>
-				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
-				  <td width="135">资料待审核</td>
-				  <td width="115">--</td>
-				  <td width="150">￥4620.00</td>
-				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
-				</tr>
-			  </tbody>
-			</table>
-			<table border="1" cellspacing="0" cellpadding="0">
-			  <tbody>
-				<tr>
-					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
-				</tr>
-				<tr>
-				  <td width="220" height="100">PCB焊接</td>
-				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
-				  <td width="135">待支付</td>
-				  <td width="115">--</td>
-				  <td width="150">￥4620.00 <br/><input class="gopay" type="button" value="去支付"/></td>
-				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
-				</tr>
-			  </tbody>
-			</table>
-			<table border="1" cellspacing="0" cellpadding="0">
-			  <tbody>
-				<tr>
-					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
-				</tr>
-				<tr>
-				  <td width="220" height="100">PCB焊接</td>
-				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
-				  <td width="135">物料寄送中</td>
-				  <td width="115">微信支付<br/>在线支付</td>
-				  <td width="150">￥4620.00 <br/><input class="gopay payed" type="button" value="支付完成" disabled/></td>
-				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
-				</tr>
-			  </tbody>
-			</table>
-			<table border="1" cellspacing="0" cellpadding="0">
-			  <tbody>
-				<tr>
-					<td colspan="6"><span>下单时间：2020.03.16 12:35:02</span><span>订单号：123456788</span></td>
-				</tr>
-				<tr>
-				  <td width="220" height="100">PCB焊接</td>
-				  <td width="200">板长：10cm <br/> 板宽：8cm</td>
-				  <td width="135">待收货<br/><input class="again" type="button" value="确认收货"/></td>
-				  <td width="115">微信支付<br/>在线支付</td>
-				  <td width="150">￥4620.00 <br/><input class="gopay payed" type="button" value="支付完成" disabled/></td>
+				  <td width="150" th:text="￥+${order.payAmount}"></td>
 				  <td><input class="shanchu" type="button" value="删除"/><input type="button" value="订单详情"/></td>
 				</tr>
 			  </tbody>

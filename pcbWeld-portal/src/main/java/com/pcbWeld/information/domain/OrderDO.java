@@ -1,5 +1,8 @@
 package com.pcbWeld.information.domain;
 
+import com.obs.services.model.MultipartUpload;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -53,20 +56,54 @@ public class OrderDO implements Serializable {
     private String address;
     //收货人
     private String consignee;
+    //原文件名
+    private String originalFilename;
     //收货手机号
     private String mobile;
     //公司税号
     private String invoiceNo;
     //公司抬头
     private String invoiceTitle;
+    //审核短信 0=开启  1=不开启
+    private int shenheDn;
+    //发货短息 0=开启   1=不开启
+    private int fahuoDn;
+    //订单备注
 
+    public String getBeizhu() {
+        return beizhu;
+    }
+
+    public void setBeizhu(String beizhu) {
+        this.beizhu = beizhu;
+    }
+
+    private String beizhu;
     //用户名
     private String username;
 
     //资料审核结果、意见
     private String unDataResult;
-    //审核附件
-    private String files;
+    //物料 pcb文件
+    private MultipartFile pcbFile;
+    //文件保存路径
+    private String pcbStr;
+
+    public MultipartFile getPcbFile() {
+        return pcbFile;
+    }
+
+    public void setPcbFile(MultipartFile pcbFile) {
+        this.pcbFile = pcbFile;
+    }
+
+    public String getOriginalFilename() {
+        return originalFilename;
+    }
+
+    public void setOriginalFilename(String originalFilename) {
+        this.originalFilename = originalFilename;
+    }
 
     public Date getReceiveTime() {
         return receiveTime;
@@ -95,13 +132,7 @@ public class OrderDO implements Serializable {
         this.unDataResult = unDataResult;
     }
 
-    public String getFiles() {
-        return files;
-    }
 
-    public void setFiles(String files) {
-        this.files = files;
-    }
 
     public String getUsername() {
         return username;
@@ -111,6 +142,21 @@ public class OrderDO implements Serializable {
         this.username = username;
     }
 
+    public int getShenheDn() {
+        return shenheDn;
+    }
+
+    public void setShenheDn(int shenheDn) {
+        this.shenheDn = shenheDn;
+    }
+
+    public int getFahuoDn() {
+        return fahuoDn;
+    }
+
+    public void setFahuoDn(int fahuoDn) {
+        this.fahuoDn = fahuoDn;
+    }
 
     /**
      * 设置：
@@ -434,7 +480,7 @@ public class OrderDO implements Serializable {
                 ", invoiceTitle='" + invoiceTitle + '\'' +
                 ", username='" + username + '\'' +
                 ", unDataResult='" + unDataResult + '\'' +
-                ", files='" + files + '\'' +
+
                 ", unMaterialResult='" + unMaterialResult + '\'' +
                 '}';
     }
@@ -451,5 +497,13 @@ public class OrderDO implements Serializable {
      */
     public String getInvoiceTitle() {
         return invoiceTitle;
+    }
+
+    public String getPcbStr() {
+        return pcbStr;
+    }
+
+    public void setPcbStr(String pcbStr) {
+        this.pcbStr = pcbStr;
     }
 }

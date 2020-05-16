@@ -31,4 +31,8 @@ public interface OrderDao {
     List<OrderDO> listAllSelectedOrder(String[] orderNos);
 
     void updateOrderReceiptStatus(Object[] orderNos);
+
+    OrderDO getOrderDOByOrderNo(String orderNo);
+
+	void updateByOrderNo(OrderDO orderDO);
 }

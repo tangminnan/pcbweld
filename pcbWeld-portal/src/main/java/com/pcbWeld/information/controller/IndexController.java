@@ -126,6 +126,10 @@ public class IndexController {
             model.addAttribute("page", "../templates/yikaifapiao");
             model.addAttribute("context", "ykjl");
         }else if("我的订单".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
             model.addAttribute("page", "../templates/wodedingdan");
             model.addAttribute("context", "wddd");
         }else if("消息中心".equals(text)){

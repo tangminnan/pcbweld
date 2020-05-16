@@ -59,4 +59,14 @@ public class OrderServiceImpl implements OrderService {
 		orderDao.updateOrderReceiptStatus(orderNos);
 	}
 
+	@Override
+	public OrderDO getOrderDOByOrderNo(String orderNo) {
+		return orderDao.getOrderDOByOrderNo(orderNo);
+	}
+
+	@Override
+	public void updateByOrderNo(OrderDO orderDO) {
+		orderDao.updateByOrderNo(orderDO);
+	}
+
 }

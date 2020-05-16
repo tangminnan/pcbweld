@@ -101,7 +101,13 @@
 			`consignee`, 
 			`mobile`, 
 			`invoice_no`, 
-			`invoice_title`
+			`invoice_title`,
+            shenhe_dn,
+            fahuo_dn,
+            beizhu,
+            pcb_str,
+            original_filename
+
 		)
 		values
 		(
@@ -125,7 +131,12 @@
 			#{consignee}, 
 			#{mobile}, 
 			#{invoiceNo}, 
-			#{invoiceTitle}
+			#{invoiceTitle},
+			#{shenheDn},
+            #{fahuoDn},
+            #{beizhu},
+            #{pcbStr},
+            #{originalFilename}
 		)
 	</insert>
 
@@ -185,6 +196,14 @@
             #{order_no}
         </foreach>
 
+    </update>
+    
+    <select id="getOrderDOByOrderNo" resultType="com.pcbWeld.information.domain.OrderDO">
+      select * from pcb_order where order_no=#{orderNo}
+    </select>
+    
+    <update id="updateByOrderNo" parameterType="com.pcbWeld.information.domain.OrderDO">
+        update pcb_order set pcb_str=#{pcbStr} where order_no=#{orderNo}
     </update>
 
 </mapper>
