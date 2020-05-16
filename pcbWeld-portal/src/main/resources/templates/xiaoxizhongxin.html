@@ -59,14 +59,7 @@
 			<h3>消息中心</h3>
 			<div class="msg">
 				<ul>
-					<li><a href=""><span>系统推送消息1</span><em>2020.03.29</em></a></li>
-					<li><a href=""><span>系统推送消息2</span><em>2020.03.29</em></a></li>
-					<li><a href=""><span>系统推送消息3</span><em>2020.03.29</em></a></li>
-					<li><a href=""><span>系统推送消息4</span><em>2020.03.29</em></a></li>
-					<li><a href=""><span>系统推送消息5</span><em>2020.03.29</em></a></li>
-					<li><a href=""><span>系统推送消息6</span><em>2020.03.29</em></a></li>
-					<li><a href=""><span>系统推送消息7</span><em>2020.03.29</em></a></li>
-					<li><a href=""><span>系统推送消息8</span><em>2020.03.29</em></a></li>
+					<li th:each="msg:${msglist}"><a th:href="@{/user/msgListInfo(msgId=${msg.id})}"><span th:text="${msg.name}">系统推送消息1</span><em th:text="${#dates.format(msg.addTime,'yyyy.MM.dd')}">2020.03.29</em></a></li>
 				</ul>
 			</div>
 		</div>

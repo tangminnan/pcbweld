@@ -67,7 +67,7 @@ public class IndexController {
         Map<String, Object> params = new HashMap<>();
 
         OwnerUserDO user = userService.get(id);
-        List<MsgDO> msgDOS = msgService.userMsgList(id);
+
 
         //资料审核数量
         params.put("orderStatus", 2);
@@ -94,7 +94,9 @@ public class IndexController {
         Integer materialCheck = orderService.list(params).size();
 
         //未读消息数量
-        model.addAttribute("msgCount", msgDOS.size());
+        List<MsgDO> msgDOS = msgService.userMsgList(id);
+        long size = msgDOS.stream().filter(a ->a.getStatue()==1).count();
+        model.addAttribute("msgCount",size);
         //用户信息
         model.addAttribute("user", user);
         model.addAttribute("page", "../templates/wode");
@@ -132,6 +134,7 @@ public class IndexController {
             model.addAttribute("page", "../templates/wodedingdan");
             model.addAttribute("context", "wddd");
         }else if("消息中心".equals(text)){
+            model.addAttribute("msglist",msgDOS);
             model.addAttribute("page", "../templates/xiaoxizhongxin");
             model.addAttribute("context", "xxzx");
         }else if("个人资料".equals(text)){
