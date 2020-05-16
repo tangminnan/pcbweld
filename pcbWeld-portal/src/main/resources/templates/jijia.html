@@ -33,31 +33,34 @@
         <div class="fl txtleft">
             <div class="CC" th:each="itemlist:${materialItemDOS}">
                 <span th:text="${itemlist.type}+'：'"></span>
+                <input type="hidden" name="csName" th:id="canshu+${itemlist.id}" />
+                <input type="hidden" name="neirong" th:id="moy+${itemlist.id}" />
                 <div>
                     <!--输入框-->
                     <div th:if="${itemlist.displayForm == 1}">
                         <p th:each="paramsList:${itemlist.MaterialParameterDO}">
                             <input type="text"
                                    th:placeholder="${paramsList.parameterName}"
-                                   th:id="input+${paramsList.id}" onchange="changeInput(this)"/>
+                                   th:id="${itemlist.id}" th:onchange="|changeInput(${itemlist.id})|"/>
                             <em th:text="${paramsList.specificationName}"></em>
                         </p>
                     </div>
                     <!--加减框-->
                     <div th:each="paramsList:${itemlist.MaterialParameterDO}" th:class="${itemlist.id}"
                          th:if="${itemlist.displayForm == 2}">
-                        <input type="hidden" th:value="${paramsList.price}"/>
+                         <input type="hidden" th:value="${itemlist.id}" name="lessadd" />
+                        <input type="hidden" th:id="la+${itemlist.id}" th:value="${paramsList.price}"/>
                         <div class="Num">
-                            <b class="less" onClick="change(1,1,this)">-</b>
-                            <input type="text" value="1" class="goods1" onchange="changeInputAdd(this)">
-                            <b class="add" onClick="change(1,2,this)">+</b>
+                            <b class="less" th:onClick="|change(1,1,${itemlist.id})|">-</b>
+                            <input type="text" value="1" th:class="goods+${itemlist.id}" onchange="changeInputAdd(this)">
+                            <b class="add" th:onClick="|change(1,2,${itemlist.id})|">+</b>
                         </div>
                         <i th:text="'('+${itemlist.remark}+')'"></i>
                     </div>
                     <!--下拉框-->
                     <div th:if="${itemlist.displayForm == 3}">
-
-                        <select th:class="${itemlist.id}" onchange="changeSelect(this)">
+						<input type="hidden" th:value="${itemlist.id}" name="xiala" />
+                        <select th:class="${itemlist.id}" th:id="sel+${itemlist.id}" th:onchange="|changeSelect(this,${itemlist.id})|">
                             <option id="pullDownPrice" th:value="${paramsList.price}"
                                     th:each="paramsList:${itemlist.MaterialParameterDO}"
                                     th:text="${paramsList.parameterName}"></option>
@@ -66,11 +69,19 @@
                     </div>
                     <!--多选框-->
                     <div th:if="${itemlist.displayForm == 4}">
-
-                        <ul class="ulb">
+						
+                        <ul class="ula">
+                        
                             <li id="liPrice" th:each="paramsList:${itemlist.MaterialParameterDO}"
-                                th:value="${paramsList.price}" th:text="${paramsList.parameterName}"></li>
+                                th:value="${paramsList.id}" th:text="${paramsList.parameterName}">
+                                
+                                </li>
                         </ul>
+                        <input type="hidden" th:value="${itemlist.id}" class="ziji" />
+                        <ul class="ulb" id="xuanxiang">
+							<!-- <li>尺寸53cm*53cm以下的钢网</li>
+							<li>尺寸53cm*53cm以下的钢网</li> -->
+						</ul>
                         <i style="float:left;margin-left:140px;" th:text="'('+${itemlist.remark}+')'"></i>
 
                     </div>
@@ -80,16 +91,16 @@
 
         </div>
         <div class="fr txtright">
-            <div class="heji">费用合计：<span>¥ 4666.00</span></div>
+            <div class="heji">费用合计：<span id="hj">¥ 4666.00</span></div>
             <table border="1" cellspacing="0" cellpadding="0">
                 <tbody>
                 <tr th:each="itemlist1:${materialItemDOS}" th:class="${itemlist1.id}">
                     <td th:text="${itemlist1.type}+'：'"></td>
-                    <td>￥0</td>
+                    <td th:id="price+${itemlist1.id}" class="danjia">￥0</td>
                 </tr>
                 </tbody>
             </table>
-            <div class="zhifuFY">在线支付总费用：<span>¥ 4666.00</span></div>
+            <div class="zhifuFY">在线支付总费用：<span id="zj">¥ 4666.00</span></div>
             <input class="goon" type="button" value="立即下单"/>
         </div>
     </div>
@@ -142,62 +153,204 @@
       $(".QQ").addClass("fadeout");
    });
 
-
+   $("input[name='lessadd']").each(function(val){
+	   change(1, 0, $(this).val());
+   })
+   	
    //商品数量点击事件
    function change(id, type, val) {
 
-      var nowNum = $(".goods" + id).val();
-      var price = $(val).parent('div').parent('div').children('input').val();
-      var allPrice = 0;
+      var nowNum = $(".goods" + val).val();
+      //var price = $(val).parent('div').parent('div').children('input').val();
+      //var allPrice = 0;
+      
+      //var paramsid = $(val).parent('div').parent('div').attr("class");
+      //var txtright = $('.txtright').children('table').children('tbody').find("." + paramsid).children('td').eq(1);
 
-      var paramsid = $(val).parent('div').parent('div').attr("class");
-      var txtright = $('.txtright').children('table').children('tbody').find("." + paramsid).children('td').eq(1);
-
+      var price = $("input[id=la"+val+"]").val();
+	  var allPrice = $(".goods" + val).val() * price;
+      $('#price'+val).html("￥"+allPrice);
+      $('input[id="canshu'+val+'"]').val($(".goods" + val).val());
+      $('input[id="moy'+val+'"]').val(allPrice);
       if (type == 1) {
          nowNum--;
-         $(".goods" + id).val(nowNum)
+         $(".goods" + val).val(nowNum)
          if (nowNum <= 0) {
-            $(".goods" + id).val(1)
+            $(".goods" + val).val(1)
             alert("最少兑一件");
          }
 
-         allPrice = nowNum * price;
-         txtright.html('￥' + allPrice)
+         var allPrice = $(".goods" + val).val() * price;
+         $('#price'+val).html("￥"+allPrice);
+         $('input[id="canshu'+val+'"]').val($(".goods" + val).val());
+         $('input[id="moy'+val+'"]').val(allPrice);
+         zongjia();
+         //txtright.html('￥' + allPrice)
       }
       if (type == 2) {
          nowNum++;
-         $(".goods" + id).val(nowNum);
+         $(".goods" + val).val(nowNum);
 
-         allPrice = nowNum * price;
-         txtright.html('￥' + allPrice)
+         var allPrice = $(".goods" + val).val() * price;
+         $('#price'+val).html("￥"+allPrice);
+         $('input[id="canshu'+val+'"]').val($(".goods" + val).val());
+         $('input[id="moy'+val+'"]').val(allPrice);
+         zongjia();
+         //txtright.html('￥' + allPrice)
       }
 
    }
 
    //钢网选择
-   $(".CC .ulb li").click(function () {
-      $(this).addClass("on").siblings().removeClass("on");
-   });
+   $(".CC .ula li").click(function(){
+		$(this).addClass("on").siblings().removeClass("on");
+		var yw = $(this).val();
+		var can = $(this).text();
+		$.ajax({
+			ceche:true,
+			type : "GET",
+			url:"/paramsIdBySelect",
+			data:{paramsId:yw},
+			async:false,
+			error:function(res){
+			},
+			success:function(data){
+				console.info(data.length);
+				$("#xuanxiang").empty();
+				if(data.length>0){
+					for(var i =0;i<data.length;i++){
+				   		if(data.length>0){
+				   			for(var i = 0;i<data.length;i++){
+				   				$("#xuanxiang").append('<li value='+data[i].price+'>'+data[i].paramsName+'</li>');
+				   			}
+				   		}
+					}
+					var id = $(".CC .ula").siblings(".ziji").val();
+					$('input[id="canshu'+id+'"]').val("");
+				    $('input[id="moy'+id+'"]').val("");
+				}else{
+					var id = $(".CC .ula").siblings(".ziji").val();
+					$('#price'+id).html("￥0");
+					$('input[id="canshu'+id+'"]').val(can);
+			        $('input[id="moy'+id+'"]').val(0);
+					zongjia();
+				}
+			}
+		})
+	});
+   
+   	$(".CC .ulb").on("click", "li",function () {
+   	   
+	   $(this).addClass("on").siblings().removeClass("on");
+	   var id = $(this).parent("ul").siblings(".ziji").val();
+	   $('#price'+id).html("￥"+$(this).val());
+	   var sj = $(this).parent("ul").siblings("ul").children(".on").text();
+	   $('input[id="canshu'+id+'"]').val(sj+$(this).text());
+       $('input[id="moy'+id+'"]').val($(this).val());
+	   zongjia();
+	});
 
-   function changeInput(val) {
+/*    function changeInput(val) {
       var allInput = $(val).parent('p').parent('div').find('input');
 
       $.each(allInput, function (index, elem) {
          console.log($(elem).val())
       })
-   }
+   } */
 
    function changeInputAdd(val) {
 
 
    }
 
+   $("input[name='xiala']").each(function(val){
+	   changeSelect(this, $(this).val());
+   })
+   function changeSelect(val,id) {
+	  //var price = $(val).val();
+      var price = $("#sel"+id+" option:selected").val();
+      $('#price'+id).html("￥"+price);
+      $('input[id="canshu'+id+'"]').val($("#sel"+id+" option:selected").text());
+      $('input[id="moy'+id+'"]').val(price);
+      zongjia();
+      //var txtright = $('.txtright').children('table').children('tbody').find("." + $(val).attr('class')).children('td').eq(1);
 
-   function changeSelect(val) {
-      var price = $(val).val();
-      var txtright = $('.txtright').children('table').children('tbody').find("." + $(val).attr('class')).children('td').eq(1);
-
-      txtright.html('￥' + price)
+      //txtright.html('￥' + price)
+   }
+   
+   function changeInput(id){
+	   var chicun = [];
+	   var i = 0;
+	   $("input[id="+id+"]").each(function(val){
+		   if($(this).val().length<=0 && $(this).val() ==""){
+			   i++;
+		   }else{
+			   chicun.push($(this).val());
+		   }
+	   })
+	   if(i>0){
+		   console.info("都得有值");
+		   $('#price'+id).html("￥0");
+		   $('input[id="canshu'+id+'"]').val("");
+		   $('input[id="moy'+id+'"]').val("");
+		   zongjia();
+	   }else{
+		   //console.info(chicun);
+		   var mm = [];
+		   var pd ;
+		    $.ajax({
+			   ceche:true,
+			   type : "GET",
+			   url:"/itemIdByInput",
+			   data:{itemId:id},
+			   async:false,
+			   error:function(res){
+			   },
+			   success:function(data){
+				  //console.info(data);
+				  if(data.length>0){
+				   for(var i =0;i<data.length;i++){
+					   if(data[i].countWay == "*"){
+						   var jg = (chicun[0])*(chicun[1]);pd=jg;
+						   var scope = data[i].scope.split("-");
+						   mm.push(scope[0]);mm.push(scope[1]);
+						   if(jg>scope[0] && jg<=scope[1]){
+							   //console.info(data[i].price);
+							   $('#price'+id).html("￥"+data[i].price);
+							   $('input[id="canshu'+id+'"]').val((chicun[0])+"x"+(chicun[1]));
+							   $('input[id="moy'+id+'"]').val(data[i].price);
+							   zongjia();
+						   }
+					   }
+				   }
+				   var max = Math.max.apply(null, mm);
+				   var min = Math.min.apply(null, mm);
+				   if(pd == 0 || pd<min || pd>max || isNaN(pd) ){
+					   $("input[id="+id+"]").each(function(val){
+						   $(this).val("");
+					   })
+					   $('#price'+id).html("￥0");
+					   $('input[id="canshu'+id+'"]').val("");
+					   $('input[id="moy'+id+'"]').val("");
+					   alert("暂无此范围！！！");
+					   zongjia();
+				   }
+			   }
+			   }
+		   })
+	   }
+   }
+   
+   zongjia();
+   function zongjia(){
+	   var zj = 0;
+	   $(".danjia").each(function(){
+		   var danjia = $(this).text().split("￥").join("");
+		   zj += +danjia;
+	   })
+	   $("#hj").text("￥"+zj);
+	   $("#zj").text("￥"+zj);
+	   
    }
 
    /**
@@ -206,6 +359,38 @@
    $(":button.goon").click(function () {
        window.location.href="/information/order/createOrder";
    });
+
+   
+   $("input[class='goon']").click(function(){
+	   var paramsss = []
+	  $(".CC").each(function(){
+		  var biaoti1 = $(this).children("span").text();
+		  var csName1 = $(this).find("input[name='csName']").val();
+		  var neirong1 = $(this).find("input[name='neirong']").val();
+		  /* if(biaoti1.length<0 || biaoti1 == ""){
+			  alert("不能有空值！！！");
+			  return false; 
+		  }
+		  
+		  if(csName1.length<0 || csName1 == ""){
+			  alert("不能有空值！！！");
+			  return false; 
+		  }
+		  if(neirong1.length<0 || neirong1 == ""){
+			  alert("不能有空值！！！");
+			  return false; 
+		  } */
+		  var param ={
+			   biaoti : biaoti1,
+			   csName : csName1,
+			   neirong : neirong1,
+		  }
+		  paramsss.push(param);
+	  })
+	  console.info(paramsss);
+   })
+   
+   
 </script>
 
 </html>
