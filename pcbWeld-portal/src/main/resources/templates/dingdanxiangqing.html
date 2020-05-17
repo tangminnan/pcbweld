@@ -30,9 +30,9 @@
 			<div class="shenheing">
 				<p>资料审核中</p>
 				<ul>
-					<li class="on">提交订单</li><!--class=on，审核通过-->
-					<li class="on"><em></em>资料审核</li><!--此处通过后，在线支付按钮加上class=red，变红色-->
-					<li class="fail"><em></em>支付</li><!--class=fail，审核失败-->
+					<li>提交订单</li><!--class=on，审核通过-->
+					<li><em></em>资料审核</li><!--此处通过后，在线支付按钮加上class=red，变红色-->
+					<li><em></em>支付</li><!--class=fail，审核失败-->
 					<li><em></em>物料寄送</li>
 					<li><em></em>物料审核</li>
 					<li><em></em>发货</li>
@@ -51,31 +51,7 @@
 		<div class="XQbox">
 			<h4>生产信息</h4>
 			<table border="1" cellspacing="0" cellpadding="0" class="produc">
-				<tbody>
-				<tr>
-					<td>PCB尺寸</td>
-					<td>10*8cm</td>
-					<td>焊接数量</td>
-					<td>100</td>
-				</tr>
-				<tr>
-					<td>一般元器件数量</td>
-					<td>100--200个</td>
-					<td>集成IC芯片数量</td>
-					<td>20--30个</td>
-				</tr>
-				<tr>
-					<td>直插件数量</td>
-					<td>1--10个</td>
-					<td>特殊封装数量</td>
-					<td>2个</td>
-				</tr>
-				<tr>
-					<td>特殊封装数量</td>
-					<td>1个</td>
-					<td>有无钢网</td>
-					<td>有尺寸53cm*53cm以下的钢网</td>
-				</tr>
+				<tbody id="xiangqingwuliaoqingdan">
 				</tbody>
 			</table>
 		</div>
@@ -238,7 +214,8 @@
 	//选择上传文件
 	$(".change_btn").click(function () { $(".filess").click(); });
 	$('.filess').change(function(){
-             var file=$('.filess').val();
+
+           var file=$('.filess').val();
             $('#yuanwenjianming').text(file);
              var fm = new FormData();
         fm.append('orderNo', $("#dingdanhao").text());
@@ -262,6 +239,10 @@
          })
 
           $("#downloadFile").click(function(){
+          if($("#yuanwenjianming").text()==""){
+			alert("您还没有上传过文件");
+			return;
+		}
          	 var orderNo = $("#dingdanhao").text();
          	 window.location.href="/information/order/downloadFile/"+orderNo;
           });
@@ -293,6 +274,40 @@ $(".dh2").click(function(){
         });
 
 })
+</script>
+
+<script th:inline="javascript">
+	var arry = [[${dlist}]];
+	var tr=$("<tr></tr>");console.info(arry);
+	var td="";
+	for(var i=1;i<arry.length+1;i++){
+		td+="<td>"+arry[i-1].name+"</td>";
+		td+="<td>"+arry[i-1].buyNumber+"</td>";
+		if(i%2==0){
+			tr.append(td);
+			$("#xiangqingwuliaoqingdan").append(tr);
+			tr=$("<tr></tr>");
+			td="";
+		}else if(i==arry.length){
+			tr=$("<tr></tr>");
+			tr.append(td);
+			tr.append("<td></td><td></td>");
+			$("#xiangqingwuliaoqingdan").append(tr);
+		}
+		}
+		var orderStatus =[[${orderDO.orderStatus}]];
+		switch(orderStatus){
+			case 1: $(".shenheing >p:first").text("订单已提交");$(".shenheing li:eq(0)").addClass("on");break;
+			case 2: $(".shenheing >p:first").text("资料审核中"); $(".shenheing li:eq(0)").addClass("on");break;
+			case 3: $(".shenheing >p:first").text("资料审核");$(".shenheing li:eq(0)").addClass("on");$(".shenheing li:eq(1)").addClass("fail");break;
+			case 4: $(".shenheing >p:first").text("待支付");$(".shenheing li:lt(2)").addClass("on"); break;
+			case 5: $(".shenheing >p:first").text("物料寄送"); $(".shenheing li:lt(4)").addClass("on"); break;
+			case 6: $(".shenheing >p:first").text("物料待审核");$(".shenheing li:lt(4)").addClass("on"); break;
+			case 7: $(".shenheing >p:first").text("物料待审核"); $(".shenheing li:lt(4)").addClass("on");$(".shenheing li:eq(4)").addClass("fail");break;
+			case 8: $(".shenheing >p:first").text("待发货"); $(".shenheing li:lt(5)").addClass("on");break;
+			case 9: $(".shenheing >p:first").text("待收货");$(".shenheing li:lt(6)").addClass("on"); break;
+			case 10: $(".shenheing >p:first").text("已完成");$(".shenheing li").addClass("on"); break; break;
+		}
 </script>
 
 </html>

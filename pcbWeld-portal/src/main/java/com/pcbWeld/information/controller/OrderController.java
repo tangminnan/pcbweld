@@ -118,6 +118,11 @@ public class OrderController {
         model.addAttribute("orderNo",orderNo);
         OrderDO orderDO=orderService.getOrderDOByOrderNo(orderNo);
         model.addAttribute("orderDO",orderDO);
+        Map<String,Object> paramsMap = new HashMap<String,Object>();
+        paramsMap.put("userId",ShiroUtils.getUserId());
+        paramsMap.put("orderId",orderDO.getId());
+        List<OrderDetailDO> list = orderDetailService.list(paramsMap);
+        model.addAttribute("dlist",list);
         return "/dingdanxiangqing";
     }
 

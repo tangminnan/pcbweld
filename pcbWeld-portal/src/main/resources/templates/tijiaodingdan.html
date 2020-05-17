@@ -163,6 +163,7 @@
         fm.append('beizhu', beizhu);
         fm.append('shenheDn', shenheDn);
         fm.append('fahuoDn', fahuoDn);
+        if( $('.filetext').val()!="")
         fm.append('pcbFile', $("[name='pcb']")[0].files[0]);
        $.ajax({
             type: "POST",
