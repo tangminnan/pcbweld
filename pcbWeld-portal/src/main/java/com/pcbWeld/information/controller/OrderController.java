@@ -7,7 +7,9 @@ import com.pcbWeld.common.config.BootdoConfig;
 import com.pcbWeld.common.utils.R;
 import com.pcbWeld.common.utils.ShiroUtils;
 import com.pcbWeld.information.domain.OrderDO;
+import com.pcbWeld.information.domain.OrderDetailDO;
 import com.pcbWeld.information.domain.UserAddressDO;
+import com.pcbWeld.information.service.OrderDetailService;
 import com.pcbWeld.information.service.OrderService;
 import com.pcbWeld.information.service.UserAddressService;
 import com.pcbWeld.owneruser.comment.GenerateCode;
@@ -19,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +36,8 @@ public class OrderController {
     UserAddressService userAddressService;
     @Autowired
     private BootdoConfig bootdoConfig;
+    @Autowired
+    private OrderDetailService orderDetailService;
     /**
      *确定 生成订单
      */
@@ -52,6 +53,12 @@ public class OrderController {
         if(addressList.size()>0)
             userAddressDO=adlist.get(0);
         model.addAttribute("address",userAddressDO);
+        List<OrderDetailDO> list = ShiroUtils.getUser().getList();
+        System.out.println("===============得到物料======================");
+        System.out.println(list);
+        System.out.println("===============得到物料=====================");
+        model.addAttribute("orderDetailList",list);
+        model.addAttribute("zj",ShiroUtils.getUser().getZj());
         return "/tijiaodingdan";
     }
 
@@ -69,17 +76,28 @@ public class OrderController {
         orderDO.setOrderStatus(1);
         orderDO.setInvoiceStatus(1);
         orderDO.setCreateTime(new Date());
-        orderDO.setPayAmount(new BigDecimal(0));
+        orderDO.setPayAmount(ShiroUtils.getUser().getZj());
         try {
-            String pcbStr = orderDO.getPcbFile().getOriginalFilename();
-            orderDO.setOriginalFilename(pcbStr);
-            pcbStr = FileUtil.renameToUUID(pcbStr);
-            FileUtil.uploadFile(orderDO.getPcbFile().getBytes(), bootdoConfig.getUploadPath(), pcbStr);
-            orderDO.setPcbStr(pcbStr);
+            if(orderDO.getPcbFile()!=null && orderDO.getPcbFile().getSize()>0) {
+                String pcbStr = orderDO.getPcbFile().getOriginalFilename();
+                orderDO.setOriginalFilename(pcbStr);
+                pcbStr = FileUtil.renameToUUID(pcbStr);
+                FileUtil.uploadFile(orderDO.getPcbFile().getBytes(), bootdoConfig.getUploadPath(), pcbStr);
+                orderDO.setPcbStr(pcbStr);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         orderService.save(orderDO);
+        List<OrderDetailDO> list = ShiroUtils.getUser().getList();
+        Date date  = new Date();
+        for(OrderDetailDO o:list){
+            o.setCreateTime(date);
+            o.setOrderId(orderDO.getId());
+            o.setUserId(ShiroUtils.getUserId());
+            orderDetailService.save(o);
+        }
+
         return R.ok(orderNo);
     }
 
@@ -162,5 +180,20 @@ public class OrderController {
             return R.ok();
         else
             return R.error();
+    }
+
+    @ResponseBody
+    @PostMapping("/saveOrderDetail")
+    public R saveOrderDetail(String str,BigDecimal zj){
+      JSONArray jsonArray =  JSONObject.parseArray(str);
+      List<OrderDetailDO> list = new ArrayList<OrderDetailDO>();
+      for(int i=0;i<jsonArray.size();i++){
+          JSONObject jsonObject = jsonArray.getJSONObject(i);
+          OrderDetailDO orderDetailDO = jsonObject.toJavaObject(OrderDetailDO.class);
+          list.add(orderDetailDO);
+      }
+      ShiroUtils.getUser().setList(list);
+      ShiroUtils.getUser().setZj(zj);
+        return R.ok();
     }
 }

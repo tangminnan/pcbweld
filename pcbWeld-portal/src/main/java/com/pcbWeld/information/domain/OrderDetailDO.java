@@ -19,7 +19,7 @@ public class OrderDetailDO implements Serializable {
 	//
 	private Long id;
 	//订单表id
-	private String orderId;
+	private long orderId;
 	//用户ID
 	private Long userId;
 	//创建时间
@@ -48,13 +48,13 @@ public class OrderDetailDO implements Serializable {
 	/**
 	 * 设置：订单表id
 	 */
-	public void setOrderId(String orderId) {
+	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
 	/**
 	 * 获取：订单表id
 	 */
-	public String getOrderId() {
+	public long getOrderId() {
 		return orderId;
 	}
 	/**
@@ -128,5 +128,19 @@ public class OrderDetailDO implements Serializable {
 	 */
 	public String getAddress() {
 		return address;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderDetailDO{" +
+				"id=" + id +
+				", orderId='" + orderId + '\'' +
+				", userId=" + userId +
+				", createTime=" + createTime +
+				", amount=" + amount +
+				", buyNumber='" + buyNumber + '\'' +
+				", name='" + name + '\'' +
+				", address='" + address + '\'' +
+				'}';
 	}
 }

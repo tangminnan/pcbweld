@@ -76,7 +76,7 @@
                 </tr>
                 </tbody>
             </table>
-            <p>应付总额：<span>¥ 4666.00</span></p>
+            <p>应付总额：<span th:text="'¥' +${zj}"></span></p>
             <div class="anniu">
                 <input type="button" value="返回"/>
                 <input type="button" value="提交订单"/>
@@ -87,37 +87,9 @@
         <h4>生产信息：</h4>
         <table border="1" cellspacing="0" cellpadding="0">
             <tbody>
-            <tr>
-                <td>PCB尺寸</td>
-                <td>10*8cm</td>
-            </tr>
-            <tr>
-                <td>一般元器件数量</td>
-                <td>100--200个</td>
-            </tr>
-            <tr>
-                <td>直插件数量</td>
-                <td>1--10个</td>
-            </tr>
-            <tr>
-                <td>特殊封装数量</td>
-                <td>1个</td>
-            </tr>
-            <tr>
-                <td>焊接数量</td>
-                <td>100</td>
-            </tr>
-            <tr>
-                <td>集成IC芯片数量</td>
-                <td>20--30个</td>
-            </tr>
-            <tr>
-                <td>特殊封装数量</td>
-                <td>2个</td>
-            </tr>
-            <tr>
-                <td>有无钢网</td>
-                <td>有尺寸53cm*53cm以下的钢网</td>
+            <tr th:each="orderdetail:${orderDetailList}">
+                <td th:text="${orderdetail.name}">PCB尺寸</td>
+                <td th:text="${orderdetail.buyNumber}">10*8</td>
             </tr>
             </tbody>
         </table>

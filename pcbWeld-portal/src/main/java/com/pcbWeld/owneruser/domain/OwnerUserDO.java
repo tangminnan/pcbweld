@@ -1,9 +1,13 @@
 package com.pcbWeld.owneruser.domain;
 
+import com.pcbWeld.information.domain.OrderDetailDO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户信息表
@@ -14,10 +18,13 @@ import java.util.Date;
  */
 public class OwnerUserDO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+		private List<OrderDetailDO> list = new ArrayList<>();
+
 	
 		//头像附件
-		private MultipartFile fileImg; 
+		private MultipartFile fileImg;
+		//费用总计
+		private BigDecimal zj;
 	 	//id
 		private Long id;
 		//账号
@@ -410,6 +417,20 @@ public class OwnerUserDO implements Serializable {
 	public void setFileImg(MultipartFile fileImg) {
 		this.fileImg = fileImg;
 	}
-	
 
+	public List<OrderDetailDO> getList() {
+		return list;
+	}
+
+	public void setList(List<OrderDetailDO> list) {
+		this.list = list;
+	}
+
+	public BigDecimal getZj() {
+		return zj;
+	}
+
+	public void setZj(BigDecimal zj) {
+		this.zj = zj;
+	}
 }

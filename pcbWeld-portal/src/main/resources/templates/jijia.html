@@ -100,7 +100,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="zhifuFY">在线支付总费用：<span id="zj">¥ 4666.00</span></div>
+            <div class="zhifuFY">在线支付总费用：<span id="zj">¥4666.00</span></div>
             <input class="goon" type="button" value="立即下单"/>
         </div>
     </div>
@@ -317,7 +317,7 @@
 						   if(jg>scope[0] && jg<=scope[1]){
 							   //console.info(data[i].price);
 							   $('#price'+id).html("￥"+data[i].price);
-							   $('input[id="canshu'+id+'"]').val((chicun[0])+"x"+(chicun[1]));
+							   $('input[id="canshu'+id+'"]').val((chicun[0])+"x"+(chicun[1])+'cm');
 							   $('input[id="moy'+id+'"]').val(data[i].price);
 							   zongjia();
 						   }
@@ -340,10 +340,10 @@
 		   })
 	   }
    }
-   
+      var zj=0;
+
    zongjia();
    function zongjia(){
-	   var zj = 0;
 	   $(".danjia").each(function(){
 		   var danjia = $(this).text().split("￥").join("");
 		   zj += +danjia;
@@ -353,16 +353,11 @@
 	   
    }
 
-   /**
-    * 确定下单
-    */
-   $(":button.goon").click(function () {
-       window.location.href="/information/order/createOrder";
-   });
 
-   
+
+   var paramsss = []
    $("input[class='goon']").click(function(){
-	   var paramsss = []
+
 	  $(".CC").each(function(){
 		  var biaoti1 = $(this).children("span").text();
 		  var csName1 = $(this).find("input[name='csName']").val();
@@ -381,15 +376,34 @@
 			  return false; 
 		  } */
 		  var param ={
-			   biaoti : biaoti1,
-			   csName : csName1,
-			   neirong : neirong1,
+			   name : biaoti1,
+			   buyNumber : csName1,
+			   amount : neirong1,
 		  }
 		  paramsss.push(param);
 	  })
-	  console.info(paramsss);
    })
-   
+
+    /**
+    * 确定下单
+    */
+   $(":button.goon").click(function () {
+          console.info(paramsss);
+           $.ajax({
+              type : "POST",
+              url : "/information/order/saveOrderDetail",
+			  dataType:"json",
+              traditional:true,
+              data:{'str':JSON.stringify(paramsss),'zj':zj},
+              async : false,
+              success : function(data) {
+					if(data.code==0){
+                        window.location.href="/information/order/createOrder";					}
+					else
+					    alert(data.msg);
+              }
+              });
+      });
    
 </script>
 
