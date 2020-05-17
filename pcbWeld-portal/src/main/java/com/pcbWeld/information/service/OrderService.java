@@ -33,5 +33,5 @@ public interface OrderService {
 
     OrderDO getOrderDOByOrderNo(String orderNo);
 
-	void updateByOrderNo(OrderDO orderDO);
+	int updateByOrderNo(OrderDO orderDO);
 }

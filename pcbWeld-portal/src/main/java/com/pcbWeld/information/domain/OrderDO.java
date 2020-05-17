@@ -36,6 +36,31 @@ public class OrderDO implements Serializable {
     private Integer invoiceStatus;
     //订单状态  1=已提交；2=资料待审核；3=审核未通过；4=待支付；5=物料寄送；6=物料待审核；7=物料审核未通过；8=待发货；9=待收货；10=已完成
     private Integer orderStatus;
+
+    public String getMaterialConsignee() {
+        return materialConsignee;
+    }
+
+    public void setMaterialConsignee(String materialConsignee) {
+        this.materialConsignee = materialConsignee;
+    }
+
+    public String getMaterialAddress() {
+        return materialAddress;
+    }
+
+    public void setMaterialAddress(String materialAddress) {
+        this.materialAddress = materialAddress;
+    }
+
+    public String getMaterialMobile() {
+        return materialMobile;
+    }
+
+    public void setMaterialMobile(String materialMobile) {
+        this.materialMobile = materialMobile;
+    }
+
     //运单号
     private String postid;
     //创建时间
@@ -62,6 +87,12 @@ public class OrderDO implements Serializable {
     private String mobile;
     //公司税号
     private String invoiceNo;
+    //物料收件人
+    private String materialConsignee;
+    //物料寄送地址
+    private String materialAddress;
+    //手机号
+    private String materialMobile;
     //公司抬头
     private String invoiceTitle;
     //审核短信 0=开启  1=不开启

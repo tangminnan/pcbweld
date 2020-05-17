@@ -100,8 +100,7 @@
 			<h4>订单备注</h4>
 			<div class="beizhu bdline">
 				<dl>
-					<dd>1.无焊盘且是独立网络的螺丝孔、通孔:我司默认做非金属化孔</dd>
-					<dd>2.一面有焊盘，另一面无焊盘，属性为NPTH且焊盘是独立的:我司默认做非金属化孔.</dd>
+					<dd th:text="${orderDO.beizhu}"></dd>
 				</dl>
 			</div>
 			<h4>收货地址</h4>
@@ -113,7 +112,7 @@
 			<h4>上传PCB文件</h4>
 			<div class="download bdline">
 				<span th:text="${orderDO.originalFilename}" id="yuanwenjianming"></span>
-				<input type="button" value="下载查看文件"/>
+				<input type="button" value="下载查看文件" id="downloadFile"/>
 				<input type="file" class="filess" name="pcb" style="opacity: 0"/>
 				<input type="button" style="background:#fa5c72;" class="change_btn" value="重新上传文件"/>
 
@@ -131,14 +130,14 @@
 				<div class="hezi">
 					<span>寄送地址:</span>
 					<div class="fr he">
-						<p><em>收件人：</em><input type="text" placeholder="请输入姓名"/><em>手机号：</em><input type="text" placeholder="请输入手机号"/></p>
-						<p><em>寄送地址：</em><input type="text" style="width:90%;" placeholder="请输入地址"/></p>
+						<p><em>收件人：</em><input type="text" name="materialConsignee" th:value="${orderDO.materialConsignee}" placeholder="请输入姓名"/><em>手机号：</em><input type="text" name="materialMobile" th:value="${orderDO.materialMobile}" placeholder="请输入手机号"/></p>
+						<p><em>寄送地址：</em><input type="text" name="materialAddress" th:value="${orderDO.materialAddress}" style="width:90%;" placeholder="请输入地址"/></p>
 					</div>
 				</div>
 				<div class="hezi">
 					<span>寄送物流单号：</span>
 					<div class="fl danhao">
-						<input class="dh1" type="text" placeholder="请输入物流单号"/>
+						<input class="dh1" name="postid" th:value="${orderDO.postid}" type="text" placeholder="请输入物流单号"/>
 						<input class="dh2" type="button" value="确定"/>
 					</div>
 				</div>
@@ -240,19 +239,13 @@
 	$(".change_btn").click(function () { $(".filess").click(); });
 	$('.filess').change(function(){
              var file=$('.filess').val();
-            $('.filetext').val(file);
-         })
-
-	//重新上传文件
-	function reUpload(){
-        var fm = new FormData();
+            $('#yuanwenjianming').text(file);
+             var fm = new FormData();
         fm.append('orderNo', $("#dingdanhao").text());
         fm.append('pcbFile', $("[name='pcb']")[0].files[0]);
-        console.info($("#dingdanhao").text());
-        console.info($("[name='pcb']")[0].files[0]);
-      /*  $.ajax({
+        $.ajax({
             type: "POST",
-            url: "/information/order/reUpload",
+            url:"/information/order/reUpload",
             processData:false,
             contentType:false,
             async : false,
@@ -260,13 +253,46 @@
             data: fm,
             success: function (data) {
                 if(data.code==0){
-					$("#yuanwenjianming").text(data.msg);
+                alert("重新上传成功");
                 }
                 else
                     alert(data.msg);
             }
-        });*/
-	}
+        });
+         })
+
+          $("#downloadFile").click(function(){
+         	 var orderNo = $("#dingdanhao").text();
+         	 window.location.href="/information/order/downloadFile/"+orderNo;
+          });
+
+//物流单号
+$(".dh2").click(function(){
+	 var orderNo = $("#dingdanhao").text();
+	 var materialConsignee= $("[name='materialConsignee']").val();
+	 var materialAddress=$("[name='materialAddress']").val();
+	 var materialMobile= $("[name='materialMobile']").val();
+	 var postid=$("[name='postid']").val();
+	  $.ajax({
+            type: "POST",
+            url:"/information/order/updatePostid",
+            data:{
+            	orderNo:orderNo,
+            	materialConsignee:materialConsignee,
+            	materialAddress:materialAddress,
+            	materialMobile:materialMobile,
+            	postid:postid
+            },
+            success: function (data) {
+                if(data.code==0){
+                alert("保存成功");
+                }
+                else
+                    alert(data.msg);
+            }
+        });
+
+})
 </script>
 
 </html>

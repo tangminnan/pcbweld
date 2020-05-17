@@ -65,8 +65,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void updateByOrderNo(OrderDO orderDO) {
-		orderDao.updateByOrderNo(orderDO);
+	public int updateByOrderNo(OrderDO orderDO) {
+		 return orderDao.updateByOrderNo(orderDO);
 	}
 
 }

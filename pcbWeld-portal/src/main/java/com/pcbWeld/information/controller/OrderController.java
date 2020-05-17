@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -119,5 +121,46 @@ public class OrderController {
         }
         orderService.updateByOrderNo(orderDO);
         return R.ok(pcbStr);
+    }
+
+    /**
+     *物料文件下载
+     */
+    @GetMapping("/downloadFile/{orderNo}")
+    public void downloadFile(@PathVariable("orderNo") String orderNo, HttpServletResponse response) throws FileNotFoundException, UnsupportedEncodingException {
+        OrderDO orderDO=orderService.getOrderDOByOrderNo(orderNo);
+        File file = new File(bootdoConfig.getUploadPath()+orderDO.getPcbStr());
+        if(!file.exists()){
+            return ;
+        }
+        // 设置输出的格式
+        response.reset();
+        System.out.println("===================================================");
+        System.out.println(orderDO.getOriginalFilename());
+        System.out.println("=================================================ss");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + new String(orderDO.getOriginalFilename().getBytes(),"ISO8859-1") + "\"");
+        InputStream inStream = new FileInputStream(file);
+        // 循环取出流中的数据
+        byte[] b = new byte[100];
+        int len;
+        try {
+            while ((len = inStream.read(b)) > 0)
+                response.getOutputStream().write(b, 0, len);
+            inStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *更新运单号
+     */
+    @PostMapping("/updatePostid")
+    @ResponseBody
+    public R updatePostid(OrderDO orderDO){
+        if(orderService.updateByOrderNo(orderDO)>0)
+            return R.ok();
+        else
+            return R.error();
     }
 }
