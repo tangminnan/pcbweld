@@ -4,14 +4,14 @@
 <mapper namespace="com.pcbWeld.information.dao.OrderDao">
 
     <select id="get" resultType="com.pcbWeld.information.domain.OrderDO">
-		select `id`,`order_no`,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title` from pcb_order where id = #{value}
+		select `id`,`order_no`,pcb_width,pcb_length,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title` from pcb_order where id = #{value}
 	</select>
 
     <select id="list" resultType="com.pcbWeld.information.domain.OrderDO">
         select
-        `id`,`order_no`,receive_time,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title`
+        `id`,`order_no`,receive_time,pcb_width,pcb_length,`user_id`,`pay_type`,`shipment_time`,`shipment_type`,`shipment_amount`,`invoice_type`,`invoice_status`,`order_status`,`postid`,`create_time`,`update_time`,`order_amount`,`order_score`,`pay_amount`,`buy_number`,`address`,`consignee`,`mobile`,`invoice_no`,`invoice_title`
         from pcb_order
-        <where>
+        where delete_flag=0
             <if test="id != null and id != ''">and id = #{id}</if>
             <if test="orderNo != null and orderNo != ''">and order_no like CONCAT('%',#{orderNo},'%')</if>
             <if test="userId != null and userId != ''">and user_id = #{userId}</if>
@@ -23,7 +23,7 @@
             <if test="invoiceStatus != null and invoiceStatus != ''">and invoice_status = #{invoiceStatus}</if>
             <if test="orderStatus != null and orderStatus != ''">and order_status = #{orderStatus}</if>
             <if test="postid != null and postid != ''">and postid = #{postid}</if>
-            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="createTime != null">and DATE_FORMAT(create_time,'%Y-%m-%d') =DATE_FORMAT(#{createTime},'%Y-%m-%d')</if>
             <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
             <if test="orderAmount != null and orderAmount != ''">and order_amount = #{orderAmount}</if>
             <if test="orderScore != null and orderScore != ''">and order_score = #{orderScore}</if>
@@ -34,7 +34,10 @@
             <if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
             <if test="invoiceNo != null and invoiceNo != ''">and invoice_no = #{invoiceNo}</if>
             <if test="invoiceTitle != null and invoiceTitle != ''">and invoice_title = #{invoiceTitle}</if>
-        </where>
+
+            <if test="startdate != null">and create_time &gt;= #{startdate}</if>
+            <if test="enddate != null">and create_time &lt;= #{enddate}</if>
+
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
@@ -64,7 +67,7 @@
             <if test="invoiceStatus != null and invoiceStatus != ''">and invoice_status = #{invoiceStatus}</if>
             <if test="orderStatus != null and orderStatus != ''">and order_status = #{orderStatus}</if>
             <if test="postid != null and postid != ''">and postid = #{postid}</if>
-            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="createTime != null">and DATE_FORMAT(create_time,'%Y-%m-%d') = #{createTime}</if>
             <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
             <if test="orderAmount != null and orderAmount != ''">and order_amount = #{orderAmount}</if>
             <if test="orderScore != null and orderScore != ''">and order_score = #{orderScore}</if>
@@ -106,7 +109,10 @@
             fahuo_dn,
             beizhu,
             pcb_str,
-            original_filename
+            original_filename,
+            pcb_width,
+            pcb_length,
+            delete_flag
 
 		)
 		values
@@ -136,7 +142,10 @@
             #{fahuoDn},
             #{beizhu},
             #{pcbStr},
-            #{originalFilename}
+            #{originalFilename},
+            #{pcbWidth},
+            #{pcbLength},
+            #{deleteFlag}
 		)
 	</insert>
 
@@ -166,7 +175,8 @@
             <if test="consignee != null">`consignee` = #{consignee},</if>
             <if test="mobile != null">`mobile` = #{mobile},</if>
             <if test="invoiceNo != null">`invoice_no` = #{invoiceNo},</if>
-            <if test="invoiceTitle != null">`invoice_title` = #{invoiceTitle}</if>
+            <if test="invoiceTitle != null">`invoice_title` = #{invoiceTitle},</if>
+            <if test="deleteFlag != null">`delete_flag` = #{deleteFlag}</if>
         </set>
         where id = #{id}
     </update>
@@ -232,7 +242,8 @@
             <if test="consignee != null">`consignee` = #{consignee},</if>
             <if test="mobile != null">`mobile` = #{mobile},</if>
             <if test="invoiceNo != null">`invoice_no` = #{invoiceNo},</if>
-            <if test="invoiceTitle != null">`invoice_title` = #{invoiceTitle}</if>
+            <if test="invoiceTitle != null">`invoice_title` = #{invoiceTitle},</if>
+            <if test="deleteFlag != null">`delete_flag` = #{deleteFlag}</if>
         </set>
         where order_no=#{orderNo}
     </update>

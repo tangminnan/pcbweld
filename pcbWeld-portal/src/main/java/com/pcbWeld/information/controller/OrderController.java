@@ -58,7 +58,7 @@ public class OrderController {
         System.out.println(list);
         System.out.println("===============得到物料=====================");
         model.addAttribute("orderDetailList",list);
-        model.addAttribute("zj",ShiroUtils.getUser().getZj());
+        model.addAttribute("zj",new BigDecimal(20).add(ShiroUtils.getUser().getZj()));
         return "/tijiaodingdan";
     }
 
@@ -76,7 +76,11 @@ public class OrderController {
         orderDO.setOrderStatus(1);
         orderDO.setInvoiceStatus(1);
         orderDO.setCreateTime(new Date());
-        orderDO.setPayAmount(ShiroUtils.getUser().getZj());
+        orderDO.setShipmentAmount(new BigDecimal(20));
+        orderDO.setOrderAmount(ShiroUtils.getUser().getZj());
+        BigDecimal bigDecimal = ShiroUtils.getUser().getZj().add(new BigDecimal(20));
+        orderDO.setPayAmount(bigDecimal);
+        orderDO.setDeleteFlag(0);
         try {
             if(orderDO.getPcbFile()!=null && orderDO.getPcbFile().getSize()>0) {
                 String pcbStr = orderDO.getPcbFile().getOriginalFilename();
@@ -84,6 +88,7 @@ public class OrderController {
                 pcbStr = FileUtil.renameToUUID(pcbStr);
                 FileUtil.uploadFile(orderDO.getPcbFile().getBytes(), bootdoConfig.getUploadPath(), pcbStr);
                 orderDO.setPcbStr(pcbStr);
+                orderDO.setOrderStatus(2);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,6 +144,7 @@ public class OrderController {
             pcbStr = FileUtil.renameToUUID(pcbStr);
             FileUtil.uploadFile(orderDO.getPcbFile().getBytes(), bootdoConfig.getUploadPath(), pcbStr);
             orderDO.setPcbStr(pcbStr);
+            orderDO.setOrderStatus(2);
         } catch (Exception e) {
             e.printStackTrace();
         }

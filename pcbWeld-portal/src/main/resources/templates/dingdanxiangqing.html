@@ -59,15 +59,7 @@
 		<div class="XQbox">
 			<h4>费用清单</h4>
 			<table border="1" cellspacing="0" cellpadding="0" class="FYlist">
-				<tbody>
-				<tr>
-					<td>焊接费用：<span>￥20</span></td>
-					<td>钢网费用：<span>￥23</span></td>
-				</tr>
-				<tr>
-					<td>加急费用：<span>￥456</span></td>
-					<td>快递费用：<span>￥546</span></td>
-				</tr>
+				<tbody id="dingdanxiangqingtbody">
 				</tbody>
 			</table>
 		</div>
@@ -166,7 +158,7 @@
 
 
 		<div class="zongE">
-			应付总额：<span>¥ 4666.00</span>
+			应付总额：<span th:text="${orderDO.payAmount}"></span>
 			<input type="button" class="red" value="在线支付"/>
 		</div>
 	</div>
@@ -278,7 +270,7 @@ $(".dh2").click(function(){
 
 <script th:inline="javascript">
 	var arry = [[${dlist}]];
-	var tr=$("<tr></tr>");console.info(arry);
+	var tr=$("<tr></tr>");
 	var td="";
 	for(var i=1;i<arry.length+1;i++){
 		td+="<td>"+arry[i-1].name+"</td>";
@@ -295,19 +287,38 @@ $(".dh2").click(function(){
 			$("#xiangqingwuliaoqingdan").append(tr);
 		}
 		}
+
+    var tr1=$("<tr></tr>");
+    var td1="";
+    arry.push({'name':'快递费用：','amount':20});
+    for(var i=1;i<arry.length+1;i++){
+        td1+="<td>"+arry[i-1].name+"<span>￥"+arry[i-1].amount+"</span></td>";
+        if(i%2==0){
+            tr1.append(td1);
+            $("#dingdanxiangqingtbody").append(tr1);
+            tr1=$("<tr></tr>");
+            td1="";
+
+        }else if(i==arry.length){
+            tr1=$("<tr></tr>");
+            tr1.append(td1);
+            tr1.append("<td></td>");
+            $("#dingdanxiangqingtbody").append(tr1);
+        }
+    }
+
 		var orderStatus =[[${orderDO.orderStatus}]];
 		switch(orderStatus){
 			case 1: $(".shenheing >p:first").text("订单已提交");$(".shenheing li:eq(0)").addClass("on");break;
-			case 2: $(".shenheing >p:first").text("资料审核中"); $(".shenheing li:eq(0)").addClass("on");break;
-			case 3: $(".shenheing >p:first").text("资料审核");$(".shenheing li:eq(0)").addClass("on");$(".shenheing li:eq(1)").addClass("fail");break;
-			case 4: $(".shenheing >p:first").text("待支付");$(".shenheing li:lt(2)").addClass("on"); break;
-			case 5: $(".shenheing >p:first").text("物料寄送"); $(".shenheing li:lt(4)").addClass("on"); break;
-			case 6: $(".shenheing >p:first").text("物料待审核");$(".shenheing li:lt(4)").addClass("on"); break;
-			case 7: $(".shenheing >p:first").text("物料待审核"); $(".shenheing li:lt(4)").addClass("on");$(".shenheing li:eq(4)").addClass("fail");break;
-			case 8: $(".shenheing >p:first").text("待发货"); $(".shenheing li:lt(5)").addClass("on");break;
-			case 9: $(".shenheing >p:first").text("待收货");$(".shenheing li:lt(6)").addClass("on"); break;
-			case 10: $(".shenheing >p:first").text("已完成");$(".shenheing li").addClass("on"); break; break;
+            case 2: $(".shenheing >p:first").text("资料审核中"); $(".shenheing li:eq(0)").addClass("on");break;
+            case 3: $(".shenheing >p:first").text("资料审核");$(".shenheing li:eq(0)").addClass("on");$(".shenheing li:eq(1)").addClass("fail");break;
+            case 4: $(".shenheing >p:first").text("待支付");$(".shenheing li:lt(2)").addClass("on"); break;
+            case 5: $(".shenheing >p:first").text("物料寄送"); $(".shenheing li:lt(4)").addClass("on"); break;
+            case 6: $(".shenheing >p:first").text("物料待审核");$(".shenheing li:lt(4)").addClass("on"); break;
+            case 7: $(".shenheing >p:first").text("物料待审核"); $(".shenheing li:lt(4)").addClass("on");$(".shenheing li:eq(4)").addClass("fail");break;
+            case 8: $(".shenheing >p:first").text("待发货"); $(".shenheing li:lt(5)").addClass("on");break;
+            case 9: $(".shenheing >p:first").text("待收货");$(".shenheing li:lt(6)").addClass("on"); break;
+            case 10: $(".shenheing >p:first").text("已完成");$(".shenheing li").addClass("on"); break; break;
 		}
 </script>
-
 </html>

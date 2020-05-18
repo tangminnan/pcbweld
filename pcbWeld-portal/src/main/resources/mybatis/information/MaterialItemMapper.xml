@@ -18,17 +18,9 @@
             <if test="status != null and status != ''">and status = #{status}</if>
             <if test="displayForm != null and displayForm != ''">`display_form` = #{displayForm}</if>
         </where>
-        <choose>
-            <when test="sort != null and sort.trim() != ''">
-                order by ${sort} ${order}
-            </when>
-            <otherwise>
-                order by sort
-            </otherwise>
-        </choose>
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
+              order by sort asc
+
+
     </select>
 
     <select id="count" resultType="int">

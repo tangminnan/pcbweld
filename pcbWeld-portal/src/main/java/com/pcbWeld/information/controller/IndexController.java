@@ -1,6 +1,7 @@
 package com.pcbWeld.information.controller;
 
 import com.pcbWeld.common.annotation.Log;
+import com.pcbWeld.common.utils.R;
 import com.pcbWeld.common.utils.ShiroUtils;
 import com.pcbWeld.information.domain.*;
 import com.pcbWeld.information.service.*;
@@ -9,12 +10,11 @@ import com.pcbWeld.owneruser.service.OwnerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +101,7 @@ public class IndexController {
         model.addAttribute("user", user);
         model.addAttribute("page", "../templates/wode");
         model.addAttribute("context","wode");
+        model.addAttribute("text",text);
         if("开票信息".equals(text)) {
             model.addAttribute("page", "../templates/kaipiaoxinxi");
             model.addAttribute("context", "kpxx");
@@ -130,9 +131,81 @@ public class IndexController {
             model.addAttribute("recepitList",recepitList);
             model.addAttribute("page", "../templates/yikaifapiao");
             model.addAttribute("context", "ykjl");
-        }else if("我的订单".equals(text)){
+        }else if("资料待审核".equals(text)){
             Map<String,Object> paramsMap = new HashMap<String,Object>();
             paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",2);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("资料审核未通过".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",3);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("待支付".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",4);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("物料寄送".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",5);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("物料待审核".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",6);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("物料审核未通过".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",7);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("待发货".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",8);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        }else if("待收货".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",9);
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        } else if("全部订单".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            List<OrderDO> orderDOList = orderService.list(paramsMap);
+            model.addAttribute("orderDOList",orderDOList);
+            model.addAttribute("page", "../templates/wodedingdan");
+            model.addAttribute("context", "wddd");
+        } else if("已完成".equals(text)){
+            Map<String,Object> paramsMap = new HashMap<String,Object>();
+            paramsMap.put("userId",id) ;
+            paramsMap.put("orderStatus",10);
             List<OrderDO> orderDOList = orderService.list(paramsMap);
             model.addAttribute("orderDOList",orderDOList);
             model.addAttribute("page", "../templates/wodedingdan");
@@ -154,7 +227,50 @@ public class IndexController {
 
         return "main";
     }
-    
+
+    /**
+     *  时间查询订单
+     */
+    @GetMapping("/wodeorder")
+    public String wodeorder(@RequestParam("startdate") Date startdate,
+                            @RequestParam("enddate") Date enddate,
+                            Model model){
+        System.out.println("=================================");
+        System.out.println(startdate);
+        System.out.println(enddate);
+        System.out.println("=================================");
+        Map<String,Object> paramsMap = new HashMap<String,Object>();
+        if(startdate!=null && enddate!=null){
+            paramsMap.put("startdate",startdate);
+            paramsMap.put("enddate",enddate);
+        }else if(startdate==null){
+            paramsMap.put("createTime",enddate);
+        }
+        paramsMap.put("userId",ShiroUtils.getUserId());
+        List<OrderDO> list = orderService.list(paramsMap);
+        model.addAttribute("orderDOList",list);
+        model.addAttribute("page", "../templates/wodedingdan");
+        model.addAttribute("context", "wddd");
+        model.addAttribute("text","全部订单");
+        return "main";
+    }
+
+    /**
+     *  订单删除
+     */
+
+    @PostMapping("/deleteOrderDO")
+    @ResponseBody
+    public R deleteOrderDO(String orderNo){
+        OrderDO orderDO = new OrderDO();
+        orderDO.setOrderNo(orderNo);
+        orderDO.setDeleteFlag(1);
+        if(orderService.updateByOrderNo(orderDO)>0)
+            return R.ok();
+        return R.error();
+    }
+
+
 
     @GetMapping("/itemIdByInput")
     @ResponseBody

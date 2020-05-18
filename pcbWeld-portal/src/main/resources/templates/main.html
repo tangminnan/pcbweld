@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="/css/css.css" type="text/css">
     <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/plugins/layer/layer.js"></script>
-    <script src="/js/plugins/layer/laydate/laydate.js"></script>
-    <script type="text/javascript" src="/js/app/app.js"></script>
+    <script src="/js/laydate/laydate.js"></script>
+
 </head>
 <body>
 <div class="top topshow">
@@ -106,9 +106,10 @@
 
 
 </body>
-
+<script type="text/javascript" src="/js/app/app.js"></script>
 <script type="text/javascript">
    //一件回顶部
+   var text="";
    $(document).ready(function () {
       $(".back-to-top").click(function (event) {
          event.preventDefault();
@@ -128,12 +129,99 @@
       $('.filetext').val(file);
    })
 
-    $("a").click(function(){
+    $("ul.ulb a").click(function(){
         var text=$(this).text();
-        if($(this).parents(".ulb").prev().text()=="我的订单")
-            text="我的订单";
         window.location.href="/wode/"+text;
     });
+   $("ul.ula a").click(function(){
+       var text=$(this).text();
+       window.location.href="/wode/"+text;
+   });
+   /**
+    * 我的订单
+    */
+   laydate.render({
+       elem: '#startTime',
+       type: 'date'
+   });
+   laydate.render({
+       elem: '#endTime',
+       type: 'date'
+   });
+   laydate.render({
+       elem: '#myOrdercreateTime',
+       type: 'date'
+   });
+var orderNo="";
+   $("#chongxin").click(function(){
+       $("#chongxingshangchuan").click();
+        orderNo = $(this).parents("tr").siblings().first().find("[name='cxscdanna']").text();
+   });
+   $("#chongxingshangchuan").change(function(){
+       var file=$('.filess').val();
+       var fm = new FormData();
+       fm.append('orderNo',orderNo);
+       fm.append('pcbFile', $("[name='pcb']")[0].files[0]);
+       $.ajax({
+           type: "POST",
+           url:"/information/order/reUpload",
+           processData:false,
+           contentType:false,
+           async : false,
+           cache:false,
+           data: fm,
+           success: function (data) {
+               if(data.code==0){
+                   alert("重新上传成功");
+               }
+               else
+                   alert(data.msg);
+           }
+       });
+   })
+    //查看详情
+$("[name='wodedingdanchakanxiangqingbuchongfu']").click(function(){
+    window.location.href="/information/order/orderDetail/"+ $(this).parents("tr").siblings().first().find("[name='cxscdanna']").text();
+});
+   //订单删除
+    $("[name='wodedingdanshanchubuchongfu']").click(function(){
+        var orderNo = $(this).parents("tr").siblings().first().find("[name='cxscdanna']").text();
+        var ordeStatus =  $(this).parents("table").find("[name='wodedingdanzhuangtaiorderstatus']").val();
+        if(ordeStatus>4 && ordeStatus!=10){
+            alert("订单已生效，不可删除");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url:"/deleteOrderDO",
+            data: {orderNo:orderNo},
+            success: function (data) {
+                if(data.code==0){
+                    window.location.href="/wode/"+text;
+                }
+                else
+                    alert(data.msg);
+            }
+        });
+
+    })
+</script>
+
+<script th:inline="javascript">
+    text=[[${text}]];
+     switch(text){
+         case "全部订单":$(".myDDright ul.ula li:eq(0)").addClass("on");break;
+         case "资料待审核":$(".myDDright ul.ula li:eq(1)").addClass("on");break;
+         case "资料审核未通过":$(".myDDright ul.ula li:eq(2)").addClass("on");break;
+         case "待支付":$(".myDDright ul.ula li:eq(3)").addClass("on");break;
+         case "物料寄送":$(".myDDright ul.ula li:eq(4)").addClass("on");break;
+         case "物料待审核":$(".myDDright ul.ula li:eq(5)").addClass("on");break;
+         case "物料审核未通过":$(".myDDright ul.ula li:eq(6)").addClass("on");break;
+         case "待发货":$(".myDDright ul.ula li:eq(7)").addClass("on");break;
+         case "待收货":$(".myDDright ul.ula li:eq(8)").addClass("on");break;
+         case "已完成":$(".myDDright ul.ula li:eq(9)").addClass("on");break;
+     }
 </script>
 
 </html>

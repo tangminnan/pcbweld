@@ -65,15 +65,7 @@
         </div>
         <div class="fl txtleft feiyong" style="margin-top: 20px;">
             <table border="1" cellspacing="0" cellpadding="0">
-                <tbody>
-                <tr>
-                    <td>焊接费用：<span>￥20</span></td>
-                    <td>钢网费用：<span>￥23</span></td>
-                </tr>
-                <tr>
-                    <td>加急费：<span>￥0</span></td>
-                    <td>快递费：<span>￥0</span></td>
-                </tr>
+                <tbody id="tijiaodingdanbody">
                 </tbody>
             </table>
             <p>应付总额：<span th:text="'¥' +${zj}"></span></p>
@@ -182,6 +174,28 @@
             }
         });
     });
+</script>
+
+<script th:inline="javascript">
+    var arry = [[${orderDetailList}]];
+    arry.push({'name':'快递费用：','amount':20});
+    var tr=$("<tr></tr>");
+    var td="";
+    for(var i=1;i<arry.length+1;i++){console.info(arry);
+        td+="<td>"+arry[i-1].name+"<span>￥"+arry[i-1].amount+"</span></td>";
+        if(i%2==0){
+            tr.append(td);
+            $("#tijiaodingdanbody").append(tr);
+            tr=$("<tr></tr>");
+            td="";
+
+        }else if(i==arry.length){
+            tr=$("<tr></tr>");
+            tr.append(td);
+            tr.append("<td></td>");
+            $("#tijiaodingdanbody").append(tr);
+        }
+    }
 </script>
 
 </html>

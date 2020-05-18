@@ -203,5 +203,20 @@ function editPerson(event){
     });
 }
 
+/**
+ * 我的订单
+ */
+
+//根据时间查询订单
+function getOrder(event){
+   var enddate  = $(event).prev().val();
+   var startdate = $(event).prev().prev().val();
+   window.location.href="/wodeorder?startdate="+startdate+"&enddate="+enddate;
+
+}
+
+
+
+
 
 

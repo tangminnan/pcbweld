@@ -96,11 +96,15 @@ public class OrderDO implements Serializable {
     //公司抬头
     private String invoiceTitle;
     //审核短信 0=开启  1=不开启
+
     private int shenheDn;
     //发货短息 0=开启   1=不开启
     private int fahuoDn;
+    //板长
+    private int pcbLength;
+    //板宽
+    private int pcbWidth;
     //订单备注
-
     public String getBeizhu() {
         return beizhu;
     }
@@ -119,6 +123,8 @@ public class OrderDO implements Serializable {
     private MultipartFile pcbFile;
     //文件保存路径
     private String pcbStr;
+    //订单删除 0=未删除  1=已删除
+    private int deleteFlag;
 
     public MultipartFile getPcbFile() {
         return pcbFile;
@@ -142,6 +148,14 @@ public class OrderDO implements Serializable {
 
     public void setReceiveTime(Date receiveTime) {
         this.receiveTime = receiveTime;
+    }
+
+    public int getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(int deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 
     //物料审核结果、意见
@@ -536,5 +550,21 @@ public class OrderDO implements Serializable {
 
     public void setPcbStr(String pcbStr) {
         this.pcbStr = pcbStr;
+    }
+
+    public int getPcbLength() {
+        return pcbLength;
+    }
+
+    public void setPcbLength(int pcbLength) {
+        this.pcbLength = pcbLength;
+    }
+
+    public int getPcbWidth() {
+        return pcbWidth;
+    }
+
+    public void setPcbWidth(int pcbWidth) {
+        this.pcbWidth = pcbWidth;
     }
 }
