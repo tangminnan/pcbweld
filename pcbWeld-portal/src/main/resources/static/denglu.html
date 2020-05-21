@@ -10,6 +10,7 @@
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
     <script src="/js/plugins/layer/layer.js"></script>
     <script src="/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 </head>
 <body>
 <div class="top topshow">
@@ -44,8 +45,8 @@
             <!--微信扫码登录-->
             <div id="weixin" style="display:none;">
                 <h3>微信登录</h3>
-                <div class="saoyisao">
-                    <img src="images/erweima.png" alt=""/>
+                <div id="saoyisao" class="saoyisao">
+                    <!-- <img src="images/erweima.png" alt=""/>-->
                     <p>微信扫一扫</p>
                 </div>
             </div>
@@ -55,6 +56,25 @@
 </body>
 </html>
 <script type="text/javascript">
+
+   var obj = new WxLogin({
+
+      id: "saoyisao",    //div的id
+
+      appid: "wxe23f18d7b8947aa6",
+
+      scope: "snsapi_login",
+
+      redirect_uri: "http://www2.jingtu99.com/weChatcallback",        //回调地址
+
+      state: "",　　　　　　　　　//参数，可带可不带
+
+      style: "black",　　　　　　　　　//样式  提供"black"、"white"可选，默认为黑色文字描述
+
+      href: ""                 //自定义样式链接，第三方可根据实际需求覆盖默认样式。
+
+   });
+
    $("#WXbtn").click(function () {
       $("#weixin").show();
       $("#yonghu").hide();
@@ -114,7 +134,7 @@
                //跳转我的页面
                layer.msg(message.msg)
                var id = message.data
-               window.location.href = '/wode/'+1;
+               window.location.href = '/wode/' + 1;
             } else if (message.code == 1) {
                //跳转注册页面
                layer.msg(message.msg)

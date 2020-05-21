@@ -103,9 +103,9 @@ public class WechatOAConfig {
 
     public static String getAccessToken() {
         String access_token = null;
-        String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APP_ID + "&secret=" + secret;
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + APP_ID + "&secret=" + secret + "&code=CODE&grant_type=authorization_code";
         try {
-            URL urlGet = new URL(uri);
+            URL urlGet = new URL(url);
             HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();
             http.setRequestMethod("GET"); // 必须是get方式请求
             http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

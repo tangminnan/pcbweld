@@ -218,6 +218,8 @@ public class LoginController extends BaseController {
     String weChatcallback(HttpServletRequest request, HttpServletResponse response, Model model) {
         R result = new R();
         String code = request.getParameter("code");
+
+        System.out.println("=========code===============" + code);
         String openid = "";//暂定写死，之前是空字符串
         if (StringUtils.isNotBlank(code)) {
             try {
@@ -226,21 +228,20 @@ public class LoginController extends BaseController {
                 e.printStackTrace();
             }
         }
-        String openidtest = "ocqxT5zLAuDreScEspMhbpJ4bi8s";
-        System.out.println("==========openidtest=====================" + openidtest);
         //================================================================================================
-        if (openidtest != null) {
+        if (openid != null) {
             String accessToken = WechatOAConfig.getAccessToken();
 
-            WechatUserInfo wechatUser = WechatOAConfig.getUserInfo(accessToken, openidtest);
+            System.out.println("============accessToken====================" + accessToken);
+            WechatUserInfo wechatUser = WechatOAConfig.getUserInfo(accessToken, openid);
 
             System.out.println("============wechatUser===================" + wechatUser);
-            result = loginWechat(openidtest, null, null);
+            result = loginWechat(openid, null, null);
 
         }
         //================================================================================================
         if (result.get("msg") == "新用户登录请绑定") {
-            seesion.setAttribute("openid", openidtest);
+            seesion.setAttribute("openid", openid);
             //跳转绑定手机号页面
             return "bindPhone";
         } else {

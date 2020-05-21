@@ -13,7 +13,8 @@
                             <label class="col-sm-3 control-label">类目：</label>
                             <div class="col-sm-8">
                                 <select id="itemId" name="itemId" class="selectpicker show-tick form-control"
-                                > <!--onchange="changeSelect(this)"-->
+                                        onchange="changeSelect(this)"
+                                > <!---->
                                     <option th:each="list:${materialItemDOList}" th:text="${list.type}"
                                             th:value="${list.id}" th:id="${list.displayForm}">
                                     </option>
@@ -54,8 +55,12 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">
                                 <span id="btnRa" style="display: none">
-                                    <a class="btn btn-success btn-xs" onclick="addParams();" style="text-decoration: none; border-radius: 50%;"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                                    <a class="btn btn-warning btn-xs" onclick="remove();" style="text-decoration: none; border-radius: 50%;"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                                    <a class="btn btn-success btn-xs" onclick="addParams();"
+                                       style="text-decoration: none; border-radius: 50%;"><i class="fa fa-plus"
+                                                                                             aria-hidden="true"></i></a>
+                                    <a class="btn btn-warning btn-xs" onclick="remove();"
+                                       style="text-decoration: none; border-radius: 50%;"><i class="fa fa-minus"
+                                                                                             aria-hidden="true"></i></a>
                                 </span>
                             </label>
                             <div class="col-sm-8">
@@ -72,14 +77,14 @@
 <script type="text/javascript" src="/js/appjs/information/materialParameter/add.js">
 </script>
 <script>
-   /*function changeSelect(val) {
+   function changeSelect(val) {
       var yangshi = $(val).find(" option:selected").attr("id")
       if (yangshi == 4) {
          $('#isJuniorShow').show()
       } else {
          $('#isJuniorShow').hide()
       }
-   }*/
+   }
 
    function changeJunior(val) {
 
@@ -90,28 +95,28 @@
 
       } else {
          $('#paramsSelect').hide();
-          $('#btnRa').hide();
-          $("#other").empty();
+         $('#btnRa').hide();
+         $("#other").empty();
       }
    }
 
    function addParams() {
 
       var html = '';
-       html += '<div class="namePrice">'
-       html += '    <div class="form-group">'
-       html += '    <label class="col-sm-3 control-label">参数名称：</label>'
-       html += '<div class="col-sm-8">'
-       html += '    <input id="parameterName" name="parameterName" class="form-control" type="text">'
-       html += '    </div>'
-       html += '    </div>'
-       html += '    <div class="form-group">'
-       html += '    <label class="col-sm-3 control-label">价格：</label>'
-       html += '<div class="col-sm-8">'
-       html += '    <input id="price" name="price" class="form-control" type="text">'
-       html += '    </div>'
-       html += '   </div>'
-       html += '</div>'
+      html += '<div class="namePrice">'
+      html += '    <div class="form-group">'
+      html += '    <label class="col-sm-3 control-label">参数名称：</label>'
+      html += '<div class="col-sm-8">'
+      html += '    <input id="parameterName" name="parameterName" class="form-control" type="text">'
+      html += '    </div>'
+      html += '    </div>'
+      html += '    <div class="form-group">'
+      html += '    <label class="col-sm-3 control-label">价格：</label>'
+      html += '<div class="col-sm-8">'
+      html += '    <input id="price" name="price" class="form-control" type="text">'
+      html += '    </div>'
+      html += '   </div>'
+      html += '</div>'
       $("#other").append(html);
 
    }
