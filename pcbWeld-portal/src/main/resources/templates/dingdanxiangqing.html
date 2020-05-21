@@ -159,7 +159,7 @@
 
 		<div class="zongE">
 			应付总额：<span th:text="${orderDO.payAmount}"></span>
-			<input type="button" class="red" value="在线支付"/>
+			<input type="button" class="red" value="在线支付" id="zaixianzhifu"/>
 		</div>
 	</div>
 	
@@ -320,5 +320,13 @@ $(".dh2").click(function(){
             case 9: $(".shenheing >p:first").text("待收货");$(".shenheing li:lt(6)").addClass("on"); break;
             case 10: $(".shenheing >p:first").text("已完成");$(".shenheing li").addClass("on"); break; break;
 		}
+		//支付
+	$("#zaixianzhifu").click(function(){
+	    var orderNo=$("#dingdanhao").text();
+	    var payMount = $(this).prev().text();
+	    console.info(orderNo);
+	    console.info(payMount);
+	    window.location.href="/information/order/zaixianzhifu?orderNo="+orderNo+"&payMount="+payMount;
+	});
 </script>
 </html>

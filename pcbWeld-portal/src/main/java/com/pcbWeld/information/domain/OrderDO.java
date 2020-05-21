@@ -34,7 +34,7 @@ public class OrderDO implements Serializable {
     private Integer invoiceType;
     //发票状态 1=待开，2=已开
     private Integer invoiceStatus;
-    //订单状态  1=已提交；2=资料待审核；3=审核未通过；4=待支付；5=物料寄送；6=物料待审核；7=物料审核未通过；8=待发货；9=待收货；10=已完成
+    //订单状态  待1=已提交；2=资料待审核；3=审核未通过；4=支付；5=物料寄送；6=物料待审核；7=物料审核未通过；8=待发货；9=待收货；10=已完成
     private Integer orderStatus;
 
     public String getMaterialConsignee() {
