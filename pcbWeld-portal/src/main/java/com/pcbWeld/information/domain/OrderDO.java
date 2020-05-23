@@ -22,8 +22,10 @@ public class OrderDO implements Serializable {
     private String orderNo;
     //用户ID
     private Long userId;
-    //支付方式 0=积分兑换，1=在线支付
-    private Integer payType;
+    //支付方式 ZFB=支付宝支付，WEIPAY=微信支付
+    private String payType;
+    //临时支付二维码保存
+    private String zfurl;
     //配送时间 1=不限送货时间，2=工作日送货，3=双休日、假日送货
     private Integer shipmentTime;
     //配送方式 0=快递配送（免运费），1=快递配送（运费）
@@ -158,6 +160,14 @@ public class OrderDO implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 
+    public String getZfurl() {
+        return zfurl;
+    }
+
+    public void setZfurl(String zfurl) {
+        this.zfurl = zfurl;
+    }
+
     //物料审核结果、意见
     private String unMaterialResult;
 
@@ -248,14 +258,14 @@ public class OrderDO implements Serializable {
     /**
      * 设置：支付方式 0=积分兑换，1=在线支付
      */
-    public void setPayType(Integer payType) {
+    public void setPayType(String payType) {
         this.payType = payType;
     }
 
     /**
      * 获取：支付方式 0=积分兑换，1=在线支付
      */
-    public Integer getPayType() {
+    public String getPayType() {
         return payType;
     }
 

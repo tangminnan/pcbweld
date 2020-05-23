@@ -54,6 +54,20 @@ public class LoginController extends BaseController {
     HttpSession seesion;
 
 
+    /**
+     *t 跳转登录
+     */
+    @GetMapping("/denglu")
+    public String denglu(){
+        System.out.println("===============================");
+        System.out.println("===============================");
+        System.out.println("===============================");
+        System.out.println("===============================");
+
+        return "/denglu";
+    }
+
+
     @Log("密码登录")
     @PostMapping("/loginP")
     @ResponseBody

@@ -18,11 +18,13 @@ import com.pcbWeld.information.service.OrderDetailService;
 import com.pcbWeld.information.service.OrderService;
 import com.pcbWeld.information.service.UserAddressService;
 import com.pcbWeld.owneruser.comment.GenerateCode;
+import com.pcbWeld.system.config.MessageHandler;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +36,6 @@ import java.util.stream.Collectors;
 /**
  * 订单
  */
-@RequestMapping("/information/order")
 @Controller
 public class OrderController {
     @Autowired
@@ -45,11 +46,13 @@ public class OrderController {
     private BootdoConfig bootdoConfig;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private MessageHandler messageHandler;
 
     /**
      * 确定 生成订单
      */
-    @GetMapping("/createOrder")
+    @GetMapping("/information/order/createOrder")
     String createOrder(Model model) {
         //物料数据及价格
         Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -73,12 +76,12 @@ public class OrderController {
     /**
      * 提交订单
      */
-    @PostMapping("/confirmOrder")
+    @PostMapping("/information/order/confirmOrder")
     @ResponseBody
     public R confirmOrder(OrderDO orderDO) {
         //    JSONObject jsonObject =  JSONArray.parseObject(orderDO);
         //    OrderDO order =    JSONObject.toJavaObject(jsonObject,OrderDO.class);
-        String orderNo = GenerateCode.getUUID();
+        String orderNo = CommonUtils.generateUUID();
         orderDO.setOrderNo(orderNo);
         orderDO.setUserId(ShiroUtils.getUserId());
         orderDO.setOrderStatus(1);
@@ -117,7 +120,7 @@ public class OrderController {
     /**
      * 提交订单成功
      */
-    @GetMapping("/confirmSuccess/{orderNo}")
+    @GetMapping("/information/order/confirmSuccess/{orderNo}")
     public String confirmSuccess(@PathVariable("orderNo") String orderNo, Model model) {
         model.addAttribute("orderNo", orderNo);
         return "/tijiaochenggong";
@@ -126,7 +129,7 @@ public class OrderController {
     /**
      * 查看订单详情
      */
-    @GetMapping("/orderDetail/{orderNo}")
+    @GetMapping("/information/order/orderDetail/{orderNo}")
     public String orderDetail(@PathVariable("orderNo") String orderNo, Model model) {
         model.addAttribute("orderNo", orderNo);
         OrderDO orderDO = orderService.getOrderDOByOrderNo(orderNo);
@@ -142,7 +145,7 @@ public class OrderController {
     /**
      * 文件重新上传
      */
-    @PostMapping("/reUpload")
+    @PostMapping("/information/order/reUpload")
     @ResponseBody
     public R reUpload(OrderDO orderDO) {
         String pcbStr = "";
@@ -163,7 +166,7 @@ public class OrderController {
     /**
      * 物料文件下载
      */
-    @GetMapping("/downloadFile/{orderNo}")
+    @GetMapping("/information/order/downloadFile/{orderNo}")
     public void downloadFile(@PathVariable("orderNo") String orderNo, HttpServletResponse response) throws FileNotFoundException, UnsupportedEncodingException {
         OrderDO orderDO = orderService.getOrderDOByOrderNo(orderNo);
         File file = new File(bootdoConfig.getUploadPath() + orderDO.getPcbStr());
@@ -192,7 +195,7 @@ public class OrderController {
     /**
      * 更新运单号
      */
-    @PostMapping("/updatePostid")
+    @PostMapping("/information/order/updatePostid")
     @ResponseBody
     public R updatePostid(OrderDO orderDO) {
         if (orderService.updateByOrderNo(orderDO) > 0)
@@ -202,7 +205,7 @@ public class OrderController {
     }
 
     @ResponseBody
-    @PostMapping("/saveOrderDetail")
+    @PostMapping("/information/order/saveOrderDetail")
     public R saveOrderDetail(String str, BigDecimal zj) {
         JSONArray jsonArray = JSONObject.parseArray(str);
         List<OrderDetailDO> list = new ArrayList<OrderDetailDO>();
@@ -219,7 +222,7 @@ public class OrderController {
     /**
      * 在线支付
      */
-    @GetMapping("/zaixianzhifu")
+    @GetMapping("/information/order/zaixianzhifu")
     public String zaixianzhifu(String orderNo, BigDecimal payMount, Model model) {
         model.addAttribute("orderNo", orderNo);
         model.addAttribute("payMount", payMount);
@@ -230,20 +233,26 @@ public class OrderController {
     /**
      * 发起微信支付
      */
-    @GetMapping("/sendWxPay")
+
+    @GetMapping("/information/order/sendWxPay")
     public String sendWxPay(String orderNo, HttpServletRequest request, Model model, HttpServletResponse response) throws Exception {
         OrderDO orderDO = orderService.getOrderDOByOrderNo(orderNo);
         String codeUrl = unifiedOrder(request,orderDO);
-        //生成二维码
-        Map<EncodeHintType,Object> hints = new HashMap<>();
-        //设置纠错等级
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-        hints.put(EncodeHintType.CHARACTER_SET,"UTF-8");
-        BitMatrix bitMatrix = new MultiFormatWriter().encode(codeUrl, BarcodeFormat.QR_CODE,400,400,hints);
-        File outputFile = new File("d:" + File.separator + "new.jpg");
-        MatrixToImageWriter.writeToFile(bitMatrix,"png", outputFile);
+        if(codeUrl!=null) {
+            //生成二维码
+            Map<EncodeHintType, Object> hints = new HashMap<>();
+            //设置纠错等级
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(codeUrl, BarcodeFormat.QR_CODE, 400, 400, hints);
+            File outputFile = new File(bootdoConfig.getUploadPath(), orderNo + ".png");
+            MatrixToImageWriter.writeToFile(bitMatrix, "png", outputFile);
+        }
         model.addAttribute("orderNo",orderNo);
         model.addAttribute("payAmount",orderDO.getPayAmount());
+        model.addAttribute("qrCode","/files/"+orderNo+".png");
+        model.addAttribute("payType","WEIPAY");
+
         return "/zhifu2";
     }
 
@@ -251,13 +260,15 @@ public class OrderController {
      *  微信支付  统一下单方法
      */
     private String unifiedOrder(HttpServletRequest request, OrderDO orderDO) throws Exception {
-            SortedMap<String, String> params = new TreeMap<>();
+            SortedMap<String, String> params = new TreeMap<String,String>();
             params.put("appid", WXPayUtils.APPID);
             params.put("mch_id", WXPayUtils.MERID);
             params.put("nonce_str", CommonUtils.generateUUID());
-            params.put("body", "PCB焊接");
+            params.put("body", "PCB");
             params.put("out_trade_no", orderDO.getOrderNo());
-            params.put("total_fee", orderDO.getPayAmount().multiply(new BigDecimal(100)).toString());
+            int total = orderDO.getPayAmount().multiply(new BigDecimal(100)).intValue();
+       //     params.put("total_fee",String.valueOf(total));
+             params.put("total_fee",String.valueOf(1));
             params.put("spbill_create_ip",CommonUtils.getIpAddr(request));
             params.put("notify_url", WXPayUtils.CALLBACK);
             params.put("trade_type", "NATIVE");
@@ -265,19 +276,23 @@ public class OrderController {
             String sign = WXPayUtils.createSign(params, WXPayUtils.APPKEY);
             params.put("sign",sign);
             String payXml = WXPayUtils.mapToXml(params);
-            System.out.println(params);
+            System.out.println(payXml);
+        TextMessage textMessage = new TextMessage("SUCCESS");//WebSocket消息推送，通知关闭二维码链接
+        messageHandler.sendMessage(orderDO.getOrderNo(), textMessage);
             //统一下单
             String orderStr =  HttpUtils.doPost(WXPayUtils.OPENURL,payXml,4);
-        if(null==orderStr){
-            return null;
-        }
-        Map<String,String> unifiedOrderMap =  WXPayUtils.xmlToMap(orderStr);
-        System.out.println("=================统一下单结果返回==============");
-        System.out.println(unifiedOrderMap.toString());
-        System.out.println("=================统一下单结果返回==============");
-        if(unifiedOrderMap!=null){
-            return unifiedOrderMap.get("code_url");
-        }
+            if(null==orderStr){
+                return null;
+            }
+            Map<String,String> unifiedOrderMap =  WXPayUtils.xmlToMap(orderStr);
+            System.out.println("=================统一下单结果返回==============");
+            System.out.println(unifiedOrderMap);
+            System.out.println("=================统一下单结果返回==============");
+            if(unifiedOrderMap!=null){
+                if("SUCCESS".equals(unifiedOrderMap.get("return_code"))
+                        &&"SUCCESS".equals(unifiedOrderMap.get("result_code")))
+                return unifiedOrderMap.get("code_url");
+            }
 
         return null;
     }
@@ -285,7 +300,7 @@ public class OrderController {
     /**
      * 微信扫码支付回调
      */
-    @GetMapping("/orderCallback")
+    @RequestMapping("/payCallback/")
     public void orderCallback(HttpServletRequest request,HttpServletResponse response) throws Exception {
         InputStream inputStream = request.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
@@ -297,9 +312,9 @@ public class OrderController {
         in.close();
         inputStream.close();
         Map<String,String> callBackMap = WXPayUtils.xmlToMap(sb.toString());
-        System.out.println("=================信扫码支付回调返回===========================");
+        System.out.println("=================微信扫码支付回调返回===========================");
         System.out.println(callBackMap);
-        System.out.println("=================信扫码支付回调返回===========================");
+        System.out.println("=================微信扫码支付回调返回===========================");
         SortedMap<String,String> sortedMap = WXPayUtils.getSortedMap(callBackMap);
         //验证签名是否正确
         if(WXPayUtils.isCorrectSign(sortedMap,WXPayUtils.APPKEY)){
@@ -308,18 +323,21 @@ public class OrderController {
                 String outTradeNo = sortedMap.get("out_trade_no");//订单号
                 OrderDO orderDO = orderService.getOrderDOByOrderNo(outTradeNo);
                 if( orderDO!=null && orderDO.getOrderStatus()<4){//订单未支付，更改订单状态 支付时间
+                    System.out.println("统一下单修改订单状态");
                     orderDO.setOrderStatus(4);
                     orderDO.setUpdateTime(new Date());
+                    orderDO.setPayType("WEIPAY");
                     int i= orderService.updateByOrderNo(orderDO);
-                    if(i==1){//通知微信支付成功
-                        response.setContentType("text/html");
-                        response.getWriter().println("success");
+                    if(i==1){
+                        TextMessage textMessage = new TextMessage("SUCCESS");//WebSocket消息推送，通知关闭二维码链接
+                        messageHandler.sendMessage(outTradeNo, textMessage);
+                        System.out.println("===========通知微信支付成功==================");
+                        response.getWriter().write("<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>");
                     }
                 }
             }
         }
         //支付失败
-        response.setContentType("text/html");
-        response.getWriter().println("fail");
+        response.getWriter().write("<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[报文为空]]></return_msg></xml>");
     }
 }

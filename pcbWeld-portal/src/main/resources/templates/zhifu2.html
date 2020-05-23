@@ -26,23 +26,25 @@
 	<!--尽快支付-->
 	<div class="main tijiaoDD">
 		<div class="zhifu">
+			<input type="hidden" th:value="${payType}" id="payType">
 			<div class="zhifuJE jinkuai">
+				<input type="hidden" id="PayOrderNo" th:value="${orderNo}">
 				<p class="fl"><b th:text="请尽快付款！订单号为：+${orderNo}">12634596565685</b></p>
 				<p class="fr">应付金额：<span th:text="'￥' +${payAmount}"></span></p>
 			</div>
 			<!--微信扫码支付（已隐藏）-->
 			<div class="Paylc" style="display:none;">
-				<p><span>微信支付</span>距离二维码过期还剩57秒，过期后请刷新页面重新获取二维码。</p>
+				<p><span>微信支付</span></p>
 				<div class="smzf">
-					<p class="pA"><img src="/images/smzf-wx.png" alt=""/><br/><i>请使用微信扫一扫 扫描二维码支付</i></p>
+					<p class="pA"><img th:src="${qrCode}" alt=""/><br/><i>请使用微信扫一扫 扫描二维码支付</i></p>
 					<p><img src="/images/smzf-wxPic.png" alt=""/></p>
 				</div>
 			</div>
 			<!--支付宝扫码支付-->
 			<div class="Paylc" style="display:block;">
-				<p><span>支付宝支付</span>距离二维码过期还剩57秒，过期后请刷新页面重新获取二维码。</p>
+				<p><span>支付宝支付</span></p>
 				<div class="smzf">
-					<p class="pA"><img src="/images/smzf-zfb.png" alt=""/><br/><i>请使用微信扫一扫 扫描二维码支付</i></p>
+					<p class="pA"><img th:src="${qrCode}" alt=""/><br/><i>请使用微信扫一扫 扫描二维码支付</i></p>
 					<p><img src="/images/smzf-zfbPic.png" alt=""/></p>
 				</div>
 			</div>
@@ -90,7 +92,53 @@
 		$(".QQ").addClass("fadeout");
 	});
 
+	if($("#payType").val()=="WEIPAY"){//微信支付
+		$(".Paylc:last").hide();
+        $(".Paylc:first").show();
+	}
+    if($("#payType").val()=="ZFB"){//支付宝支付
+        $(".Paylc:last").show();
+        $(".Paylc:first").hide();
+    }
 
+    /**
+	 * WebSocket通信，获取支付的结果状态
+     */
+    var websocket=null;
+    var toUser = $("#PayOrderNo").val();
+    function connection(){
+		if('WebSocket' in window){
+		    websocket=new WebSocket("ws://"+document.location.host+"/websocket/"+toUser)
+		}else{
+		    alert("浏览器不支持websocket");
+		}
+
+		websocket.onopen=function(){
+		    console.info("建立链接");
+		}
+		websocket.onmessage=function(event){
+			console.info(event.data);
+		}
+		websocket.onerror=function(){
+		    console.info("链接出现异常");
+		}
+		websocket.onclose=function(){
+		    console.info("链接关闭");
+		}
+		window.onbeforeunload=function(){
+		    if(websocket!=null){
+		        websocket.close();
+			}
+		}
+	}
+	connection();
+	function sendMessage(){
+
+        if(websocket != null ){
+            var toMessage =JSON.stringify({toUser : toUser});
+            websocket.send(toMessage);
+		}
+	}
 </script>
 
 </html>

@@ -63,7 +63,7 @@ public class ShiroConfig {
     ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/loginC");
+        shiroFilterFactoryBean.setLoginUrl("/denglu");
         // shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -74,9 +74,31 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/docs/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/upload/**", "anon");
+        filterChainDefinitionMap.put("/zhuce.html", "anon");
+        filterChainDefinitionMap.put("/information/news/list", "anon");
+        filterChainDefinitionMap.put("/zhuce.html", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
+
+
+        filterChainDefinitionMap.put("/loginP", "anon");
+        filterChainDefinitionMap.put("/getSms", "anon");
+        filterChainDefinitionMap.put("/loginWechat", "anon");
+        filterChainDefinitionMap.put("/loginC", "anon");
         filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/retpwd", "anon");
-        filterChainDefinitionMap.put("/getSms", "anon");
+        filterChainDefinitionMap.put("/register", "anon");
+
+
+
+
+
+
+
+
+
+
+        filterChainDefinitionMap.put("/retpwd", "anon");
+
         filterChainDefinitionMap.put("/files/**", "anon");
       /*   filterChainDefinitionMap.put("/logout", "logout");*/
         filterChainDefinitionMap.put("/", "anon");

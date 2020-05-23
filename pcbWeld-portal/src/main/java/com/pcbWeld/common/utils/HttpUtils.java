@@ -12,7 +12,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +74,7 @@ public class HttpUtils {
             CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
             if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                String result = EntityUtils.toString(httpEntity);
+                String result = EntityUtils.toString(httpEntity,"UTF-8");
                 return result;
             }
         } catch (Exception e) {

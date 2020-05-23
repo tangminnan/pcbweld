@@ -22,13 +22,12 @@ public class WXPayUtils {
     /**
      * 微信支付相关参数
      */
-    public static final String APPID="123456";//公众号id
-    public static final String APPSECRET="";//公众号secret
-    public static final String MERID="123456";//微信商户号
-    public static final String APPKEY="ABCDEFG" ;//支付秘钥
-    public static final String CALLBACK = "";//支付回调
+   public static final String APPID="wxe23f18d7b8947aa6";//公众号id
+    public static final String APPSECRET="889ef7319d78c271e75b8d858bb2b5f1";//登录秘钥
+    public static final String MERID="1553709101";//微信商户号
+    public static final String APPKEY="779ef7321d78c271e84c8d858bc3b1e3" ;//支付秘钥
+    public static final String CALLBACK = "http://www2.jingtu99.com/payCallback/";//支付回调
     public static final String OPENURL  = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-
     /**
      * XML格式字符串转换为Map
      * @param strXML XML字符串
@@ -107,18 +106,20 @@ public class WXPayUtils {
      */
     public static String createSign(SortedMap<String,String> params,String key){
         StringBuilder sb  =new StringBuilder();
-        Set<Map.Entry<String,String>> es = params.entrySet();
-        Iterator<Map.Entry<String,String>> it = es.iterator();
+        Set es = params.entrySet();
+        Iterator it = es.iterator();
         while(it.hasNext()){
-            Map.Entry<String,String> entry = it.next();
-            String k = entry.getKey();
-            String v = entry.getValue();
-            if(null!=v &&!"".equals(v) && !"sign".equals(v)){
+            Map.Entry entry = (Map.Entry)it.next();
+            String k = (String)entry.getKey();
+            Object v = entry.getValue();
+            if(null!=v &&!"".equals(v) && !"sign".equals(k) && !"key".equals(key)){
                 sb.append(k+"="+v+"&");
             }
         }
         sb.append("key=").append(key);
-        String sign  =CommonUtils.MD5(sb.toString().toUpperCase());
+        System.out.println(sb.toString());
+   //     String sign  =CommonUtils.MD5(sb.toString().toUpperCase());
+        String sign = MD5Utils.MD5Encode(sb.toString(),"UTF-8").toUpperCase();
         return sign;
     }
 

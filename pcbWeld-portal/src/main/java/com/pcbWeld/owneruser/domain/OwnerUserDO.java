@@ -2,12 +2,14 @@ package com.pcbWeld.owneruser.domain;
 
 import com.pcbWeld.information.domain.OrderDetailDO;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户信息表
