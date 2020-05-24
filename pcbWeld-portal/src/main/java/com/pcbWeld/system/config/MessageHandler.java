@@ -2,6 +2,7 @@ package com.pcbWeld.system.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcbWeld.common.utils.ShiroUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,9 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MessageHandler extends TextWebSocketHandler {
-
-    private static Map<String,WebSocketSession> allClients = new HashMap<>();
-
+    private static Map<String,WebSocketSession> allClients =  new HashMap<>();
     /**
      *
      * @param session  当前发送消息的链接
@@ -36,18 +35,7 @@ public class MessageHandler extends TextWebSocketHandler {
     public void sendMessage(String toUser,TextMessage toMessage){
         //获取多方的链接
         WebSocketSession webSocketSession  =allClients.get(toUser);
-        System.out.println("============结果推送============");
-        System.out.println(toUser);
-        System.out.println(toUser);
-        System.out.println(toUser);
-        System.out.println(toUser);
-        System.out.println("============结果推送============");
         if(webSocketSession!=null && webSocketSession.isOpen()){
-            System.out.println("我要推送消息胃");
-            System.out.println("我要推送消息胃");
-            System.out.println("我要推送消息胃");
-            System.out.println("我要推送消息胃");
-            System.out.println("我要推送消息胃");
             try {
                 webSocketSession.sendMessage(toMessage);//发送消息啦
             } catch (IOException e) {
@@ -65,16 +53,6 @@ public class MessageHandler extends TextWebSocketHandler {
         if(name!=null){
             allClients.put(name,session);
         }
-        WebSocketSession webSocketSession  =allClients.get(name);
-        webSocketSession.sendMessage(new TextMessage("wwwwww"));//发送消息啦
-        System.out.println(webSocketSession);
-        System.out.println(webSocketSession);
-        System.out.println(webSocketSession);
-        System.out.println(webSocketSession);
-        System.out.println(webSocketSession);
-        System.out.println(webSocketSession);
-        System.out.println(webSocketSession);
-        super.afterConnectionEstablished(session);
     }
 
     /**
@@ -84,4 +62,6 @@ public class MessageHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
     }
+
+
 }

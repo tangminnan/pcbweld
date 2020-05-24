@@ -277,8 +277,6 @@ public class OrderController {
             params.put("sign",sign);
             String payXml = WXPayUtils.mapToXml(params);
             System.out.println(payXml);
-        TextMessage textMessage = new TextMessage("SUCCESS");//WebSocket消息推送，通知关闭二维码链接
-        messageHandler.sendMessage(orderDO.getOrderNo(), textMessage);
             //统一下单
             String orderStr =  HttpUtils.doPost(WXPayUtils.OPENURL,payXml,4);
             if(null==orderStr){
@@ -324,7 +322,7 @@ public class OrderController {
                 OrderDO orderDO = orderService.getOrderDOByOrderNo(outTradeNo);
                 if( orderDO!=null && orderDO.getOrderStatus()<4){//订单未支付，更改订单状态 支付时间
                     System.out.println("统一下单修改订单状态");
-                    orderDO.setOrderStatus(4);
+                    orderDO.setOrderStatus(5);
                     orderDO.setUpdateTime(new Date());
                     orderDO.setPayType("WEIPAY");
                     int i= orderService.updateByOrderNo(orderDO);

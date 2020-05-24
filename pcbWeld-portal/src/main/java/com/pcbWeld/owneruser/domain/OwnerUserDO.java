@@ -6,10 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户信息表
@@ -22,8 +19,7 @@ public class OwnerUserDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 		private List<OrderDetailDO> list = new ArrayList<>();
 
-	
-		//头像附件
+	//头像附件
 		private MultipartFile fileImg;
 		//费用总计
 		private BigDecimal zj;

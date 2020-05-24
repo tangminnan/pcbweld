@@ -29,6 +29,7 @@
 			<input type="hidden" th:value="${payType}" id="payType">
 			<div class="zhifuJE jinkuai">
 				<input type="hidden" id="PayOrderNo" th:value="${orderNo}">
+				<input type="hidden" id="orderStatus">
 				<p class="fl"><b th:text="请尽快付款！订单号为：+${orderNo}">12634596565685</b></p>
 				<p class="fr">应付金额：<span th:text="'￥' +${payAmount}"></span></p>
 			</div>
@@ -118,6 +119,9 @@
 		}
 		websocket.onmessage=function(event){
 			console.info(event.data);
+              if(event.data=="SUCCESS"){
+                  alert("付款成功");
+                  window.location.href="/wode/待支付";
 		}
 		websocket.onerror=function(){
 		    console.info("链接出现异常");
@@ -139,6 +143,10 @@
             websocket.send(toMessage);
 		}
 	}
+
+	$("#orderStatus").change(function(){
+		window.location.href="/wode/待支付";
+	});
 </script>
 
 </html>
