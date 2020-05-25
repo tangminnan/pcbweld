@@ -57,12 +57,18 @@ public class IndexController {
         System.out.println("===========materialItemDOS====================" + materialItemDOS);
 
         model.addAttribute("materialItemDOS", materialItemDOS);
+        String isLogin = ShiroUtils.getUser()==null?"ERROR":"RIGHT";
+        model.addAttribute("isLogin",isLogin);
+        System.out.println(isLogin);
+        System.out.println(isLogin);
+        System.out.println(isLogin);
         return "jijia";
     }
 
     @Log("首页")
     @GetMapping("/wode/{text}")
     String wode(@PathVariable("text") String text,Model model) {
+
         long  id= ShiroUtils.getUserId();
         Map<String, Object> params = new HashMap<>();
 

@@ -8,6 +8,7 @@
     <title>工艺说明</title>
     <link rel="stylesheet" href="/css/css.css" type="text/css">
     <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/plugins/layer/layer.js"></script>
 </head>
 <body>
 <div class="top topshow">
@@ -16,7 +17,8 @@
         <div class="fr toptxt">
             <a href="/">在线计价</a>
             <a class="on" href="/information/news/list">工艺说明</a>
-            <a href="/denglu.html">登录</a> |
+            <a href="/denglu" th:if="${isLogin}==ERROR">登录</a> |
+            <a style="cursor:pointer" onclick="logout()" th:if="${isLogin}==RIGHT">退出登录</a>
             <a href="/zhuce.html">注册</a>
         </div>
     </div>
@@ -72,7 +74,9 @@
 </div>
 
 </body>
+<script type="text/javascript" src="/js/app/app.js"></script>
 <script type="text/javascript">
+
 
    //一件回顶部
    $(document).ready(function () {

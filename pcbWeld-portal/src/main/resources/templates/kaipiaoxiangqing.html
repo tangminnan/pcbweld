@@ -17,8 +17,8 @@
 				<a class="on" href="jijia.html">在线计价</a>
 				<a href="shuoming.html">工艺说明</a>
 				<a href="">我的订单</a>
-				<a href="denglu.html">登录</a> |
-				<a href="zhuce.html">注册</a>
+			<!--	<a href="denglu.html">登录</a> |
+				<a href="zhuce.html">注册</a>-->
 			</div>
 		</div>
 	</div>
@@ -35,7 +35,7 @@
 					<dd th:text="${userAddressDO.mobile}" id="defaultAddessmobile"></dd>
 					<em>默认地址</em>
 				</dl>
-				<a href="" id="moreAddress">+更多地址</a>
+				<a class="moreAddress">+更多地址</a>
 			</div>
 		</div>
 		<div class="feiyong KPxq">
@@ -92,16 +92,19 @@
 			<h3>选择地址</h3>
 			<table border="1" cellspacing="0" cellpadding="0">
 			  <tbody>
+
 				<tr th:each="userAddress :${addressDOList}">
+					<td th:text="${userAddress.id}" style="display: none;"></td>
 				  <td th:text="${userAddress.consignee}"></td>
-				  <td th:text="${userAddress.address}">/td>
-				  <td th:text="${userAddressDO.mobile}"></td>
-				  <td><input type="button" value="编辑"/> | <input type="button" value="删除"/></td>
-				  <td th:if="${userAddressDO.defaultFlag eq 0}"><span class="on" name="changeDefault">默认地址</span></td>
-					<td th:if="${userAddressDO.defaultFlag eq 1}"><span name="changeDefault">设为默认地址</span></td>
+				  <td th:text="${userAddress.address}"></td>
+				  <td th:text="${userAddress.mobile}"></td>
+			<!--	  <td><input type="button" value="编辑"/> | <input type="button" value="删除"/></td>-->
+				  <td th:if="${userAddress.defaultFlag} == 0"><span class="on" name="changeDefault">默认地址</span></td>
+					<td th:if="${userAddress.defaultFlag} == 1"><span name="changeDefault">设为默认地址</span></td>
 				</tr>
 			  </tbody>
 			</table>
+			<button id="closeMoreAddress" style="width: 12%;margin-left:40%;margin-top:8%" type="button" class="btn  btn-xs btn-default">关闭</button>
 		</div>
 	</div>
 	
@@ -119,30 +122,36 @@
 		$(".QQ").addClass("fadeout");
 	});
 	//更多地址
-	$("#moreAddress").click(function(){
-		$("popDizhi").show();
+	$(".moreAddress").click(function(){
+		$(".popDizhi").show();
 	});
+	//关闭更多地址
+	$("#closeMoreAddress").click(function(){
+        $(".popDizhi").hide();
+	});
+
 	//设为默认地址
 	$("[name='changeDefault']").click(function(){
 		if($(this).hasClass("on")){
 		    alert("已是默认地址")
 			return;
 		}
-		$(this).addClass("on").sibling().removeClass("on");
-		var username=$(this).prevAll().eq(0).text();
-		var address = $(this).prevAll().eq(1).text();
-        var mobile = $(this).prevAll().eq(2).text();
+        $("span.on").removeClass("on").text("设为默认地址");
+        $(this).addClass("on").text("默认地址");
+        var id=$(this).parents("tr").children("td:eq(0)").text();
+		var consignee=$(this).parents("tr").children("td:eq(1)").text();
+		var address =$(this).parents("tr").children("td:eq(2)").text();
+        var mobile = $(this).parents("tr").children("td:eq(3)").text();
         $.ajax({
             type : "POST",
             url : "/information/address/changeDefault",
-			data:{address:address},
+			data:{id:id},
             async : false,
             success : function(data) {
                 if (data.code == 0) {
-                    $("#defaultAddessUsername").text(username);
+                    $("#defaultAddessUsername").text(consignee);
                     $("#defaultAddessaddress").text(address);
                     $("#defaultAddessmobile").text(mobile);
-                    $(".popDizhi").hide();
                 }
             }
             });
@@ -186,7 +195,6 @@
     $(".anniu").children(":button:first").click(function(){
         window.location.href="/wode/"+"待开票金额";
 	});
-
 </script>
 
 

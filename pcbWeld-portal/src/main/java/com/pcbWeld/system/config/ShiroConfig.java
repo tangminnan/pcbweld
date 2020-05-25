@@ -76,9 +76,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/upload/**", "anon");
         filterChainDefinitionMap.put("/zhuce.html", "anon");
         filterChainDefinitionMap.put("/information/news/list", "anon");
-        filterChainDefinitionMap.put("/zhuce.html", "anon");
         filterChainDefinitionMap.put("/images/**", "anon");
-
+        filterChainDefinitionMap.put("/payCallback/", "anon");
 
         filterChainDefinitionMap.put("/loginP", "anon");
         filterChainDefinitionMap.put("/getSms", "anon");
@@ -103,7 +102,7 @@ public class ShiroConfig {
       /*   filterChainDefinitionMap.put("/logout", "logout");*/
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/index", "anon");
-        filterChainDefinitionMap.put("/**", "anon");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

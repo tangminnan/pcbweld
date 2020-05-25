@@ -8,6 +8,7 @@
     <title>在线计价</title>
     <link rel="stylesheet" href="/css/css.css" type="text/css">
     <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/plugins/layer/layer.js"></script>
 </head>
 <body>
 <div class="top topshow">
@@ -16,13 +17,14 @@
         <div class="fr toptxt">
             <a class="on" href="/">在线计价</a>
             <a href="/information/news/list">工艺说明</a>
-            <a href="/denglu">登录</a> |
+            <a href="/denglu" th:if="${isLogin}==ERROR">登录</a> |
+            <a style="cursor:pointer" onclick="logout()" th:if="${isLogin}==RIGHT">退出登录</a>
             <a href="/zhuce.html">注册</a>
         </div>
     </div>
 </div>
 <img class="GYbanner" src="/images/jijiaBG.png" alt=""/>
-
+<input type="hidden" id="isLogin" th:value="${isLogin}">
 <!--在线计价-->
 <div class="main jijia">
     <div class="box1">
@@ -138,6 +140,7 @@
 </div>
 
 </body>
+<script type="text/javascript" src="/js/app/app.js"></script>
 <script type="text/javascript">
 
 
@@ -389,6 +392,10 @@
     * 确定下单
     */
    $(":button.goon").click(function () {
+       var isLogin = $("#isLogin").val();
+       if(isLogin=="ERROR"){
+           window.location.href="/denglu";
+       }
           console.info(paramsss);
            $.ajax({
               type : "POST",

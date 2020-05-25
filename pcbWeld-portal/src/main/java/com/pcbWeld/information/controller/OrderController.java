@@ -61,9 +61,10 @@ public class OrderController {
         model.addAttribute("addresslist", addressList);
         UserAddressDO userAddressDO = new UserAddressDO();
         List<UserAddressDO> adlist = addressList.stream().filter(a -> "0".equals(a.getDefaultFlag())).collect(Collectors.toList());
-        if (addressList.size() > 0)
+        if (adlist.size() > 0)
             userAddressDO = adlist.get(0);
         model.addAttribute("address", userAddressDO);
+        model.addAttribute("addressDOList", addressList);
         List<OrderDetailDO> list = ShiroUtils.getUser().getList();
         System.out.println("===============得到物料======================");
         System.out.println(list);
@@ -298,7 +299,7 @@ public class OrderController {
     /**
      * 微信扫码支付回调
      */
-    @RequestMapping("/payCallback/")
+    @PostMapping("/payCallback/")
     public void orderCallback(HttpServletRequest request,HttpServletResponse response) throws Exception {
         InputStream inputStream = request.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));

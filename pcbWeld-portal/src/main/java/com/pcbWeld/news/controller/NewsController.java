@@ -1,5 +1,6 @@
 package com.pcbWeld.news.controller;
 
+import com.pcbWeld.common.utils.ShiroUtils;
 import com.pcbWeld.news.domain.NewsDO;
 import com.pcbWeld.news.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class NewsController {
 
     @GetMapping("/list")
     public String list(Model model) {
+        String isLogin = ShiroUtils.getUser()==null?"ERROR":"RIGHT";
+        model.addAttribute("isLogin",isLogin);
         //查询列表数据
         Map<String, Object> params = new HashMap<>();
 

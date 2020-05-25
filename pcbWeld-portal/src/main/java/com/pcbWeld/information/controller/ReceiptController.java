@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 发票 开票
@@ -77,9 +78,10 @@ public class ReceiptController {
         paramsMap.put("userId",ShiroUtils.getUserId());
         paramsMap.put("defaultFlag",0);
         List<UserAddressDO> addressDOList = userAddressService.list(paramsMap);
-        UserAddressDO userAddressDO=null;
-        if(list.size()>0)
-            userAddressDO=addressDOList.get(0);
+        List<UserAddressDO> adList = addressDOList.stream().filter(a ->"0".equals(a.getDefaultFlag())).collect(Collectors.toList());
+        UserAddressDO userAddressDO=new UserAddressDO();
+        if(adList.size()>0)
+            userAddressDO=adList.get(0);
         model.addAttribute("userAddressDO",userAddressDO);
         model.addAttribute("addressDOList",addressDOList);
         return "/kaipiaoxiangqing";

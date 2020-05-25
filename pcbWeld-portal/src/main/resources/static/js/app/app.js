@@ -102,6 +102,7 @@ function nowtogetorderdetail(event){
     console.info(orderNo);
     $("#ppt").hide();
     //跳转查看订单详情的方法
+    window.location.href="/information/order/orderDetail/"+orderNo;
 }
 
 /**

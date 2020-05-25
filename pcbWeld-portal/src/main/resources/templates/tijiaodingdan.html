@@ -16,8 +16,9 @@
         <div class="fr toptxt">
             <a class="on" href="/">在线计价</a>
             <a href="/information/news/list">工艺说明</a>
-            <a href="/denglu.html">登录</a> |
-            <a href="/zhuce.html">注册</a>
+        <!--    <a href="/denglu.html">登录</a> |-->
+            <a style="cursor:pointer" onclick="logout()">退出登录</a>
+       <!--     <a href="/zhuce.html">注册</a>-->
         </div>
     </div>
 </div>
@@ -30,12 +31,12 @@
             <div class="DD1">
                 <h4>收货地址</h4>
                 <dl>
-                    <dt>（收）<span th:text="${address.consignee}"></span></dt>
-                    <dd th:text="${address.address}">山东省济南市天桥区嘉汇环球广场</dd>
-                    <dd th:text="${address.mobile}">15899654447</dd>
+                    <dt>（收）<span th:text="${address.consignee}" id="defaultAddessUsernamedsDD"></span></dt>
+                    <dd th:text="${address.address}" id="defaultAddessaddressDD">山东省济南市天桥区嘉汇环球广场</dd>
+                    <dd th:text="${address.mobile}" id="defaultAddessmobiledsDD">15899654447</dd>
                     <em>默认地址</em>
                 </dl>
-                <a href="gengduodizhi.html">+更多地址</a>
+                <a class="moreAddress">+更多地址</a>
             </div>
             <div class="DD1">
                 <h4>上传PCB文件</h4>
@@ -119,6 +120,28 @@
     </ul>
 </div>
 
+<!--选择地址弹框(已隐藏，根据需要调用)-->
+<div class="popDizhi" style="display:none;">
+    <div class="txt">
+        <h3>选择地址</h3>
+        <table border="1" cellspacing="0" cellpadding="0">
+            <tbody>
+
+            <tr th:each="userAddress :${addressDOList}">
+                <td th:text="${userAddress.id}" style="display: none;"></td>
+                <td th:text="${userAddress.consignee}"></td>
+                <td th:text="${userAddress.address}"></td>
+                <td th:text="${userAddress.mobile}"></td>
+                <!--	  <td><input type="button" value="编辑"/> | <input type="button" value="删除"/></td>-->
+                <td th:if="${userAddress.defaultFlag} == 0"><span class="on" name="changeDefault">默认地址</span></td>
+                <td th:if="${userAddress.defaultFlag} == 1"><span name="changeDefault">设为默认地址</span></td>
+            </tr>
+            </tbody>
+        </table>
+        <button id="closeMoreAddress" style="width: 12%;margin-left:40%;margin-top:8%" type="button" class="btn  btn-xs btn-default">关闭</button>
+    </div>
+</div>
+
 </body>
 <script type="text/javascript">
    //一件回顶部
@@ -174,6 +197,46 @@
             }
         });
     });
+
+
+   //更多地址
+   $(".moreAddress").click(function(){
+       $(".popDizhi").show();
+   });
+   //关闭更多地址
+   $("#closeMoreAddress").click(function(){
+       $(".popDizhi").hide();
+   });
+
+   //设为默认地址
+   $("[name='changeDefault']").click(function(){
+       if($(this).hasClass("on")){
+           alert("已是默认地址")
+           return;
+       }
+       $("span.on").removeClass("on").text("设为默认地址");
+       $(this).addClass("on").text("默认地址");
+       var id=$(this).parents("tr").children("td:eq(0)").text();
+       var consignee=$(this).parents("tr").children("td:eq(1)").text();
+       var address =$(this).parents("tr").children("td:eq(2)").text();
+       var mobile = $(this).parents("tr").children("td:eq(3)").text();
+       $.ajax({
+           type : "POST",
+           url : "/information/address/changeDefault",
+           data:{id:id},
+           async : false,
+           success : function(data) {
+               if (data.code == 0) {
+                   $("#defaultAddessUsernamedsDD").text(consignee);
+                   $("#defaultAddessaddressDD").text(address);
+                   $("#defaultAddessmobiledsDD").text(mobile);
+               }
+           }
+       });
+   });
+
+
+
 </script>
 
 <script th:inline="javascript">

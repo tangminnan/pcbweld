@@ -112,6 +112,7 @@
 		    websocket=new WebSocket("ws://"+document.location.host+"/websocket/"+toUser)
 		}else{
 		    alert("浏览器不支持websocket");
+		    return;
 		}
 
 		websocket.onopen=function(){
@@ -119,9 +120,10 @@
 		}
 		websocket.onmessage=function(event){
 			console.info(event.data);
-              if(event.data=="SUCCESS"){
+              if(event.data=="SUCCESS") {
                   alert("付款成功");
-                  window.location.href="/wode/待支付";
+                  window.location.href = "/wode/待支付";
+              }
 		}
 		websocket.onerror=function(){
 		    console.info("链接出现异常");
@@ -136,17 +138,6 @@
 		}
 	}
 	connection();
-	function sendMessage(){
-
-        if(websocket != null ){
-            var toMessage =JSON.stringify({toUser : toUser});
-            websocket.send(toMessage);
-		}
-	}
-
-	$("#orderStatus").change(function(){
-		window.location.href="/wode/待支付";
-	});
 </script>
 
 </html>
