@@ -80,9 +80,13 @@
    function changeSelect(val) {
       var yangshi = $(val).find(" option:selected").attr("id")
       if (yangshi == 4) {
+
          $('#isJuniorShow').show()
+         $('#paramsSelect').show()
       } else {
          $('#isJuniorShow').hide()
+         $('#paramsSelect').show()
+         $('#btnRa').hide()
       }
    }
 
